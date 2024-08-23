@@ -1,0 +1,1 @@
+# black_opal.nvim
