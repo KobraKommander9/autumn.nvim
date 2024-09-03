@@ -1,1 +1,1 @@
-# black_opal.nvim
+# autumn.nvim
