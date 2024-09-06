@@ -18,16 +18,7 @@ function M.setup(opts)
 end
 
 function M.load()
-	vim.cmd("hi clear")
-	vim.cmd("syntax reset")
-
-	vim.o.termguicolors = true
-	vim.g.colors_name = "autumn"
-
-	local theme = require("autumn.theme").build(M.config)
-	for group, attrs in pairs(theme) do
-		vim.api.nvim_set_hl(0, group, attrs)
-	end
+	require("autumn.theme").build(M.config)
 end
 
 setmetatable(M, {

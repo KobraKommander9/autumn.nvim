@@ -1,4 +1,5 @@
-local autumn = {}
+-------------------------------------------------------------------------------
+-- Theme class
 
 local Theme = setmetatable({}, {
 	__index = function(t, key)
@@ -20,12 +21,43 @@ function Theme:extend(key, attrs)
 	return vim.tbl_deep_extend("force", self[key], attrs)
 end
 
+function Theme:apply()
+	vim.cmd("hi clear")
+	vim.cmd("syntax reset")
+
+	for group, attrs in pairs(self) do
+		if attrs.fg then
+			attrs.fg = tostring(attrs.fg)
+		end
+
+		if attrs.bg then
+			attrs.bg = tostring(attrs.bg)
+		end
+
+		if attrs.sp then
+			attrs.sp = tostring(attrs.sp)
+		end
+
+		vim.api.nvim_set_hl(0, group, attrs)
+	end
+end
+
+-------------------------------------------------------------------------------
+-- Autumn Theme
+
+local autumn = {}
+
 function autumn.build(palette)
+	vim.o.termguicolors = true
+	vim.g.colors_name = "autumn"
+
 	local theme = Theme:new()
+
 	autumn.build_basic_groups(theme, palette)
 	autumn.build_syntax_groups(theme, palette)
 	autumn.build_diagnostic_groups(theme, palette)
 	autumn.build_treesitter_groups(theme, palette)
+
 	return theme
 end
 
@@ -246,7 +278,7 @@ function M.build(config)
 		end
 	end
 
-	return theme
+	theme:apply()
 end
 
 return M
