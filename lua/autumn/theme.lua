@@ -245,6 +245,8 @@ function M.build(config)
 			theme[group].bg = get_bg(theme[group].bg)
 		end
 	end
+
+	return theme
 end
 
 return M
