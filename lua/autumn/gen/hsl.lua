@@ -261,7 +261,7 @@ local function hsl(hue_or_hex, saturation, light)
 	local color
 
 	if type(hex_str) == "string" then
-		color = utils.convert.hex_to_hsl(hex_str)
+		color = M.hex_to_hsl(hex_str)
 	else
 		if type(hue) ~= "number" or type(saturation) ~= "number" or type(light) ~= "number" then
 			error("hsl() expects either a hex string or three numbers", 2)
@@ -274,7 +274,7 @@ local function hsl(hue_or_hex, saturation, light)
 end
 
 setmetatable(M, {
-	__call = function(...)
+	__call = function(_, ...)
 		return hsl(...)
 	end,
 })
