@@ -1,28 +1,27 @@
 local autumn = {}
 
-local function new_theme()
+local Theme = setmetatable({}, {
+  __index = function(t, key)
+    if t[key] then
+      return t[key]
+    end
+    return vim.api.nvim_get_hl(0, { name = key })
+  end,
+})
+
+function Theme:new()
   local theme = {}
-  
-  theme:extend = function(self, key, attrs)
-    return vim.tbl_deep_extend("force", self[key], attrs)
-  end
-  
-  return setmetatable(theme, {
-    __index = function(t, key)
-      if t[key] then
-        return t[key]
-      end,
-      return vim.api.nvim_get_hl(0, { name = key })
-    end,
-  })
+  setmetatable(theme, self)
+  self.__index = self
+  return theme
 end
 
-local function extend_theme(theme, key, attrs)
-  return vim.tbl_deep_extend("force", theme[key], attrs)
+function Theme:extend(key, attrs)
+  return vim.tbl_deep_extend("force", self[key], attrs)
 end
 
 function autumn.build(palette)
-  local theme = new_theme()
+  local theme = Theme:new()
   autumn.build_basic_groups(theme, palette)
   autumn.build_syntax_groups(theme, palette)
   autumn.build_diagnostic_groups(theme, palette)
