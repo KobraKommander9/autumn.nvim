@@ -254,6 +254,7 @@ local theme = lush(function(injected_functions)
 		DiagnosticUnderlineInfo({ sp = colors.light_blue, gui = "underline" }),
 		DiagnosticUnderlineHint({ sp = colors.light_purple, gui = "underline" }),
 		DiagnosticUnderlineOk({ sp = colors.light_green, gui = "underline" }),
+    DiagnosticUnnecessary({ Comment }),
 
 		-- DiagnosticError            { } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
 		-- DiagnosticWarn             { } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
@@ -280,6 +281,7 @@ local theme = lush(function(injected_functions)
 		-- DiagnosticSignInfo         { } , -- Used for "Info" signs in sign column.
 		-- DiagnosticSignHint         { } , -- Used for "Hint" signs in sign column.
 		-- DiagnosticSignOk           { } , -- Used for "Ok" signs in sign column.
+    -- DiagnosticUnnecessary      { } , -- Used for "Unnecessary" diagnostic messages.
 
 		-- Treesitter
 		sym("@variable")({ fg = colors.white }),
@@ -480,6 +482,8 @@ local theme = lush(function(injected_functions)
     -- sym"@tag.builtin" {}
     -- sym"@tag.attribute" {}
     -- sym"@tag.delimiter" {}
+  
+    -- LSP
 	}
 end)
 

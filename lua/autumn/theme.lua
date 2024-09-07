@@ -1,16 +1,3 @@
-local function format_color(color)
-  local formatted = vim.deepcopy(color)
-  formatted.force = true
-  
-  for _, attr in ipairs({ "fg", "bg", "sp" }) do
-    if formatted[attr] then
-      formatted[attr] = tostring(formatted[attr])
-    end
-  end
-
-  return formatted
-end
-
 -------------------------------------------------------------------------------
 -- Theme class
 
@@ -39,7 +26,15 @@ function Theme:apply()
 	vim.cmd("syntax reset")
 
 	for group, attrs in pairs(self) do
-		vim.api.nvim_set_hl(0, group, format_color(attrs))
+		for _, attr in ipairs({ "fg", "bg", "sp" }) do
+			if attrs[attr] then
+				attrs[attr] = tostring(attrs[attr])
+			end
+		end
+
+		attrs.force = true
+
+		vim.api.nvim_set_hl(0, group, attrs)
 	end
 end
 
@@ -58,6 +53,8 @@ function autumn.build(palette)
 	autumn.build_syntax_groups(theme, palette)
 	autumn.build_diagnostic_groups(theme, palette)
 	autumn.build_treesitter_groups(theme, palette)
+	autumn.build_lsp_groups(theme, palette)
+	autumn.build_legacy_groups(theme, palette)
 
 	return theme
 end
@@ -220,7 +217,8 @@ function autumn.build_treesitter_groups(theme, p)
 	theme["@comment.documentation"] = theme:extend("@comment", { bold = true })
 	theme["@comment.error"] = theme:extend("Comment", { sp = p.light_red, italic = true, underline = true })
 	theme["@comment.warning"] = theme:extend("Comment", { sp = p.light_yellow, italic = true, underline = true })
-	theme["@comment.todo"] = theme:extend("Comment", { sp = p.light_blue, bold = true, italic = true, underline = true })
+	theme["@comment.todo"] =
+		theme:extend("Comment", { sp = p.light_blue, bold = true, italic = true, underline = true })
 	theme["@comment.note"] = theme:extend("@comment.todo", { italic = true, underline = true })
 
 	theme["@markup.strong"] = { bold = true }
@@ -260,13 +258,74 @@ function autumn.build_treesitter_groups(theme, p)
 	theme["@tag.delimiter"] = { link = "Delimiter" }
 end
 
+function autumn.build_lsp_groups(theme, _)
+	theme["@lsp.type.enum"] = { link = "@type" }
+	theme["@lsp.type.variable"] = { link = "Identifier" }
+	theme["@lsp.type.parameter"] = { link = "@variable.parameter" }
+	theme["@lsp.type.namespace"] = { link = "@type.builtin" }
+	theme["@lsp.typemod.type.defaultLibrary"] = { link = "@type.builtin" }
+	theme["@lsp.typemod.function.defaultLibrary"] = { link = "@function" }
+end
+
+function autumn.build_legacy_groups(theme, _)
+	theme["@parameter"] = { link = "@variable.parameter" }
+	theme["@field"] = { link = "@variable.member" }
+	theme["@namespace"] = { link = "@variable.module" }
+	theme["@float"] = { link = "@number.float" }
+	theme["@symbol"] = { link = "@string.special.symbol" }
+	theme["@string.regex"] = { link = "@string.regexp" }
+
+	theme["@text"] = { link = "@markup" }
+	theme["@text.strong"] = { link = "@markup.strong" }
+	theme["@text.emphasis"] = { link = "@markup.italic" }
+	theme["@text.underline"] = { link = "@markup.underline" }
+	theme["@text.strike"] = { link = "@markup.strikethrough" }
+	theme["@text.uri"] = { link = "@markup.link.url" }
+	theme["@text.math"] = { link = "@markup.math" }
+	theme["@text.environment"] = { link = "@markup.environment" }
+	theme["@text.environment.name"] = { link = "@markup.environment.name" }
+
+	theme["@text.title"] = { link = "@markup.heading" }
+	theme["@text.literal"] = { link = "@markup.raw" }
+	theme["@text.reference"] = { link = "@markup.link" }
+
+	theme["@text.todo.checked"] = { link = "@markup.list.checked" }
+	theme["@text.todo.unchecked"] = { link = "@markup.list.unchecked" }
+
+	theme["@text.todo"] = { link = "@comment.todo" }
+	theme["@text.warning"] = { link = "@comment.warning" }
+	theme["@text.note"] = { link = "@comment.note" }
+	theme["@text.danger"] = { link = "@comment.error" }
+
+	theme["@text.uri"] = { link = "@markup.link.uri" }
+
+	theme["@method"] = { link = "@function.method" }
+	theme["@method.call"] = { link = "@function.method.call" }
+
+	theme["@text.diff.add"] = { link = "@diff.plus" }
+	theme["@text.diff.delete"] = { link = "@diff.minus" }
+
+	theme["@define"] = { link = "@keyword.directive.define" }
+	theme["@preproc"] = { link = "@keyword.directive" }
+	theme["@storageclass"] = { link = "@keyword.storage" }
+	theme["@conditional"] = { link = "@keyword.conditional" }
+	theme["@exception"] = { link = "@keyword.exception" }
+	theme["@include"] = { link = "@keyword.import" }
+	theme["@repeat"] = { link = "@keyword.repeat" }
+
+	theme["@variable.member.yaml"] = { link = "@field.yaml" }
+
+	theme["@text.title.1.markdown"] = { link = "@markup.heading.1" }
+	theme["@text.title.2.markdown"] = { link = "@markup.heading.2" }
+	theme["@text.title.3.markdown"] = { link = "@markup.heading.3" }
+	theme["@text.title.4.markdown"] = { link = "@markup.heading.4" }
+	theme["@text.title.5.markdown"] = { link = "@markup.heading.5" }
+	theme["@text.title.6.markdown"] = { link = "@markup.heading.6" }
+end
+
 -------------------------------------------------------------------------------
 
 local M = {}
-
-local function get_bg(color)
-	return M.config.transparent and "NONE" or color
-end
 
 function M.build(config)
 	local palette = require("autumn.palette").get(config.palette)
@@ -275,7 +334,7 @@ function M.build(config)
 	if config.transparency.enabled == true then
 		local transparent_groups = config.transparency.groups or {}
 		for _, group in ipairs(transparent_groups) do
-			theme[group].bg = get_bg(theme[group].bg)
+			theme[group].bg = "NONE"
 		end
 	end
 
