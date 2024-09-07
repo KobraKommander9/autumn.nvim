@@ -1,3 +1,16 @@
+local function format_color(color)
+  local formatted = vim.deepcopy(color)
+  formatted.force = true
+  
+  for _, attr in ipairs({ "fg", "bg", "sp" }) do
+    if formatted[attr] then
+      formatted[attr] = tostring(formatted[attr])
+    end
+  end
+
+  return formatted
+end
+
 -------------------------------------------------------------------------------
 -- Theme class
 
@@ -26,19 +39,7 @@ function Theme:apply()
 	vim.cmd("syntax reset")
 
 	for group, attrs in pairs(self) do
-		if attrs.fg then
-			attrs.fg = tostring(attrs.fg)
-		end
-
-		if attrs.bg then
-			attrs.bg = tostring(attrs.bg)
-		end
-
-		if attrs.sp then
-			attrs.sp = tostring(attrs.sp)
-		end
-
-		vim.api.nvim_set_hl(0, group, attrs)
+		vim.api.nvim_set_hl(0, group, format_color(attrs))
 	end
 end
 
@@ -73,12 +74,12 @@ function autumn.build_basic_groups(theme, p)
 	theme.Directory = { fg = p.primary }
 	theme.DiffAdd = { fg = p.green.readable(), bg = p.green }
 	theme.DiffChange = { fg = p.light_gray1, bg = p.dark_gray4 }
-	theme.DiffDelete = { fg = p.light_red, gui = "bold" }
+	theme.DiffDelete = { fg = p.light_red, bold = true }
 	theme.DiffText = { fg = p.light_blue.readable(), bg = p.light_blue }
 	theme.ErrorMsg = { fg = p.light_red }
 	theme.Folded = { fg = p.light_gray4, bg = p.dark_gray3 }
 	theme.LineNr = { fg = p.dark_gray4 }
-	theme.MatchParen = { bg = p.dark_gray4, gui = "bold" }
+	theme.MatchParen = { bg = p.dark_gray4, bold = true }
 	theme.ModeMsg = { fg = p.light_green }
 	theme.MoreMsg = { fg = p.primary }
 	theme.NormalFloat = { bg = p.dark_gray1 }
@@ -90,21 +91,21 @@ function autumn.build_basic_groups(theme, p)
 	theme.Search = { fg = p.dark_yellow.readable(), bg = p.dark_yellow }
 	theme.SignColumn = { fg = p.dark_gray4 }
 	theme.SpecialKey = { fg = p.dark_gray4 }
-	theme.SpellBad = { sp = p.light_red, gui = "undercurl" }
-	theme.SpellCap = { sp = p.yellow, gui = "undercurl" }
-	theme.SpellLocal = { sp = p.light_green, gui = "undercurl" }
-	theme.SpellRare = { sp = p.light_blue, gui = "undercurl" }
+	theme.SpellBad = { sp = p.light_red, undercurl = true }
+	theme.SpellCap = { sp = p.yellow, undercurl = true }
+	theme.SpellLocal = { sp = p.light_green, undercurl = true }
+	theme.SpellRare = { sp = p.light_blue, undercurl = true }
 	theme.StatusLine = { fg = p.dark_gray3, bg = p.light_gray3 }
 	theme.StatusLineNC = { fg = p.light_gray3, bg = p.dark_gray3 }
-	theme.Title = { fg = p.light_gray2, gui = "bold" }
+	theme.Title = { fg = p.light_gray2, bold = true }
 	theme.Visual = { bg = p.dark_gray4 }
 	theme.WarningMsg = { fg = p.yellow }
-	theme.WinBar = { fg = p.light_gray4, bg = p.dark_gray1, gui = "bold" }
+	theme.WinBar = { fg = p.light_gray4, bg = p.dark_gray1, bold = true }
 	theme.WinBarNC = { fg = p.light_gray4, bg = p.dark_gray1 }
 end
 
 function autumn.build_syntax_groups(theme, p)
-	theme.Comment = { fg = p.light_gray4, gui = "italic" }
+	theme.Comment = { fg = p.light_gray4, italic = true }
 
 	theme.Constant = { fg = p.light_magenta }
 	theme.String = { fg = p.light_green }
@@ -116,7 +117,7 @@ function autumn.build_syntax_groups(theme, p)
 	theme.Identifier = { fg = p.light_secondary1 }
 	theme.Function = { fg = p.light_secondary2 }
 
-	theme.Statement = { fg = p.light_primary2, gui = "bold" }
+	theme.Statement = { fg = p.light_primary2, bold = true }
 	theme.Operator = { fg = p.light_primary2 }
 	theme.Keyword = { link = "Statement" }
 
@@ -131,7 +132,7 @@ function autumn.build_syntax_groups(theme, p)
 	theme.Delimiter = { fg = p.white }
 
 	theme.Error = { fg = p.red.readable(), bg = p.red }
-	theme.Todo = { fg = p.light_gray2, gui = "bold" }
+	theme.Todo = { fg = p.light_gray2, bold = true }
 end
 
 function autumn.build_diagnostic_groups(theme, p)
@@ -140,11 +141,11 @@ function autumn.build_diagnostic_groups(theme, p)
 	theme.DiagnosticInfo = { fg = p.light_blue }
 	theme.DiagnosticHint = { fg = p.light_purple }
 	theme.DiagnosticOk = { fg = p.light_green }
-	theme.DiagnosticUnderlineError = { sp = p.light_red, gui = "underline" }
-	theme.DiagnosticUnderlineWarn = { sp = p.light_yellow, gui = "underline" }
-	theme.DiagnosticUnderlineInfo = { sp = p.light_blue, gui = "underline" }
-	theme.DiagnosticUnderlineHint = { sp = p.light_purple, gui = "underline" }
-	theme.DiagnosticUnderlineOk = { sp = p.light_green, gui = "underline" }
+	theme.DiagnosticUnderlineError = { sp = p.light_red, underline = true }
+	theme.DiagnosticUnderlineWarn = { sp = p.light_yellow, underline = true }
+	theme.DiagnosticUnderlineInfo = { sp = p.light_blue, underline = true }
+	theme.DiagnosticUnderlineHint = { sp = p.light_purple, underline = true }
+	theme.DiagnosticUnderlineOk = { sp = p.light_green, underline = true }
 end
 
 function autumn.build_treesitter_groups(theme, p)
@@ -163,13 +164,13 @@ function autumn.build_treesitter_groups(theme, p)
 	theme["@label"] = { fg = p.white }
 
 	theme["@string"] = { link = "String" }
-	theme["@string.documentation"] = theme:extend("String", { gui = "italic" })
+	theme["@string.documentation"] = theme:extend("String", { italic = true })
 	theme["@string.regexp"] = { link = "SpecialChar" }
 	theme["@string.escape"] = { link = "SpecialChar" }
 	theme["@string.special"] = { link = "SpecialChar" }
 	theme["@string.special.symbol"] = { link = "@string.special" }
 	theme["@string.special.path"] = { link = "@string.special" }
-	theme["@string.special.url"] = { gui = "underline" }
+	theme["@string.special.url"] = { underline = true }
 
 	theme["@character"] = { link = "Character" }
 	theme["@character.special"] = { link = "@character" }
@@ -216,37 +217,37 @@ function autumn.build_treesitter_groups(theme, p)
 	theme["@punctuation.special"] = { link = "@punctuation.delimiter" }
 
 	theme["@comment"] = { link = "Comment" }
-	theme["@comment.documentation"] = theme:extend("@comment", { gui = "bold" })
-	theme["@comment.error"] = theme:extend("Comment", { sp = p.light_red, gui = "italic,underline" })
-	theme["@comment.warning"] = theme:extend("Comment", { sp = p.light_yellow, gui = "italic,underline" })
-	theme["@comment.todo"] = theme:extend("Comment", { sp = p.light_blue, gui = "bold,italic,underline" })
-	theme["@comment.note"] = theme:extend("@comment.todo", { gui = "italic,underline" })
+	theme["@comment.documentation"] = theme:extend("@comment", { bold = true })
+	theme["@comment.error"] = theme:extend("Comment", { sp = p.light_red, italic = true, underline = true })
+	theme["@comment.warning"] = theme:extend("Comment", { sp = p.light_yellow, italic = true, underline = true })
+	theme["@comment.todo"] = theme:extend("Comment", { sp = p.light_blue, bold = true, italic = true, underline = true })
+	theme["@comment.note"] = theme:extend("@comment.todo", { italic = true, underline = true })
 
-	theme["@markup.strong"] = { gui = "bold" }
-	theme["@markup.italic"] = { gui = "italic" }
-	theme["@markup.strikethrough"] = { gui = "strikethrough" }
-	theme["@markup.underline"] = { gui = "underline" }
+	theme["@markup.strong"] = { bold = true }
+	theme["@markup.italic"] = { italic = true }
+	theme["@markup.strikethrough"] = { strikethrough = true }
+	theme["@markup.underline"] = { underline = true }
 
-	theme["@markup.heading"] = theme:extend("Title", { gui = "bold,underline" })
+	theme["@markup.heading"] = theme:extend("Title", { bold = true, underline = true })
 	theme["@markup.heading.1"] = { link = "@markup.heading" }
-	theme["@markup.heading.2"] = theme:extend("@markup.heading", { gui = "bold" })
-	theme["@markup.heading.3"] = theme:extend("@markup.heading", { gui = "underline" })
-	theme["@markup.heading.4"] = theme:extend("@markup.heading", { gui = "italic,underline" })
-	theme["@markup.heading.5"] = theme:extend("@markup.heading", { gui = "italic" })
-	theme["@markup.heading.6"] = theme:extend("@markup.heading", { gui = "" })
+	theme["@markup.heading.2"] = theme:extend("@markup.heading", { bold = true })
+	theme["@markup.heading.3"] = theme:extend("@markup.heading", { underline = true })
+	theme["@markup.heading.4"] = theme:extend("@markup.heading", { italic = true, underline = true })
+	theme["@markup.heading.5"] = theme:extend("@markup.heading", { italic = true })
+	theme["@markup.heading.6"] = theme:extend("@markup.heading", {})
 
 	theme["@markup.quote"] = { link = "@variable" }
 	theme["@markup.math"] = { link = "String" }
 
 	theme["@markup.link"] = { link = "Special" }
-	theme["@markup.link.label"] = theme:extend("Title", { gui = "" })
-	theme["@markup.link.url"] = theme:extend("@markup.link", { gui = "underline" })
+	theme["@markup.link.label"] = theme:extend("Title", {})
+	theme["@markup.link.url"] = theme:extend("@markup.link", { underline = true })
 
-	theme["@markup.raw"] = theme:extend("@comment", { gui = "" })
+	theme["@markup.raw"] = theme:extend("@comment", {})
 	theme["@markup.raw.block"] = { link = "@markup.raw" }
 
 	theme["@markup.list"] = { link = "@variable" }
-	theme["@markup.list.checked"] = theme:extend("@markup.list", { gui = "strikethrough" })
+	theme["@markup.list.checked"] = theme:extend("@markup.list", { strikethrough = true })
 	theme["@markup.list.unchecked"] = { link = "@markup.list" }
 
 	theme["@diff.plus"] = { link = "DiffAdd" }
