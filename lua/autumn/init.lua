@@ -51,7 +51,7 @@ function M.compile()
     end
 
     table.sort(list)
-    return "{" .. table.concat(list, ", ") .. "}"
+    return fmt([[{ %s }]], table.concat(list, ", "))
   end
 
   for group, attrs in pairs(editor) do
