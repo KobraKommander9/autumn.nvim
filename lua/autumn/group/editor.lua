@@ -30,7 +30,7 @@ function M.get(spec, _)
     LineNr = { fg = spec.fg3 },
     CursorLineNr = { fg = diag.warn, style = "bold" },
     MatchParen = { fg = diag.warn, style = "bold" },
-    ModeMsg = { fg = dag.warn, style = "bold" },
+    ModeMsg = { fg = diag.warn, style = "bold" },
     MsgArea = { fg = spec.fg2 },
     MoreMsg = { fg = diag.info, style = "bold" },
     NonText = { fg = spec.bg4 },
