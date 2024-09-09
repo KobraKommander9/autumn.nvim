@@ -75,9 +75,13 @@ function M.compile()
 
   local file, err
   if config.options.debug then
-    file = io.open(output_file .. ".lua", "wb")
-    file:write(f())
-    file:close()
+    file, err = io.open(output_file .. ".lua", "wb")
+    if not file then
+      vim.notify(fmt([[Unable to open debug file: %s, error: %s]], output_file .. ".lua", err), vim.log.levels.ERROR)
+    else
+      file:write(table.concat(lines, "\n"))
+      file:close()
+    end
   end
 
   file, err = io.open(output_file, "wb")
