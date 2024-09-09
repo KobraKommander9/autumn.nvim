@@ -1,6 +1,7 @@
-local M = {}
-
 local config = require("autumn.config")
+local fmt = string.format
+
+local M = {}
 
 function M.compile()
   local spec = require("autumn.palette.autumn")
