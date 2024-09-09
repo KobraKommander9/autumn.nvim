@@ -70,7 +70,7 @@ function M.compile()
 
   local output_path, output_file = config.get_compiled_info()
   if vim.fn.isdirectory(output_path) == 0 then
-    vim.fn.mkdir(path, "p")
+    vim.fn.mkdir(output_path, "p")
   end
 
   local file, err
