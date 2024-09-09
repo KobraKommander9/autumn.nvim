@@ -33,6 +33,7 @@ local defaults = {
 M.options = vim.deepcopy(defaults)
 
 M.get_compiled_info = function(opts)
+  opts = opts or {}
   local output_path = opts.output_path or M.options.compile_path
   local file_suffix = opts.file_suffix or M.options.compile_file_suffix
   local style = opts.name or "autumn"
