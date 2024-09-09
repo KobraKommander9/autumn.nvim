@@ -56,14 +56,14 @@ function M.compile()
 
   for group, attrs in pairs(editor) do
     if should_link(attrs.link) then
-      table.insert(lines, fmt[[h(0, "%s", { link = "%s" })]], group, attrs.link)
+      table.insert(lines, fmt([[h(0, "%s", { link = "%s" })]], group, attrs.link))
     else
       local op = parse_style(attrs.style)
       op.bg = attrs.bg and attrs.bg.hex
       op.fg = attrs.fg and attrs.fg.hex
       op.sp = attrs.sp and attrs.sp.hex
       vim.notify(group .. ": " .. inspect(op))
-      table.insert(lines, fmt[[h(0, "%s", %s)]], group, inspect(op))
+      table.insert(lines, fmt([[h(0, "%s", %s)]], group, inspect(op)))
     end
   end
 
