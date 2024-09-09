@@ -2,10 +2,9 @@ local M = {}
 
 local config = require("autumn.config")
 
-function M.compile(opts)
-  opts = opts or {}
+function M.compile()
   local spec = require("autumn.palette.autumn")
-  local editor = require("autumn.group.editor").get(spec, config.options)
+  local editor = require("autumn.group.editor").get(spec.generate_spec(spec.palette), config.options)
 
   local lines = {
     fmt(
@@ -68,18 +67,36 @@ function M.compile(opts)
 
   table.insert(lines, "end)")
 
-  opts.name = spec.meta.name
-  local output_path, output_file = config.get_compiled_info(opts)
+  local output_path, output_file = config.get_compiled_info()
   if vim.fn.isdirectory(output_path) == 0 then
     vim.fn.mkdir(path, "p")
   end
 
-  local file, err = io.open(output_file, "wb")
+  local file, err
+  if config.options.debug then
+    file = io.open(output_file .. ".lua", "wb")
+    file:write(f())
+    file:close()
+  end
+
+  file, err = io.open(output_file, "wb")
   if not file then
-    error(fmt([[Unable to open file: %s, error: %s]], output_file, err))
+    vim.notify(fmt([[Unable to open file: %s, error: %s]], output_file, err), vim.log.levels.ERROR)
+    return
   end
 
   local f = loadstring(table.concat(lines, "\n"), "=")
+  if not f then
+    local tmpfile = "/tmp/autumn_error.lua"
+    vim.notify(fmt([[There is an error in your autumn config, refer to %s]], tmpfile))
+    
+    local efile = io.open(tmpfile, "wb")
+    efile:write(table.concat(lines, "\n"))
+    efile:close()
+    
+    dofile(tmpfile)
+  end
+  
   file:write(f())
   file:close()
 end

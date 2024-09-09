@@ -3,6 +3,7 @@ local M = {}
 local defaults = {
   compile_path = vim.fn.stdpath("cache") .. "/autumn",
   compile_file_suffix = "_compiled",
+  debug = true,
   transparency = {
 		enabled = false,
 		groups = {
