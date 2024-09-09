@@ -117,7 +117,7 @@ function M.setup(opts)
   opts = vim.tbl_deep_extend("force", config.options, opts or {})
 
   local cached_path = config.options.compile_path .. "/cache"
-  local cached_file = io.open(filepath, "r")
+  local cached_file = io.open(cached_path, "r")
 
   local cached
   if cached_file then
