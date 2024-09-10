@@ -147,6 +147,7 @@ end
 
 local function op_mix(color)
 	return function(target, weight)
+		vim.notify("weight:" .. vim.inspect(weight))
 		assert(weight, "must provide weight to mix")
 		weight = utils.math.clamp(weight, 0, 100) / 100
 

@@ -23,7 +23,6 @@ function M:new(colors)
 end
 
 function M:generate()
-	vim.notify(string.format("generating... %s %s", vim.inspect(self.white), vim.inspect(self.black)))
 	self.gray = self.white:mix(self.black, 90)
 
 	self.comment = self.gray:lighten(60)
