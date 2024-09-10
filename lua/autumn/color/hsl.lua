@@ -147,7 +147,6 @@ end
 
 local function op_mix(color)
 	return function(target, weight)
-		vim.notify("weight:" .. vim.inspect(weight))
 		assert(weight, "must provide weight to mix")
 		weight = utils.math.clamp(weight, 0, 100) / 100
 
@@ -267,7 +266,7 @@ local function hsl(hue, saturation, light)
 			error("hsl() expects either a hex string, three numbers, or hsl table", 2)
 		end
 
-		color = hue
+		color = { h = hue.h, s = hue.s, l = hue.l }
 	else
 		if type(hue) ~= "number" or type(saturation) ~= "number" or type(light) ~= "number" then
 			error("hsl() expects either a hex string, three numbers, or hsl table", 2)
