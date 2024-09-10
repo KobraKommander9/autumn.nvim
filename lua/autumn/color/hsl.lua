@@ -262,12 +262,12 @@ local function hsl(hue_or_hex, saturation, light)
 
 	if type(hex_str) == "string" then
 		color = M.hex_to_hsl(hex_str)
-  else if type(hsl_tbl) == "table" then
-    if not hsl_tbl.h or not hsl_tbl.s or not hsl_tbl.l then
-      error("hsl() expects either a hex string, three numbers, or hsl table", 2)
-    end
+	elseif type(hsl_tbl) == "table" then
+		if not hsl_tbl.h or not hsl_tbl.s or not hsl_tbl.l then
+			error("hsl() expects either a hex string, three numbers, or hsl table", 2)
+		end
 
-    color = hsl_tbl
+		color = hsl_tbl
 	else
 		if type(hue) ~= "number" or type(saturation) ~= "number" or type(light) ~= "number" then
 			error("hsl() expects either a hex string, three numbers, or hsl table", 2)

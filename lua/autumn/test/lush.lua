@@ -281,7 +281,7 @@ local theme = lush(function(injected_functions)
 		-- DiagnosticSignInfo         { } , -- Used for "Info" signs in sign column.
 		-- DiagnosticSignHint         { } , -- Used for "Hint" signs in sign column.
 		-- DiagnosticSignOk           { } , -- Used for "Ok" signs in sign column.
-    -- DiagnosticUnnecessary      { } , -- Used for "Unnecessary" diagnostic messages.
+		-- DiagnosticUnnecessary      { } , -- Used for "Unnecessary" diagnostic messages.
 
 		-- -- Treesitter
 		-- sym("@variable")({ fg = colors.white }),
@@ -289,25 +289,25 @@ local theme = lush(function(injected_functions)
 		-- sym("@variable.parameter")({ fg = colors.orange }),
 		-- sym("@variable.parameter.builtin")({ sym("@variable.parameter") }),
 		--   sym("@variable.member")({ fg = colors.light_orange }),
-    -- sym"@variable" {}
-    -- sym"@variable.builtin" {}
-    -- sym"@variable.parameter" {}
-    -- sym"@variable.parameter.builtin" {}
-    -- sym"@variable.member" {}
+		-- sym"@variable" {}
+		-- sym"@variable.builtin" {}
+		-- sym"@variable.parameter" {}
+		-- sym"@variable.parameter.builtin" {}
+		-- sym"@variable.member" {}
 
 		-- sym("@constant")({ Constant }),
 		-- sym("@constant.builtin")({ Boolean }),
 		--   sym("@constant.macro")({ Boolean }),
-    -- sym"@constant" {}
-    -- sym"@constant.builtin" {}
-    -- sym"@constant.macro" {}
+		-- sym"@constant" {}
+		-- sym"@constant.builtin" {}
+		-- sym"@constant.macro" {}
 
 		-- sym("@module")({ fg = colors.white }),
 		-- sym("@module.builtin")({ fg = colors.white_orange }),
 		--   sym("@label")({ fg = colors.white }),
-    -- sym"@module" {}
-    -- sym"@module.builtin" {}
-    -- sym"@label" {}
+		-- sym"@module" {}
+		-- sym"@module.builtin" {}
+		-- sym"@label" {}
 
 		-- sym("@string")({ String }),
 		-- sym("@string.documentation")({ String, gui = "italic" }),
@@ -317,40 +317,40 @@ local theme = lush(function(injected_functions)
 		-- sym("@string.special.symbol")({ sym("@string.special") }),
 		-- sym("@string.special.path")({ sym("@string.special") }),
 		--   sym("@string.special.url")({ gui = "underline" }),
-    -- sym"@string" {}
-    -- sym"@string.documentation" {}
-    -- sym"@string.regexp" {}
-    -- sym"@string.escape" {}
-    -- sym"@string.special" {}
-    -- sym"@string.special.symbol" {}
-    -- sym"@string.special.path" {}
-    -- sym"@string.special.url" {}
+		-- sym"@string" {}
+		-- sym"@string.documentation" {}
+		-- sym"@string.regexp" {}
+		-- sym"@string.escape" {}
+		-- sym"@string.special" {}
+		-- sym"@string.special.symbol" {}
+		-- sym"@string.special.path" {}
+		-- sym"@string.special.url" {}
 
 		-- sym("@character")({ Character }),
 		--   sym("@character.special")({ sym("@character") }),
-    -- sym"@character" {}
-    -- sym"@character.special" {}
+		-- sym"@character" {}
+		-- sym"@character.special" {}
 
 		-- sym("@boolean")({ Boolean }),
 		-- sym("@number")({ Number }),
 		--   sym("@number.float")({ Float }),
-    -- sym"@boolean" {}
-    -- sym"@number" {}
-    -- sym"@number.float" {}
+		-- sym"@boolean" {}
+		-- sym"@number" {}
+		-- sym"@number.float" {}
 
 		-- sym("@type")({ Type }),
 		-- sym("@type.builtin")({ sym("@type") }),
 		--   sym("@type.definition")({ fg = colors.green }),
-    -- sym"@type" {}
-    -- sym"@type.builtin" {}
-    -- sym"@type.definition" {}
+		-- sym"@type" {}
+		-- sym"@type.builtin" {}
+		-- sym"@type.definition" {}
 
 		-- sym("@attribute")({ sym("@variable") }),
 		-- sym("@attribute.builtin")({ sym("@attribute") }),
 		--   sym("@property")({ sym("@variable") }),
-    -- sym"@attribute" {}
-    -- sym"@attribute.builtin" {}
-    -- sym"@property" {}
+		-- sym"@attribute" {}
+		-- sym"@attribute.builtin" {}
+		-- sym"@property" {}
 
 		-- sym("@function")({ Function }),
 		-- sym("@function.builtin")({ Keyword }),
@@ -358,17 +358,17 @@ local theme = lush(function(injected_functions)
 		-- sym("@function.macro")({ Macro }),
 		-- sym("@function.method")({ sym("@function") }),
 		--   sym("@function.method.call")({ sym("@function.method") }),
-    -- sym"@function" {}
-    -- sym"@function.builtin" {}
-    -- sym"@function.call" {}
-    -- sym"@function.macro" {}
-    -- sym"@function.method" {}
-    -- sym"@function.method.call" {}
+		-- sym"@function" {}
+		-- sym"@function.builtin" {}
+		-- sym"@function.call" {}
+		-- sym"@function.macro" {}
+		-- sym"@function.method" {}
+		-- sym"@function.method.call" {}
 
 		-- sym("@constructor")({ sym("@function") }),
 		--   sym("@operator")({ Operator }),
-    -- sym"@constructor" {}
-    -- sym"@operator" {}
+		-- sym"@constructor" {}
+		-- sym"@operator" {}
 
 		-- sym("@keyword")({ Keyword }),
 		-- sym("@keyword.coroutine")({ sym("@keyword") }),
@@ -384,27 +384,27 @@ local theme = lush(function(injected_functions)
 		-- sym("@keyword.conditional.ternary")({ sym("@operator") }),
 		-- sym("@keyword.directive")({ PreProc }),
 		--   sym("@keyword.directive.define")({ Define }),
-    -- sym"@keyword" {}
-    -- sym"@keyword.coroutine" {}
-    -- sym"@keyword.function" {}
-    -- sym"@keyword.operator" {}
-    -- sym"@keyword.type" {}
-    -- sym"@keyword.modifier" {}
-    -- sym"@keyword.repeat" {}
-    -- sym"@keyword.return" {}
-    -- sym"@keyword.debug" {}
-    -- sym"@keyword.exception" {}
-    -- sym"@keyword.conditional" {}
-    -- sym"@keyword.conditional.ternary" {}
-    -- sym"@keyword.directive" {}
-    -- sym"@keyword.directive.define" {}
+		-- sym"@keyword" {}
+		-- sym"@keyword.coroutine" {}
+		-- sym"@keyword.function" {}
+		-- sym"@keyword.operator" {}
+		-- sym"@keyword.type" {}
+		-- sym"@keyword.modifier" {}
+		-- sym"@keyword.repeat" {}
+		-- sym"@keyword.return" {}
+		-- sym"@keyword.debug" {}
+		-- sym"@keyword.exception" {}
+		-- sym"@keyword.conditional" {}
+		-- sym"@keyword.conditional.ternary" {}
+		-- sym"@keyword.directive" {}
+		-- sym"@keyword.directive.define" {}
 
 		-- sym("@punctuation.delimiter")({ Delimiter }),
 		-- sym("@punctuation.bracket")({ sym("@punctuation.delimiter") }),
 		--   sym("@punctuation.special")({ sym("@punctuation.delimiter") }),
-    -- sym"@punctuation.delimiter" {}
-    -- sym"@punctuation.bracket" {}
-    -- sym"@punctuation.special" {}
+		-- sym"@punctuation.delimiter" {}
+		-- sym"@punctuation.bracket" {}
+		-- sym"@punctuation.special" {}
 
 		-- sym("@comment")({ Comment }),
 		-- sym("@comment.documentation")({ sym("@comment"), gui = "bold" }),
@@ -412,21 +412,21 @@ local theme = lush(function(injected_functions)
 		-- sym("@comment.warning")({ Comment, sp = colors.light_yellow, gui = "italic,underline" }),
 		-- sym("@comment.todo")({ Comment, sp = colors.light_blue, gui = "bold,italic,underline" }),
 		--   sym("@comment.note")({ sym("@comment.todo"), gui = "italic,underline" }),
-    -- sym"@comment" {}
-    -- sym"@comment.documentation" {}
-    -- sym"@comment.error" {}
-    -- sym"@comment.warning" {}
-    -- sym"@comment.todo" {}
-    -- sym"@comment.note" {}
+		-- sym"@comment" {}
+		-- sym"@comment.documentation" {}
+		-- sym"@comment.error" {}
+		-- sym"@comment.warning" {}
+		-- sym"@comment.todo" {}
+		-- sym"@comment.note" {}
 
 		-- sym("@markup.strong")({ gui = "bold" }),
 		-- sym("@markup.italic")({ gui = "italic" }),
 		-- sym("@markup.strikethrough")({ gui = "strikethrough" }),
 		--   sym("@markup.underline")({ gui = "underline" }),
-    -- sym"@markup.strong" {}
-    -- sym"@markup.italic" {}
-    -- sym"@markup.strikethrough" {}
-    -- sym"@markup.underline" {}
+		-- sym"@markup.strong" {}
+		-- sym"@markup.italic" {}
+		-- sym"@markup.strikethrough" {}
+		-- sym"@markup.underline" {}
 
 		-- sym("@markup.heading")({ Title, gui = "bold,underline" }),
 		-- sym("@markup.heading.1")({ sym("@markup.heading") }),
@@ -435,55 +435,55 @@ local theme = lush(function(injected_functions)
 		-- sym("@markup.heading.4")({ sym("@markup.heading"), gui = "italic,underline" }),
 		-- sym("@markup.heading.5")({ sym("@markup.heading"), gui = "italic" }),
 		--   sym("@markup.heading.6")({ sym("@markup.heading"), gui = "" }),
-    -- sym"@markup.heading" {}
-    -- sym"@markup.heading.1" {}
-    -- sym"@markup.heading.2" {}
-    -- sym"@markup.heading.3" {}
-    -- sym"@markup.heading.4" {}
-    -- sym"@markup.heading.5" {}
-    -- sym"@markup.heading.6" {}
+		-- sym"@markup.heading" {}
+		-- sym"@markup.heading.1" {}
+		-- sym"@markup.heading.2" {}
+		-- sym"@markup.heading.3" {}
+		-- sym"@markup.heading.4" {}
+		-- sym"@markup.heading.5" {}
+		-- sym"@markup.heading.6" {}
 
 		-- sym("@markup.quote")({ sym("@variable") }),
 		--   sym("@markup.math")({ String }),
-    -- sym"@markup.quote" {}
-    -- sym"@markup.math" {}
+		-- sym"@markup.quote" {}
+		-- sym"@markup.math" {}
 
 		-- sym("@markup.link")({ Special }),
 		-- sym("@markup.link.label")({ Title, gui = "" }),
 		--   sym("@markup.link.url")({ sym("@markup.link"), gui = "underline" }),
-    -- sym"@markup.link" {}
-    -- sym"@markup.link.label" {}
-    -- sym"@markup.link.url" {}
+		-- sym"@markup.link" {}
+		-- sym"@markup.link.label" {}
+		-- sym"@markup.link.url" {}
 
 		-- sym("@markup.raw")({ sym("@comment"), gui = "" }),
 		--   sym("@markup.raw.block")({ sym("@markup.raw") }),
-    -- sym"@markup.raw" {}
-    -- sym"@markup.raw.block" {}
+		-- sym"@markup.raw" {}
+		-- sym"@markup.raw.block" {}
 
 		-- sym("@markup.list")({ sym("@variable") }),
 		--   sym("@markup.list.checked")({ sym("@markup.list"), gui = "strikethrough" }),
 		--   sym("@markup.list.unchecked")({ sym("@markup.list") }),
-    -- sym"@markup.list" {}
-    -- sym"@markup.list.checked" {}
-    -- sym"@markup.list.unchecked" {}
+		-- sym"@markup.list" {}
+		-- sym"@markup.list.checked" {}
+		-- sym"@markup.list.unchecked" {}
 
 		-- sym("@diff.plus")({ DiffAdd }),
 		-- sym("@diff.minus")({ DiffDelete }),
 		--   sym("@diff.delta")({ DiffChange }),
-    -- sym"@diff.plus" {}
-    -- sym"@diff.minus" {}
-    -- sym"@diff.delta" {}
+		-- sym"@diff.plus" {}
+		-- sym"@diff.minus" {}
+		-- sym"@diff.delta" {}
 
 		-- sym("@tag")({ Constant }),
 		-- sym("@tag.builtin")({ sym("@tag") }),
 		-- sym("@tag.attribute")({ sym("@label") }),
 		-- sym("@tag.delimiter")({ Delimiter }),
-    -- sym"@tag" {}
-    -- sym"@tag.builtin" {}
-    -- sym"@tag.attribute" {}
-    -- sym"@tag.delimiter" {}
-  
-    -- LSP
+		-- sym"@tag" {}
+		-- sym"@tag.builtin" {}
+		-- sym"@tag.attribute" {}
+		-- sym"@tag.delimiter" {}
+
+		-- LSP
 	}
 end)
 

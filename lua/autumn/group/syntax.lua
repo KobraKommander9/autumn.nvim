@@ -1,7 +1,7 @@
 local M = {}
 
 function M.get(spec, _)
-  return {}
+	return {}
 end
 
 return M
