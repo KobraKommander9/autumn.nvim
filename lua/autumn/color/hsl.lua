@@ -256,18 +256,17 @@ local function decorate_hsl(hsl)
 	})
 end
 
-local function hsl(hue_or_hex, saturation, light)
-	local hue, hsl_tbl, hex_str = hue_or_hex, hue_or_hex, hue_or_hex
+local function hsl(hue, saturation, light)
 	local color
 
-	if type(hex_str) == "string" then
-		color = M.hex_to_hsl(hex_str)
-	elseif type(hsl_tbl) == "table" then
-		if not hsl_tbl.h or not hsl_tbl.s or not hsl_tbl.l then
+	if type(hue) == "string" then
+		color = M.hex_to_hsl(hue)
+	elseif type(hue) == "table" then
+		if not hue.h or not hue.s or not hue.l then
 			error("hsl() expects either a hex string, three numbers, or hsl table", 2)
 		end
 
-		color = hsl_tbl
+		color = hue
 	else
 		if type(hue) ~= "number" or type(saturation) ~= "number" or type(light) ~= "number" then
 			error("hsl() expects either a hex string, three numbers, or hsl table", 2)
