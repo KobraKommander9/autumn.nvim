@@ -1,0 +1,28 @@
+local collect = require("autumn.collect")
+local config = require("autumn.config")
+local hsl = require("autumn.color.hsl")
+
+local M = {}
+
+local function load_spec(name)
+  local palette = require("autumn.palette").load(name)
+  local spec = palette.generate_spec(palette)
+  spec.palette = palette
+  return spec
+end
+
+function M.load(name)
+  if name then
+    return load_spec(name)
+  end
+
+  local result = {}
+  local styles = require("autumn.palette").styles
+  for _, style in ipairs(styles) do
+    result[style] = load_spec(style)
+  end
+
+  return result
+end
+
+return M

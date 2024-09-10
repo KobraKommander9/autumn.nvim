@@ -1,11 +1,12 @@
-local hsl = require("autumn.gen.hsl")
+local hsl = require("autumn.color.hsl")
+local colors = require("autumn.palette.colors")
 
 local meta = {
 	name = "autumn",
   light = false,
 }
 
-local palette = {
+local palette = colors({
 	white = hsl("#f4ebbe"),
 	black = hsl("#272d2d"),
 	red = hsl("#800e13"),
@@ -18,39 +19,9 @@ local palette = {
 	magenta = hsl("#a23b72"),
   cyan = hsl("#4bc6b9"),
 
-	primary0 = hsl("#eb5e28"),
-	secondary0 = hsl("#6a8532"),
-}
-
-palette.gray = palette.white.mix(palette.black, 90)
-
-palette.comment = palette.gray.lighten(60)
-
-palette.bg0 = palette.gray.darken(60)
-palette.bg1 = palette.gray.darken(50)
-palette.bg2 = palette.gray.darken(20)
-palette.bg3 = palette.gray.lighten(10)
-
-palette.fg0 = palette.gray.lighten(90)
-palette.fg1 = palette.gray.lighten(80)
-palette.fg2 = palette.gray.lighten(70)
-palette.fg3 = palette.gray.lighten(60)
-
-palette.primary1 = palette.primary0.lighten(10)
-palette.primary2 = palette.primary0.lighten(20)
-palette.secondary1 = palette.secondary0.lighten(20)
-palette.secondary2 = palette.secondary0.lighten(40)
-
-palette.light_red = palette.red.lighten(50)
-palette.light_orange = palette.orange.lighten(50)
-palette.light_yellow = palette.yellow.lighten(50)
-palette.light_green = palette.green.lighten(50)
-palette.light_blue = palette.blue.lighten(50)
-palette.light_purple = palette.purple.lighten(30)
-palette.light_pink = palette.pink.lighten(10)
-palette.light_magenta = palette.magenta.lighten(40)
-
-palette.dark_cyan = palette.cyan.darken(50)
+	primary = hsl("#eb5e28"),
+	secondary = hsl("#6a8532"),
+})
 
 local function generate_spec(p)
 	local spec = {
@@ -64,11 +35,11 @@ local function generate_spec(p)
     fg2 = p.fg2,
     fg3 = p.fg3,
 
-    p0 = p.primary0,
+    p0 = p.primary,
     p1 = p.primary1,
     p2 = p.primary2,
 
-    s0 = p.secondary0,
+    s0 = p.secondary,
     s1 = p.secondary1,
     s2 = p.secondary2,
   }
