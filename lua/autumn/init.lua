@@ -46,7 +46,7 @@ function M.setup(opts)
 	opts = collect.deep_extend(config.options, opts or {})
 
 	local cached_path = config.options.compile_path .. "/cache"
-	local cached = files.read_file(cached_path)
+	local cached = files.read_file(cached_path, true)
 
 	local git_path = debug.getinfo(1).source:sub(2, -23) .. "/.git"
 	local git = vim.fn.getftime(git_path)
