@@ -1,27 +1,46 @@
 local Color = require("autumn.color")
-local colors = require("autumn.palette.colors")
 
 local meta = {
 	name = "autumn",
 	light = false,
 }
 
-local palette = colors({
-	white = Color("#f4ebbe"),
-	black = Color("#272d2d"),
-	red = Color("#800e13"),
-	orange = Color("#f27f34"),
-	yellow = Color("#edd83d"),
-	green = Color("#799431"),
-	blue = Color("#1c77c3"),
-	purple = Color("#846b8a", { bm = 30 }),
-	pink = Color("#d65780", { bm = 10 }),
-	magenta = Color("#a23b72", { bm = 40 }),
-	cyan = Color("#4bc6b9"),
+local palette = {
+	white = Color.new("#f4ebbe"),
+	black = Color.new("#272d2d"),
+	red = Color.new("#800e13"),
+	orange = Color.new("#f27f34"),
+	yellow = Color.new("#edd83d"),
+	green = Color.new("#799431"),
+	blue = Color.new("#1c77c3"),
+	purple = Color.new("#846b8a", 30),
+	pink = Color.new("#d65780", 10),
+	magenta = Color.new("#a23b72", 40),
+	cyan = Color.new("#4bc6b9"),
 
-	primary = Color("#eb5e28"),
-	secondary = Color("#6a8532"),
-})
+	primary = Color.new("#eb5e28"),
+	secondary = Color.new("#6a8532"),
+}
+
+palette.gray = Color.new(palette.white.mix(palette.black, 90))
+
+palette.comment = palette.gray.lighten(60)
+
+palette.bg0 = palette.gray.darken(60)
+palette.bg1 = palette.gray.darken(50)
+palette.bg2 = palette.gray.darken(20)
+palette.bg3 = palette.gray.lighten(10)
+
+palette.fg0 = palette.gray.lighten(90)
+palette.fg1 = palette.gray.lighten(80)
+palette.fg2 = palette.gray.lighten(70)
+palette.fg3 = palette.gray.lighten(60)
+
+palette.primary1 = palette.primary.lighten(10)
+palette.primary2 = palette.primary.lighten(20)
+
+palette.secondary1 = palette.secondary.lighten(20)
+palette.secondary2 = palette.secondary.lighten(40)
 
 local function generate_spec(p)
 	local spec = {
@@ -45,7 +64,7 @@ local function generate_spec(p)
 	}
 
 	spec.syntax = {
-		bracket = p.white,
+		bracket = p.white.base,
 		builtin0 = p.pink.bright, -- builtin variable
 		builtin1 = spec.p1, -- builtin type
 		builtin2 = p.magenta.bright, -- builtin const
@@ -53,7 +72,7 @@ local function generate_spec(p)
 		conditional = spec.p1, -- conditional and loop
 		const = p.magenta.bright, -- constants, imports, boolean
 		dep = spec.fg3, -- deprecated
-		field = p.orange,
+		field = p.orange.base,
 		func = spec.s2,
 		ident = spec.s1,
 		keyword = spec.p2,
@@ -64,7 +83,7 @@ local function generate_spec(p)
 		statement = spec.p2,
 		string = p.green.bright,
 		type = spec.p1,
-		variable = p.white,
+		variable = p.white.base,
 	}
 
 	spec.diag = {
@@ -76,17 +95,17 @@ local function generate_spec(p)
 	}
 
 	spec.diff = {
-		add = p.green,
+		add = p.green.base,
 		delete = p.red.bright,
 		change = p.blue.bright,
 		text = p.cyan.dim,
 	}
 
 	spec.git = {
-		add = p.green,
+		add = p.green.base,
 		removed = p.red.bright,
 		changed = p.blue.bright,
-		conflict = p.orange,
+		conflict = p.orange.base,
 		ignored = p.comment,
 	}
 
