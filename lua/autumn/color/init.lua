@@ -21,8 +21,8 @@ function M.new(base, bright, dim)
 	dim = dim or 50
 
 	self.base = hsl(base)
-	self.bright = type(bright) == "number" and base.lighten(bright) or hsl(bright)
-	self.dim = type(dim) == "number" and base.darken(dim) or hsl(dim)
+	self.bright = type(bright) == "number" and self.base.lighten(bright) or hsl(bright)
+	self.dim = type(dim) == "number" and self.base.darken(dim) or hsl(dim)
 
 	return self
 end
