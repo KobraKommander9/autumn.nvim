@@ -24,23 +24,23 @@ local palette = {
 
 palette.gray = Color.new(palette.white.mix(palette.black, 90))
 
-palette.comment = palette.gray.lighten(60)
+palette.comment = palette.gray.lighten(60).hex
 
-palette.bg0 = palette.gray.darken(60)
-palette.bg1 = palette.gray.darken(50)
-palette.bg2 = palette.gray.darken(20)
-palette.bg3 = palette.gray.lighten(10)
+palette.bg0 = palette.gray.darken(60).hex
+palette.bg1 = palette.gray.darken(50).hex
+palette.bg2 = palette.gray.darken(20).hex
+palette.bg3 = palette.gray.lighten(10).hex
 
-palette.fg0 = palette.gray.lighten(90)
-palette.fg1 = palette.gray.lighten(80)
-palette.fg2 = palette.gray.lighten(70)
-palette.fg3 = palette.gray.lighten(60)
+palette.fg0 = palette.gray.lighten(90).hex
+palette.fg1 = palette.gray.lighten(80).hex
+palette.fg2 = palette.gray.lighten(70).hex
+palette.fg3 = palette.gray.lighten(60).hex
 
-palette.primary1 = palette.primary.lighten(10)
-palette.primary2 = palette.primary.lighten(20)
+palette.primary1 = palette.primary.lighten(10).hex
+palette.primary2 = palette.primary.lighten(20).hex
 
-palette.secondary1 = palette.secondary.lighten(20)
-palette.secondary2 = palette.secondary.lighten(40)
+palette.secondary1 = palette.secondary.lighten(20).hex
+palette.secondary2 = palette.secondary.lighten(40).hex
 
 local function generate_spec(p)
 	local spec = {

@@ -14,10 +14,6 @@ local function parse_style(style)
 		result[token] = true
 	end
 
-	result.bg = result.bg and result.bg.hex
-	result.fg = result.fg and result.fg.hex
-	result.sp = result.sp and result.sp.hex
-
 	return result
 end
 

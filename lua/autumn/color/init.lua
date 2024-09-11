@@ -13,11 +13,11 @@ function M.new(base, bright, dim)
 	return setmetatable({}, {
 		__index = function(_, key)
 			if key == "base" then
-				return base
+				return base.hex
 			elseif key == "bright" then
-				return bright
+				return bright.hex
 			elseif key == "dim" then
-				return dim
+				return dim.hex
 			end
 
 			return base[key]
