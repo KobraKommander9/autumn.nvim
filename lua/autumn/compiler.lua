@@ -78,24 +78,8 @@ return string.dump(function()
 	local output_path, output_file = config.get_compiled_info()
 	files.ensure_dir(output_path)
 
-	local file, err
 	if true then
-		file, err = io.open(output_file .. ".lua", "wb")
-		if not file then
-			vim.notify(
-				fmt([[Unable to open debug file: %s, error: %s]], output_file .. ".lua", err),
-				vim.log.levels.ERROR
-			)
-		else
-			file:write(table.concat(lines, "\n"))
-			file:close()
-		end
-	end
-
-	file, err = io.open(output_file, "wb")
-	if not file then
-		vim.notify(fmt([[Unable to open file: %s, error: %s]], output_file, err), vim.log.levels.ERROR)
-		return
+		files.write_file(output_file .. ".lua", table.concat(lines, "\n"))
 	end
 
 	local f = loadstring(table.concat(lines, "\n"), "=")
@@ -103,15 +87,11 @@ return string.dump(function()
 		local tmpfile = "/tmp/autumn_error.lua"
 		vim.notify(fmt([[There is an error in your autumn config, refer to %s]], tmpfile))
 
-		local efile = io.open(tmpfile, "wb")
-		efile:write(table.concat(lines, "\n"))
-		efile:close()
-
+		files.write_file(tmpfile, table.concat(lines, "\n"))
 		dofile(tmpfile)
+	else
+		files.write_file(output_file, f())
 	end
-
-	file:write(f())
-	file:close()
 end
 
 return M

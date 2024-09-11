@@ -2,8 +2,6 @@ local collect = require("autumn.collect")
 local config = require("autumn.config")
 local files = require("autumn.files")
 
-local fmt = string.format
-
 local M = {}
 
 function M.compile()

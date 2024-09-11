@@ -1,3 +1,5 @@
+local fmt = string.format
+
 local M = {}
 
 function M.ensure_dir(path)
@@ -13,6 +15,8 @@ function M.read_file(filepath)
 		file:close()
 		return content
 	end
+
+	vim.notify(fmt([[Unable to open %s for reading]], filepath), vim.log.levels.ERROR)
 end
 
 function M.write_file(filepath, content)
@@ -20,6 +24,8 @@ function M.write_file(filepath, content)
 	if file then
 		file:write(content)
 		file:close()
+	else
+		vim.notify(fmt([[Unable to open %s for writing]], filepath), vim.log.levels.ERROR)
 	end
 end
 
