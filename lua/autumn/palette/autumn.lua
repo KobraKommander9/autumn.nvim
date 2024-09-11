@@ -6,23 +6,23 @@ local meta = {
 }
 
 local palette = {
-	white = Color:new("#f4ebbe"),
-	black = Color:new("#272d2d"),
-	red = Color:new("#800e13"),
-	orange = Color:new("#f27f34"),
-	yellow = Color:new("#edd83d"),
-	green = Color:new("#799431"),
-	blue = Color:new("#1c77c3"),
-	purple = Color:new("#846b8a", 30),
-	pink = Color:new("#d65780", 10),
-	magenta = Color:new("#a23b72", 40),
-	cyan = Color:new("#4bc6b9"),
+	white = Color.new("#f4ebbe"),
+	black = Color.new("#272d2d"),
+	red = Color.new("#800e13"),
+	orange = Color.new("#f27f34"),
+	yellow = Color.new("#edd83d"),
+	green = Color.new("#799431"),
+	blue = Color.new("#1c77c3"),
+	purple = Color.new("#846b8a", 30),
+	pink = Color.new("#d65780", 10),
+	magenta = Color.new("#a23b72", 40),
+	cyan = Color.new("#4bc6b9"),
 
-	primary = Color:new("#eb5e28"),
-	secondary = Color:new("#6a8532"),
+	primary = Color.new("#eb5e28"),
+	secondary = Color.new("#6a8532"),
 }
 
-palette.gray = Color:new(palette.white.mix(palette.black, 90))
+palette.gray = Color.new(palette.white.mix(palette.black, 90))
 
 palette.comment = palette.gray.lighten(60)
 
