@@ -10,15 +10,15 @@ local M = setmetatable({}, {
 })
 
 function M:new(base, bright, dim)
+	base = hsl(base)
 	bright = bright or 50
 	dim = dim or 50
 
 	local c = {
-		base = hsl(base),
+		base = base,
+		bright = type(bright) == "number" and base.lighten(bright) or hsl(bright),
+		dim = type(dim) == "number" and base.darken(dim) or hsl(dim),
 	}
-
-	c.bright = type(bright) == "number" and c.base.lighten(bright) or hsl(bright)
-	c.dim = type(dim) == "number" and c.base.darken(dim) or hsl(dim)
 
 	setmetatable(c, self)
 	self.__index = self
