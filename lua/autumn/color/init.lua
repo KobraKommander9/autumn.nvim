@@ -1,34 +1,71 @@
 local hsl = require("autumn.color.hsl")
 
-local Color = setmetatable({}, {
-	__index = function(self, key)
-		if self[key] then
-			return self[key]
+local M = {}
+
+local new_color
+
+local function op_extend(color)
+	return function(other)
+		if type(other) == "string" then
+			return new_color(other)
 		end
 
-		if key == "dim" then
-			return self.dim
-		elseif key == "bright" then
-			return self.bright
-		end
+		local opts = {
+			dim = other.dim,
+			bright = other.bright,
+		}
 
-		return self.base[key]
-	end,
+		return new_color(other.base or color, opts)
+	end
+end
 
-	__tostring = function(c)
-		return tostring(c.base)
-	end,
+local function decorate_color(color)
+	local op_fns = {
+		extend = op_extend,
+	}
 
-	__concat = function(lhs, rhs)
-		return tostring(lhs) .. tostring(rhs)
-	end,
+	return setmetatable({}, {
+		__index = function(_, key)
+			if key == "bright" then
+				return color.bright
+			elseif key == "dim" then
+				return color.dim
+			elseif color.base[key] then
+				return color.base[key]
+			elseif color[key] then
+				return color[key]
+			end
 
-	__call = function(self)
-		return self
-	end,
-})
+			if op_fns[key] then
+				return function(...)
+					local altered_color = op_fns[key](color)(...)
+					return decorate_color(altered_color)
+				end
+			end
 
-function Color:new(color, opts)
+			local ops = ""
+			for op, _ in pairs(op_fns) do
+				ops = ops .. " " .. op
+			end
+			ops = ops .. " bright dim base"
+			error("Invalid color operation: '" .. key .. "'", 2)
+		end,
+
+		__tostring = function(c)
+			return tostring(c.base)
+		end,
+
+		__concat = function(lhs, rhs)
+			return tostring(lhs) .. tostring(rhs)
+		end,
+
+		__call = function()
+			return color
+		end,
+	})
+end
+
+new_color = function(color, opts)
 	local result = {
 		base = hsl(color),
 	}
@@ -42,31 +79,12 @@ function Color:new(color, opts)
 	result.bright = bright
 	result.dim = dim
 
-	setmetatable(result, {
-		__index = self,
-	})
-	self.__index = self
-
-	return result
+	return decorate_color(result)
 end
-
-function Color:extend(color)
-	local opts = {}
-
-	if type(color) == "table" then
-		opts.dim = color.dim and hsl(color.dim)
-		opts.bright = color.bright and hsl(color.bright)
-		color = color.base or color
-	end
-
-	return Color:new(color, opts)
-end
-
-local M = {}
 
 setmetatable(M, {
 	__call = function(_, ...)
-		return Color:new(...)
+		return new_color(...)
 	end,
 })
 

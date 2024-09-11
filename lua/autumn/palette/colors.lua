@@ -63,7 +63,7 @@ function M:extend(palette)
 
 	for key, color in pairs(palette) do
 		if vim.tbl_contains(names, key) then
-			self[key]:extend(color)
+			self[key].extend(color)
 		end
 	end
 
