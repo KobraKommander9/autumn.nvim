@@ -75,7 +75,8 @@ return string.dump(function()
 
 	table.insert(lines, "end)")
 
-	local output_path, output_file = config.get_compiled_info()
+	opts.style = style
+	local output_path, output_file = config.get_compiled_info(opts)
 	files.ensure_dir(output_path)
 
 	if true then
