@@ -11,10 +11,6 @@ local Color = setmetatable({}, {
 		return self.base[key]
 	end,
 
-	__newindex = function(_, _, _)
-		error("Member setting disabled", 2)
-	end,
-
 	__tostring = function(c)
 		return tostring(c.base)
 	end,
