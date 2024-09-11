@@ -54,7 +54,7 @@ return string.dump(function()
 
   vim.o.termguicolors = true
   vim.g.colors_name = "%s"
-  vim.o.background = "%s"]],
+  vim.o.background = "%s"\n]],
 			style,
 			background
 		),
