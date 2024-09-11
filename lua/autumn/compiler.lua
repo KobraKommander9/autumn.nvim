@@ -79,7 +79,7 @@ return string.dump(function()
 	files.ensure_dir(output_path)
 
 	local file, err
-	if vim.g.autumn_debug then
+	if true then
 		file, err = io.open(output_file .. ".lua", "wb")
 		if not file then
 			vim.notify(
