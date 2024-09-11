@@ -2,6 +2,10 @@ local hsl = require("autumn.color.hsl")
 
 local Color = setmetatable({}, {
 	__index = function(self, key)
+		if self[key] then
+			return self[key]
+		end
+
 		if key == "dim" then
 			return self.dim
 		elseif key == "bright" then
