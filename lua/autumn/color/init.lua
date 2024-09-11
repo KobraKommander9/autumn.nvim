@@ -1,18 +1,18 @@
 local hsl = require("autumn.color.hsl")
 
-local M = setmetatable({}, {
-	__index = function(self, key)
-		if self[key] then
-			return self[key]
-		end
+local M = {}
 
-		return self.base[key]
-	end,
+M.__index = function(self, key)
+	if self[key] then
+		return self[key]
+	end
 
-	__call = function(self)
-		return self.base
-	end,
-})
+	return self.base[key]
+end
+
+M.__call = function(self)
+	return self.base
+end
 
 function M.new(base, bright, dim)
 	local self = setmetatable({}, M)
