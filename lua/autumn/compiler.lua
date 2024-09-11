@@ -54,7 +54,9 @@ return string.dump(function()
 
   vim.o.termguicolors = true
   vim.g.colors_name = "%s"
-  vim.o.background = "%s"\n]],
+  vim.o.background = "%s"
+
+]],
 			style,
 			background
 		),
@@ -65,6 +67,9 @@ return string.dump(function()
 			table.insert(lines, fmt([[  h(0, "%s", { link = "%s" })]], group, attrs.link))
 		else
 			local op = parse_style(attrs.style)
+			op.bg = attrs.bg
+			op.fg = attrs.fg
+			op.sp = attrs.sp
 			table.insert(lines, fmt([[  h(0, "%s", %s)]], group, inspect(op)))
 		end
 	end
