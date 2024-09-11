@@ -66,10 +66,10 @@ return string.dump(function()
 
 	for group, attrs in pairs(groups) do
 		if should_link(attrs.link) then
-			table.insert(lines, fmt([[h(0, "%s", { link = "%s" })]], group, attrs.link))
+			table.insert(lines, fmt([[  h(0, "%s", { link = "%s" })]], group, attrs.link))
 		else
 			local op = parse_style(attrs.style)
-			table.insert(lines, fmt([[h(0, "%s", %s)]], group, inspect(op)))
+			table.insert(lines, fmt([[  h(0, "%s", %s)]], group, inspect(op)))
 		end
 	end
 
