@@ -8,7 +8,7 @@ function M.ensure_dir(path)
 	end
 end
 
-function M.read_file(filepath)
+function M.read_file(filepath, silent)
 	local file = io.open(filepath, "r")
 	if file then
 		local content = file:read()
@@ -16,15 +16,19 @@ function M.read_file(filepath)
 		return content
 	end
 
+	if silent then
+		return
+	end
+
 	vim.notify(fmt([[Unable to open %s for reading]], filepath), vim.log.levels.ERROR)
 end
 
-function M.write_file(filepath, content)
+function M.write_file(filepath, content, silent)
 	local file = io.open(filepath, "wb")
 	if file then
 		file:write(content)
 		file:close()
-	else
+	elseif not silent then
 		vim.notify(fmt([[Unable to open %s for writing]], filepath), vim.log.levels.ERROR)
 	end
 end
