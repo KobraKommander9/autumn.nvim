@@ -3,9 +3,12 @@ local hsl = require("autumn.color.hsl")
 local M = {}
 
 function M.new(base, bright, dim)
+	bright = bright or 50
+	dim = dim or 50
+
 	base = hsl(base)
-	bright = (bright or 50) and type(bright) == "number" and base.lighten(bright) or hsl(bright)
-	dim = (dim or 50) and type(dim) == "number" and base.darken(dim) or hsl(dim)
+	bright = type(bright) == "number" and base.lighten(bright) or hsl(bright)
+	dim = type(dim) == "number" and base.darken(dim) or hsl(dim)
 
 	return setmetatable({}, {
 		__index = function(_, key)
