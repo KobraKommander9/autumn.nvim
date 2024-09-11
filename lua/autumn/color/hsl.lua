@@ -192,8 +192,8 @@ end
 -------------------------------------------------------------------------------
 -- HSL
 
-local function decorate_hsl(hsl)
-	hsl = clamp(hsl)
+local function decorate_hsl(color)
+	color = clamp(color)
 
 	local op_fns = {
 		mix = op_mix,
@@ -205,27 +205,22 @@ local function decorate_hsl(hsl)
 	return setmetatable({}, {
 		__index = function(_, key)
 			if key == "h" then
-				return hsl.h
-			end
-			if key == "s" then
-				return hsl.s
-			end
-			if key == "l" then
-				return hsl.l
-			end
-			if key == "hsl" then
-				return { h = hsl.h, s = hsl.s, l = hsl.l }
-			end
-			if key == "hex" then
-				return M.hsl_to_hex(hsl)
-			end
-			if key == "rgb" then
-				return M.hsl_to_rgb(hsl)
+				return color.h
+			elseif key == "s" then
+				return color.s
+			elseif key == "l" then
+				return color.l
+			elseif key == "hsl" then
+				return { h = color.h, s = color.s, l = color.l }
+			elseif key == "hex" then
+				return M.hsl_to_hex(color)
+			elseif key == "rgb" then
+				return M.hsl_to_rgb(color)
 			end
 
 			if op_fns[key] then
 				return function(...)
-					local altered_color = op_fns[key](hsl)(...)
+					local altered_color = op_fns[key](color)(...)
 					return decorate_hsl(altered_color)
 				end
 			end
@@ -242,8 +237,8 @@ local function decorate_hsl(hsl)
 			error("Member setting disabled", 2)
 		end,
 
-		__tostring = function(color)
-			return M.hsl_to_hex(color)
+		__tostring = function(hsl)
+			return M.hsl_to_hex(hsl)
 		end,
 
 		__concat = function(lhs, rhs)
@@ -251,7 +246,7 @@ local function decorate_hsl(hsl)
 		end,
 
 		__call = function()
-			return hsl
+			return color
 		end,
 	})
 end
