@@ -4,6 +4,20 @@ local fmt = string.format
 
 local M = {}
 
+local spec_colors = {
+	"white",
+	"black",
+	"red",
+	"orange",
+	"yellow",
+	"green",
+	"blue",
+	"purple",
+	"pink",
+	"magenta",
+	"cyan",
+}
+
 local spec_groups = {
 	"syntax",
 	"diag",
@@ -79,7 +93,8 @@ local theme = lush(function(injected_functions)]],
 	}
 
 	table.insert(lush_lines, [[  local palette = {]])
-	for name, color in pairs(spec.palette.palette) do
+	for _, name in ipairs(spec_colors) do
+		local color = spec.palette.palette[name]
 		if type(color) == "string" then
 			table.insert(lush_lines, fmt([[    %s = hsl("%s"),]], name, color))
 		else
