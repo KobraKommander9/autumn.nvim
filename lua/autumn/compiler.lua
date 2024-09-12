@@ -82,7 +82,7 @@ local theme = lush(function(injected_functions)]],
 		local colors = spec[group]
 		table.insert(lush_lines, fmt([[  local %s = {]], group))
 		for name, color in pairs(colors) do
-			table.insert(lush_lines, fmt([[    %s = hsl("%s")]], name, color))
+			table.insert(lush_lines, fmt([[    %s = hsl("%s"),]], name, color))
 		end
 		table.insert(lush_lines, [[  }]])
 	end
@@ -94,7 +94,7 @@ local theme = lush(function(injected_functions)]],
 		elseif key == "palette" then
 		-- skip
 		else
-			table.insert(lush_lines, fmt([[    local %s = hsl("%s")]], key, value))
+			table.insert(lush_lines, fmt([[    local %s = hsl("%s"),]], key, value))
 		end
 	end
 	table.insert(lush_lines, [[  }]])
@@ -110,14 +110,14 @@ local theme = lush(function(injected_functions)]],
 	for group, attrs in pairs(groups) do
 		if should_link(attrs.link) then
 			table.insert(lines, fmt([[  h(0, "%s", { link = "%s" })]], group, attrs.link))
-			table.insert(lush_lines, fmt([[  %s({ link = "%s" }) -- %s { }]], group, attrs.link, group))
+			table.insert(lush_lines, fmt([[    %s({ link = "%s" }), -- %s { }]], group, attrs.link, group))
 		else
 			local op = parse_style(attrs.style)
 			op.bg = attrs.bg
 			op.fg = attrs.fg
 			op.sp = attrs.sp
 			table.insert(lines, fmt([[  h(0, "%s", %s)]], group, inspect(op)))
-			table.insert(lush_lines, fmt([[  %s(%s) -- %s { }]], group, inspect(op), group))
+			table.insert(lush_lines, fmt([[    %s(%s), -- %s { }]], group, inspect(op), group))
 		end
 	end
 
