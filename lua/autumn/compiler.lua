@@ -80,8 +80,13 @@ local theme = lush(function(injected_functions)]],
 
 	table.insert(lush_lines, [[  local palette = {]])
 	for name, color in pairs(spec.palette.palette) do
-		local c = type(color) == "string" and color or color.hex
-		table.insert(lush_lines, fmt([[    %s = hsl("%s"),]], name, c))
+		if type(color) == "string" then
+			table.insert(lush_lines, fmt([[    %s = hsl("%s"),]], name, color))
+		else
+			table.insert(lush_lines, fmt([[    %s = hsl("%s"),]], name, color.base))
+			table.insert(lush_lines, fmt([[    light_%s = hsl("%s"),]], name, color.bright))
+			table.insert(lush_lines, fmt([[    dark_%s = hsl("%s"),]], name, color.dim))
+		end
 	end
 	table.insert(lush_lines, [[  }]])
 
