@@ -43,9 +43,9 @@ end
 
 function M.setup(opts)
 	did_setup = true
-	opts = collect.deep_extend(config.options, opts or {})
+	config.options = collect.deep_extend(config.options, opts or {})
 
-	if opts.debug.enabled == true then
+	if config.options.debug.enabled == true then
 		vim.g.autumn_debug = true
 	end
 
@@ -54,7 +54,7 @@ function M.setup(opts)
 
 	local git_path = debug.getinfo(1).source:sub(2, -23) .. "/.git"
 	local git = vim.fn.getftime(git_path)
-	local hash = require("autumn.hash")(opts) .. (git == -1 and git_path or git)
+	local hash = require("autumn.hash")(config.options) .. (git == -1 and git_path or git)
 
 	if cached ~= hash then
 		M.compile()
