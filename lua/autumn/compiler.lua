@@ -7,6 +7,7 @@ local M = {}
 local spec_colors = {
 	"white",
 	"black",
+	"gray",
 	"red",
 	"orange",
 	"yellow",
