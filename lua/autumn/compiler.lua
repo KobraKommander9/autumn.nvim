@@ -94,7 +94,7 @@ local theme = lush(function(injected_functions)]],
 		elseif key == "palette" then
 		-- skip
 		else
-			table.insert(lush_lines, fmt([[    local %s = hsl("%s"),]], key, value))
+			table.insert(lush_lines, fmt([[    %s = hsl("%s"),]], key, value))
 		end
 	end
 	table.insert(lush_lines, [[  }]])
