@@ -56,7 +56,7 @@ function M.setup(opts)
 	local git = vim.fn.getftime(git_path)
 	local hash = require("autumn.hash")(config.options) .. (git == -1 and git_path or git)
 
-	if cached ~= hash then
+	if vim.g.autumn_debug or cached ~= hash then
 		M.compile()
 		files.write_file(cached_path, hash)
 	end
