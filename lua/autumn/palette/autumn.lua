@@ -54,11 +54,11 @@ local function generate_spec(p)
 		fg2 = p.fg2,
 		fg3 = p.fg3,
 
-		p0 = p.primary,
+		p0 = p.primary.base,
 		p1 = p.primary1,
 		p2 = p.primary2,
 
-		s0 = p.secondary,
+		s0 = p.secondary.base,
 		s1 = p.secondary1,
 		s2 = p.secondary2,
 	}

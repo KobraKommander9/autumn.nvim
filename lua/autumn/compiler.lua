@@ -75,8 +75,7 @@ return string.dump(function()
 local lush = require("lush")
 local hsl = lush.hsl
 
-local theme = lush(function(injected_functions)
-]],
+local theme = lush(function(injected_functions)]],
 	}
 
 	for _, group in ipairs(spec_groups) do
@@ -88,19 +87,24 @@ local theme = lush(function(injected_functions)
 		table.insert(lush_lines, [[  }]])
 	end
 
+	table.insert(lush_lines, [[  local editor = {]])
 	for key, value in pairs(spec) do
 		if vim.tbl_contains(spec_groups, key) then
+		-- skip
+		elseif key == "palette" then
+		-- skip
 		else
-			table.insert(lush_lines, fmt([[  local %s = hsl("%s")]], key, value))
+			table.insert(lush_lines, fmt([[    local %s = hsl("%s")]], key, value))
 		end
 	end
+	table.insert(lush_lines, [[  }]])
 
 	table.insert(
 		lush_lines,
 		[[
+
   local sym = injected_functions.sym
-  return {
-  ]]
+  return {]]
 	)
 
 	for group, attrs in pairs(groups) do
