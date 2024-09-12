@@ -4,6 +4,13 @@ local fmt = string.format
 
 local M = {}
 
+local spec_groups = {
+	"syntax",
+	"diag",
+	"diff",
+	"git",
+}
+
 local function parse_style(style)
 	if not style or style == "NONE" then
 		return {}
@@ -36,6 +43,7 @@ function M.compile(opts)
 	opts = opts or {}
 
 	local config = require("autumn.config")
+	local write_dbg = config.options.debug.enabled == true
 	local style = opts.style or config.style
 
 	local spec = require("autumn.spec").load(style)
@@ -62,26 +70,73 @@ return string.dump(function()
 		),
 	}
 
+	local lush_lines = {
+		[[
+local lush = require("lush")
+local hsl = lush.hsl
+
+local theme = lush(function(injected_functions)
+]],
+	}
+
+	for _, group in ipairs(spec_groups) do
+		local colors = spec[group]
+		table.insert(lush_lines, fmt([[  local %s = {]], group))
+		for name, color in pairs(colors) do
+			table.insert(lush_lines, fmt([[    %s = hsl("%s")]], name, color))
+		end
+		table.insert(lush_lines, [[  }]])
+	end
+
+	for key, value in pairs(spec) do
+		if vim.tbl_contains(spec_groups, key) then
+		else
+			table.insert(lush_lines, fmt([[  local %s = hsl("%s")]], key, value))
+		end
+	end
+
+	table.insert(
+		lush_lines,
+		[[
+  local sym = injected_functions.sym
+  return {
+  ]]
+	)
+
 	for group, attrs in pairs(groups) do
 		if should_link(attrs.link) then
 			table.insert(lines, fmt([[  h(0, "%s", { link = "%s" })]], group, attrs.link))
+			table.insert(lush_lines, fmt([[  %s({ link = "%s" }) -- %s { }]], group, attrs.link, group))
 		else
 			local op = parse_style(attrs.style)
 			op.bg = attrs.bg
 			op.fg = attrs.fg
 			op.sp = attrs.sp
 			table.insert(lines, fmt([[  h(0, "%s", %s)]], group, inspect(op)))
+			table.insert(lush_lines, fmt([[  %s(%s) -- %s { }]], group, inspect(op), group))
 		end
 	end
 
 	table.insert(lines, "end)")
+	table.insert(
+		lush_lines,
+		[[
+  }
+end)
+
+return theme]]
+	)
 
 	opts.style = style
 	local output_path, output_file = config.get_compiled_info(opts)
 	files.ensure_dir(output_path)
 
-	if true then
-		files.write_file(output_file .. ".lua", table.concat(lines, "\n"))
+	if write_dbg then
+		local dbg_path, dbg_file = config.get_debug_info(opts)
+		files.ensure_dir(dbg_path)
+
+		files.write_file(dbg_file .. ".lua", table.concat(lines, "\n"))
+		files.write_file(dbg_file .. "_lush.lua", table.concat(lush_lines, "\n"))
 	end
 
 	local f = loadstring(table.concat(lines, "\n"), "=")

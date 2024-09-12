@@ -6,13 +6,13 @@ function M.get(spec, _)
 	local syn = spec.syntax
 
 	return {
-		ColorColumn = { bg = spec.bg2 },
-		Conceal = { fg = spec.bg4 },
+		ColorColumn = { bg = spec.bg3 },
+		Conceal = { fg = spec.bg3 },
 		Cursor = { fg = spec.bg1, bg = spec.fg1 },
 		lCursor = { link = "Cursor" },
 		CursorIM = { link = "Cursor" },
 		CursorColumn = { link = "CursorLine" },
-		CursorLine = { bg = spec.bg3 },
+		CursorLine = { bg = spec.bg2 },
 		Directory = { fg = syn.func },
 		DiffAdd = { bg = diff.add },
 		DiffChange = { bg = diff.change },

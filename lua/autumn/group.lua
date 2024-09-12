@@ -8,7 +8,6 @@ function M.from(spec)
 	local editor = require("autumn.group.editor").get(spec, config)
 	local syntax = require("autumn.group.syntax").get(spec, config)
 
-	vim.notify("editor: " .. vim.inspect(editor))
 	local result = collect.deep_extend(editor, syntax)
 
 	local module_names = require("autumn.config").module_names
@@ -25,7 +24,6 @@ function M.from(spec)
 		end
 	end
 
-	vim.notify("result: " .. vim.inspect(result))
 	return result
 end
 

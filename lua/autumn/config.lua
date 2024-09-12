@@ -29,6 +29,10 @@ local defaults = {
 		variables = "NONE",
 	},
 	modules = {},
+	debug = {
+		enabled = false,
+		path = vim.fn.stdpath("cache") .. "/autumn_debug",
+	},
 }
 
 M.module_names = {}
@@ -49,6 +53,13 @@ function M.get_compiled_info(opts)
 	local file_suffix = opts.file_suffix or M.options.compile_file_suffix
 	local style = opts.name or M.style
 	return output_path, output_path .. "/" .. style .. file_suffix
+end
+
+function M.get_debug_info(opts)
+	opts = opts or {}
+	local output_path = M.options.debug.path
+	local style = opts.name or M.style
+	return output_path, output_path .. "/" .. style
 end
 
 return M

@@ -45,6 +45,10 @@ function M.setup(opts)
 	did_setup = true
 	opts = collect.deep_extend(config.options, opts or {})
 
+	if opts.debug.enabled == true then
+		vim.g.autumn_debug = true
+	end
+
 	local cached_path = config.options.compile_path .. "/cache"
 	local cached = files.read_file(cached_path, true)
 
