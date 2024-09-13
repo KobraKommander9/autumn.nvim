@@ -144,27 +144,19 @@ local theme = lush(function(injected_functions)]],
   return {]]
 	)
 
-	grouped_lines = {}
-	local lush_grouped_lines = {}
 	for group, attrs in pairs(groups) do
 		if should_link(attrs.link) then
-			table.insert(grouped_lines, fmt([[  h(0, "%s", { link = "%s" })]], group, attrs.link))
-			table.insert(lush_grouped_lines, fmt([[    %s({ link = "%s" }), -- %s { }]], group, attrs.link, group))
+			table.insert(lines, fmt([[  h(0, "%s", { link = "%s" })]], group, attrs.link))
+			table.insert(lush_lines, fmt([[    %s({ link = "%s" }), -- %s { }]], group, attrs.link, group))
 		else
 			local op = parse_style(attrs.style)
 			op.bg = attrs.bg
 			op.fg = attrs.fg
 			op.sp = attrs.sp
-			table.insert(grouped_lines, fmt([[  h(0, "%s", %s)]], group, inspect(op)))
-			table.insert(lush_grouped_lines, fmt([[    %s(%s), -- %s { }]], group, inspect(op), group))
+			table.insert(lines, fmt([[  h(0, "%s", %s)]], group, inspect(op)))
+			table.insert(lush_lines, fmt([[    %s(%s), -- %s { }]], group, inspect(op), group))
 		end
 	end
-
-	table.sort(grouped_lines)
-	collect.insert(lines, grouped_lines)
-
-	table.sort(lush_grouped_lines)
-	collect.insert(lush_lines, lush_grouped_lines)
 
 	table.insert(lines, "end)")
 	table.insert(
