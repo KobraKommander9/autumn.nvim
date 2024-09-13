@@ -55,6 +55,29 @@ local function inspect(tbl)
 	return fmt([[{ %s }]], table.concat(list, ", "))
 end
 
+local function get_color_names(colors, groups, color)
+	local result = {}
+
+	local names = { "fg", "bg", "sp" }
+	for _, name in ipairs(names) do
+		result[name] = color[name] and colors[color[name]]
+	end
+
+	for group_name, group in pairs(groups) do
+		for _, name in ipairs(names) do
+			if color[name] and group[color[name]] then
+				if result[name] == nil then
+					result[name] = group_name .. "." .. group[color[name]]
+				else
+					result[name] = result[name] .. ", " .. group_name .. "." .. group[color[name]]
+				end
+			end
+		end
+	end
+
+	return result
+end
+
 function M.compile(opts)
 	opts = opts or {}
 
@@ -94,15 +117,22 @@ local hsl = lush.hsl
 local theme = lush(function(injected_functions)]],
 	}
 
+	local lush_colors = {}
+	local lush_grouped_colors = {}
+
 	table.insert(lush_lines, [[  local palette = {]])
 	for _, name in ipairs(spec_colors) do
 		local color = spec.palette.palette[name]
 		if type(color) == "string" then
 			table.insert(lush_lines, fmt([[    %s = hsl("%s"),]], name, color))
+			lush_colors[color] = name
 		else
 			table.insert(lush_lines, fmt([[    %s = hsl("%s"),]], name, color.base))
 			table.insert(lush_lines, fmt([[    light_%s = hsl("%s"),]], name, color.bright))
 			table.insert(lush_lines, fmt([[    dark_%s = hsl("%s"),]], name, color.dim))
+			lush_colors[color.base] = name
+			lush_colors[color.bright] = "light_" .. name
+			lush_colors[color.dim] = "dark_" .. name
 		end
 	end
 	table.insert(lush_lines, [[  }]])
@@ -110,11 +140,14 @@ local theme = lush(function(injected_functions)]],
 	for _, group in ipairs(spec_groups) do
 		local colors = spec[group]
 		table.insert(lush_lines, fmt([[  local %s = {]], group))
+		lush_grouped_colors[group] = {}
 
 		local grouped_lines = {}
 		for name, color in pairs(colors) do
 			table.insert(grouped_lines, fmt([[    %s = hsl("%s"),]], name, color))
+			lush_grouped_colors[group][color] = name
 		end
+
 		table.sort(grouped_lines)
 		collect.insert(lush_lines, grouped_lines)
 
@@ -122,7 +155,9 @@ local theme = lush(function(injected_functions)]],
 	end
 
 	table.insert(lush_lines, [[  local editor = {]])
+	lush_grouped_colors.editor = {}
 	local grouped_lines = {}
+
 	for key, value in pairs(spec) do
 		if vim.tbl_contains(spec_groups, key) then
 		-- skip
@@ -130,8 +165,10 @@ local theme = lush(function(injected_functions)]],
 		-- skip
 		else
 			table.insert(grouped_lines, fmt([[    %s = hsl("%s"),]], key, value))
+			lush_grouped_colors.editor[value] = key
 		end
 	end
+
 	table.sort(grouped_lines)
 	collect.insert(lush_lines, grouped_lines)
 	table.insert(lush_lines, [[  }]])
@@ -154,7 +191,16 @@ local theme = lush(function(injected_functions)]],
 			op.fg = attrs.fg
 			op.sp = attrs.sp
 			table.insert(lines, fmt([[  h(0, "%s", %s)]], group, inspect(op)))
-			table.insert(lush_lines, fmt([[    %s(%s), -- %s { }]], group, inspect(op), group))
+			table.insert(
+				lush_lines,
+				fmt(
+					[[    %s(%s), -- %s { } %s]],
+					group,
+					inspect(op),
+					group,
+					inspect(get_color_names(lush_colors, lush_grouped_colors, op))
+				)
+			)
 		end
 	end
 
