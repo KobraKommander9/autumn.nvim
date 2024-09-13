@@ -1,5 +1,15 @@
 local M = {}
 
+function M.insert(tbl, ...)
+	for _, rhs in ipairs({ ... }) do
+		for _, v in ipairs(rhs) do
+			table.insert(tbl, v)
+		end
+	end
+
+	return tbl
+end
+
 function M.deep_extend(...)
 	local lhs = {}
 

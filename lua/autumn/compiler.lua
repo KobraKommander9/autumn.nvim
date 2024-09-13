@@ -1,3 +1,4 @@
+local collect = require("autumn.collect")
 local files = require("autumn.files")
 
 local fmt = string.format
@@ -109,22 +110,30 @@ local theme = lush(function(injected_functions)]],
 	for _, group in ipairs(spec_groups) do
 		local colors = spec[group]
 		table.insert(lush_lines, fmt([[  local %s = {]], group))
+
+		local grouped_lines = {}
 		for name, color in pairs(colors) do
-			table.insert(lush_lines, fmt([[    %s = hsl("%s"),]], name, color))
+			table.insert(grouped_lines, fmt([[    %s = hsl("%s"),]], name, color))
 		end
+		table.sort(grouped_lines)
+		collect.insert(lush_lines, grouped_lines)
+
 		table.insert(lush_lines, [[  }]])
 	end
 
 	table.insert(lush_lines, [[  local editor = {]])
+	local grouped_lines = {}
 	for key, value in pairs(spec) do
 		if vim.tbl_contains(spec_groups, key) then
 		-- skip
 		elseif key == "palette" then
 		-- skip
 		else
-			table.insert(lush_lines, fmt([[    %s = hsl("%s"),]], key, value))
+			table.insert(grouped_lines, fmt([[    %s = hsl("%s"),]], key, value))
 		end
 	end
+	table.sort(grouped_lines)
+	collect.insert(lush_lines, grouped_lines)
 	table.insert(lush_lines, [[  }]])
 
 	table.insert(
@@ -135,19 +144,27 @@ local theme = lush(function(injected_functions)]],
   return {]]
 	)
 
+	grouped_lines = {}
+	local lush_grouped_lines = {}
 	for group, attrs in pairs(groups) do
 		if should_link(attrs.link) then
-			table.insert(lines, fmt([[  h(0, "%s", { link = "%s" })]], group, attrs.link))
-			table.insert(lush_lines, fmt([[    %s({ link = "%s" }), -- %s { }]], group, attrs.link, group))
+			table.insert(grouped_lines, fmt([[  h(0, "%s", { link = "%s" })]], group, attrs.link))
+			table.insert(lush_grouped_lines, fmt([[    %s({ link = "%s" }), -- %s { }]], group, attrs.link, group))
 		else
 			local op = parse_style(attrs.style)
 			op.bg = attrs.bg
 			op.fg = attrs.fg
 			op.sp = attrs.sp
-			table.insert(lines, fmt([[  h(0, "%s", %s)]], group, inspect(op)))
-			table.insert(lush_lines, fmt([[    %s(%s), -- %s { }]], group, inspect(op), group))
+			table.insert(grouped_lines, fmt([[  h(0, "%s", %s)]], group, inspect(op)))
+			table.insert(lush_grouped_lines, fmt([[    %s(%s), -- %s { }]], group, inspect(op), group))
 		end
 	end
+
+	table.sort(grouped_lines)
+	collect.insert(lines, grouped_lines)
+
+	table.sort(lush_grouped_lines)
+	collect.insert(lush_lines, lush_grouped_lines)
 
 	table.insert(lines, "end)")
 	table.insert(
