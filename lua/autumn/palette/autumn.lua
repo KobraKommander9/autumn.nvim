@@ -1,11 +1,12 @@
 local Color = require("autumn.color")
+local colors = require("autumn.palette.colors")
 
 local meta = {
 	name = "autumn",
 	light = false,
 }
 
-local palette = {
+local palette = colors({
 	white = Color.new("#f4ebbe"),
 	black = Color.new("#272d2d"),
 	red = Color.new("#800e13"),
@@ -20,7 +21,7 @@ local palette = {
 
 	primary = Color.new("#eb5e28"),
 	secondary = Color.new("#6a8532"),
-}
+})
 
 palette.gray = Color.new(palette.white.mix(palette.black, 90))
 
