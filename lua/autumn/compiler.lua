@@ -20,12 +20,14 @@ local spec_colors = {
 	"cyan",
 }
 
+local new_spec = {}
 for _, name in ipairs(spec_colors) do
-	table.insert(spec_colors, "soft_" .. name)
-	table.insert(spec_colors, "hard_" .. name)
+	table.insert(new_spec, name)
+	table.insert(new_spec, "soft_" .. name)
+	table.insert(new_spec, "hard_" .. name)
 end
 
-table.sort(spec_colors)
+spec_colors = new_spec
 
 local spec_groups = {
 	"syntax",
