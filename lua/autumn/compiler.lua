@@ -5,11 +5,13 @@ local fmt = string.format
 
 local M = {}
 
-local spec_colors = {
+local base_colors = {
 	"white",
 	"black",
 	"gray",
+}
 
+local mixed_colors = {
 	"red",
 	"orange",
 	"yellow",
@@ -19,26 +21,6 @@ local spec_colors = {
 	"pink",
 	"magenta",
 	"cyan",
-
-  "soft_red",
-  "soft_orange",
-  "soft_yellow",
-  "soft_green",
-  "soft_blue",
-  "soft_purple",
-  "soft_pink",
-  "soft_magenta",
-  "soft_cyan",
-
-  "hard_red",
-  "hard_orange",
-  "hard_yellow",
-  "hard_green",
-  "hard_blue",
-  "hard_purple",
-  "hard_pink",
-  "hard_magenta",
-  "hard_cyan",
 }
 
 local spec_groups = {
@@ -141,13 +123,11 @@ local theme = lush(function(injected_functions)]],
 	local lush_colors = {}
 	local lush_grouped_colors = {}
 
-	table.insert(lush_lines, [[  local palette = {]])
-	for _, name in ipairs(spec_colors) do
-		local color = spec.palette.palette[name]
-		if type(color) == "string" then
+  local function insert_color(name, color)
+    if type(color) == "string" then
 			table.insert(lush_lines, fmt([[    %s = hsl("%s"),]], name, color))
 			lush_colors[color] = name
-		else
+		elseif color ~= nil then
 			table.insert(lush_lines, fmt([[    %s = hsl("%s"),]], name, color.base))
 			table.insert(lush_lines, fmt([[    light_%s = hsl("%s"),]], name, color.bright))
 			table.insert(lush_lines, fmt([[    dark_%s = hsl("%s"),]], name, color.dim))
@@ -155,7 +135,24 @@ local theme = lush(function(injected_functions)]],
 			lush_colors[color.bright] = "light_" .. name
 			lush_colors[color.dim] = "dark_" .. name
 		end
+  end
+
+	table.insert(lush_lines, [[  local palette = {]])
+	for _, name in ipairs(base_colors) do
+		local color = spec.palette.palette[name]
+		insert_color(name, color)
 	end
+
+  for _, name in ipairs(mixed_colors) do
+    local color = spec.palette.palette[name]
+    insert_color(name, color)
+
+    color = spec.palette.palette["soft_" .. name]
+    insert_color("soft_" .. name, color)
+
+    color = spec.palette.palette["hard_" .. name]
+    insert_color("hard_" .. name, color)
+  end
 	table.insert(lush_lines, [[  }]])
 
 	for _, group in ipairs(spec_groups) do
