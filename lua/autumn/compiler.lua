@@ -9,6 +9,7 @@ local spec_colors = {
 	"white",
 	"black",
 	"gray",
+
 	"red",
 	"orange",
 	"yellow",
@@ -18,16 +19,27 @@ local spec_colors = {
 	"pink",
 	"magenta",
 	"cyan",
+
+  "soft_red",
+  "soft_orange",
+  "soft_yellow",
+  "soft_green",
+  "soft_blue",
+  "soft_purple",
+  "soft_pink",
+  "soft_magenta",
+  "soft_cyan",
+
+  "hard_red",
+  "hard_orange",
+  "hard_yellow",
+  "hard_green",
+  "hard_blue",
+  "hard_purple",
+  "hard_pink",
+  "hard_magenta",
+  "hard_cyan",
 }
-
-local new_spec = {}
-for _, name in ipairs(spec_colors) do
-	table.insert(new_spec, name)
-	table.insert(new_spec, "soft_" .. name)
-	table.insert(new_spec, "hard_" .. name)
-end
-
-spec_colors = new_spec
 
 local spec_groups = {
 	"syntax",
