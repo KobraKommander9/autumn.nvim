@@ -6,7 +6,11 @@ M.styles = {
 
 local function load_palette(name)
 	local valid = vim.tbl_contains(M.styles, name)
-	return valid and require("autumn.palette." .. name) or require("autumn.palette.autumn")
+	local raw = valid and require("autumn.palette." .. name) or require("autumn.palette.autumn")
+	local palette = raw.palette
+	palette.meta = raw.meta
+	palette.generate_spec = raw.generate_spec
+	return palette
 end
 
 function M.load(name)

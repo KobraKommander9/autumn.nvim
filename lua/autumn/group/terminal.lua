@@ -2,7 +2,6 @@ local M = {}
 
 function M.get(spec, _)
 	local p = spec.palette
-	print(vim.inspect(p))
 
 	return {
 		terminal_color_0 = p.black.base,
