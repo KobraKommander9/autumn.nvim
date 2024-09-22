@@ -117,18 +117,18 @@ local theme = lush(function(injected_functions)]],
 
 	table.insert(lush_lines, [[  local palette = {]])
 	for _, name in ipairs(base_colors) do
-		local color = spec.palette.palette[name]
+		local color = spec.palette[name]
 		insert_color(name, color)
 	end
 
 	for _, name in ipairs(mixed_colors) do
-		local color = spec.palette.palette[name]
+		local color = spec.palette[name]
 		insert_color(name, color)
 
-		color = spec.palette.palette["soft_" .. name]
+		color = spec.palette["soft_" .. name]
 		insert_color("soft_" .. name, color)
 
-		color = spec.palette.palette["hard_" .. name]
+		color = spec.palette["hard_" .. name]
 		insert_color("hard_" .. name, color)
 	end
 	table.insert(lush_lines, [[  }]])
