@@ -58,6 +58,10 @@ local function inspect(tbl)
 	return fmt([[{ %s }]], table.concat(list, ", "))
 end
 
+local function get_lush_group(group)
+	return group:sub(1, 1) == "@" and fmt([[sym("%s")]], group) or group
+end
+
 function M.compile(opts)
 	opts = opts or {}
 
@@ -158,16 +162,18 @@ local theme = lush(function(injected_functions)]],
 	)
 
 	for group, attrs in pairs(groups) do
+		local lush_group = get_lush_group(group)
+
 		if should_link(attrs.link) then
 			table.insert(lines, fmt([[  h(0, "%s", { link = "%s" })]], group, attrs.link))
-			table.insert(lush_lines, fmt([[    %s({ link = "%s" }), -- %s { }]], group, attrs.link, group))
+			table.insert(lush_lines, fmt([[    %s({ link = "%s" }), -- %s { }]], lush_group, attrs.link, lush_group))
 		else
 			local op = parse_style(attrs.style)
 			op.bg = attrs.bg
 			op.fg = attrs.fg
 			op.sp = attrs.sp
 			table.insert(lines, fmt([[  h(0, "%s", %s)]], group, inspect(op)))
-			table.insert(lush_lines, fmt([[    %s(%s), -- %s { }]], group, inspect(op), group))
+			table.insert(lush_lines, fmt([[    %s(%s), -- %s { }]], lush_group, inspect(op), lush_group))
 		end
 	end
 
