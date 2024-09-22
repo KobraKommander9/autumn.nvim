@@ -1,11 +1,11 @@
-local collect = require("autumn.collect")
+local collect = require("autumn.lib.collect")
 local config = require("autumn.config")
-local files = require("autumn.files")
+local files = require("autumn.lib.files")
 
 local M = {}
 
 function M.compile()
-	local compiler = require("autumn.compiler")
+	local compiler = require("autumn.lib.compiler")
 
 	local styles = require("autumn.palette").styles
 	for _, style in ipairs(styles) do

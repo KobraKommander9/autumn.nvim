@@ -1,4 +1,4 @@
-local collect = require("autumn.collect")
+local collect = require("autumn.lib.collect")
 
 local M = {}
 

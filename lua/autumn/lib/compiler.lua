@@ -1,5 +1,5 @@
 local collect = require("autumn.collect")
-local files = require("autumn.files")
+local files = require("autumn.lib.files")
 
 local fmt = string.format
 
