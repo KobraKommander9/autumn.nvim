@@ -9,11 +9,11 @@ function M.get(spec, _)
 		Normal = { bg = spec.bg1, fg = spec.fg1 },
 		NormalFloat = { bg = spec.bg0 },
 		NormalNC = { link = "Normal" },
-		Visual = { bg = spec.bg3 },
+		Visual = { bg = spec.sel0 },
 		VisualNOS = { link = "Visual" },
 
 		EndOfBuffer = { fg = spec.bg1 },
-		Title = { fg = spec.fg1, style = "bold" },
+		Title = { fg = syn.func, style = "bold" },
 		Whitespace = { fg = spec.bg3 },
 		NonText = { fg = spec.bg3 },
 		Conceal = { link = "NonText" },
@@ -63,10 +63,10 @@ function M.get(spec, _)
 		DiffDelete = { bg = diff.delete },
 		DiffText = { bg = diff.text },
 
-		Pmenu = { bg = spec.bg2 },
+		Pmenu = { fg = spec.fg1, bg = spec.sel0 },
 		PmenuSbar = { link = "Pmenu" },
-		PmenuSel = { bg = spec.fg2, fg = spec.bg2 },
-		PmenuThumb = { bg = spec.bg3 },
+		PmenuSel = { bg = spec.sel1 },
+		PmenuThumb = { bg = spec.sel1 },
 		WildMenu = { link = "Pmenu" },
 
 		MsgArea = { fg = spec.fg2 },
@@ -78,7 +78,7 @@ function M.get(spec, _)
 
 		QuickFixLine = { bg = diag.info, fg = spec.bg2 },
 		MatchParen = { fg = diag.warn, style = "bold" },
-		Directory = { fg = syn.preproc },
+		Directory = { fg = syn.func },
 	}
 end
 

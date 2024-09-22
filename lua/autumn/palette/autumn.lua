@@ -68,26 +68,27 @@ local function generate_spec(p)
 	}
 
 	spec.syntax = {
-		-- bracket = p.white.base,
-		-- builtin0 = p.pink.bright,    -- builtin variable
-		-- builtin1 = spec.p1,          -- builtin type
-		-- builtin2 = p.magenta.bright, -- builtin const
+		bracket = p.soft_cyan.base,
+		builtin0 = p.soft_red.base,
+		builtin1 = p.orange.bright,
+		builtin2 = p.magenta.bright,
+		builtin3 = p.hard_green.bright,
 		comment = p.comment,
-		conditional = spec.p1, -- conditional and loop
-		const = p.magenta.bright, -- constants, imports, boolean
-		-- dep = spec.fg3,              -- deprecated
-		-- field = p.orange.base,
+		conditional = p.cyan.bright,
+		const = p.magenta.bright,
+		dep = spec.fg3,
+		field = spec.s1,
 		func = spec.s2,
-		ident = p.soft_pink.base,
-		keyword = spec.p2,
-		number = p.soft_red.bright,
+		ident = p.soft_orange.base,
+		keyword = p.cyan.base,
+		number = p.hard_red.bright,
 		operator = p.soft_cyan.base,
-		preproc = p.hard_red.bright,
-		-- regex = p.blue.bright,
-		-- statement = spec.p2,
-		string = p.green.bright,
-		type = spec.p1,
-		-- variable = p.white.base,
+		preproc = spec.p0,
+		regex = p.soft_pink.bright,
+		statement = p.cyan.base,
+		string = p.blue.bright,
+		type = p.soft_pink.base,
+		variable = p.white.base,
 	}
 
 	spec.diag = {

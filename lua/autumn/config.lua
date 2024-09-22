@@ -13,6 +13,7 @@ local defaults = {
 			"DiagnosticVirtualTextInfo",
 			"DiagnosticVirtualTextHint",
 			"DiagnosticVirtualTextOk",
+			"LspInlayHint",
 			"Normal",
 			"NormalFloat",
 			"NormalNC",
@@ -23,9 +24,11 @@ local defaults = {
 		comments = "italic",
 		conditionals = "NONE",
 		constants = "NONE",
+		diagnostics = "italic,underline",
 		documentation = "italic",
 		functions = "NONE",
 		keywords = "NONE",
+		links = "italic,underline",
 		numbers = "NONE",
 		operators = "NONE",
 		preprocs = "NONE",
@@ -34,7 +37,13 @@ local defaults = {
 		types = "NONE",
 		variables = "NONE",
 	},
-	modules = {},
+	modules = {
+		treesitter = {
+			styles = {
+				checked_lists = "strikethrough",
+			},
+		},
+	},
 	debug = {
 		enabled = false,
 		path = vim.fn.stdpath("cache") .. "/autumn_debug",
@@ -44,6 +53,7 @@ local defaults = {
 M.module_names = {
 	"diagnostic",
 	"lazy",
+	"native_lsp",
 	"notify",
 	"treesitter",
 }

@@ -18,7 +18,7 @@ function M.get(spec, config)
 		Identifier = { fg = syn.ident, style = stl.variables }, -- (preferred) any variable name
 		Function = { fg = syn.func, style = stl.functions }, -- function name (also: methods for classes)
 
-		Statement = { fg = syn.keyword, style = stl.keywords }, -- (preferred) any statement
+		Statement = { fg = syn.statement, style = stl.statements }, -- (preferred) any statement
 		Conditional = { fg = syn.conditional, style = stl.conditionals }, -- if, then, else, endif, switch, etc.
 		Repeat = { link = "Conditional" }, -- for, do, while, etc.
 		Label = { link = "Conditional" }, -- case, default, etc.
