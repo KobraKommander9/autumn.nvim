@@ -162,28 +162,47 @@ local theme = lush(function(injected_functions)]],
   return {]]
 	)
 
-	grouped_lines = {}
+	local primary_lines = {}
+	local dependent_lines = {}
+
+	local linked_groups = {}
+	local linked_lines = {}
 	for group, attrs in pairs(groups) do
 		local lush_group = get_lush_group(group)
 
 		if should_link(attrs.link) then
 			table.insert(lines, fmt([[  h(0, "%s", { link = "%s" })]], group, attrs.link))
-			table.insert(
-				grouped_lines,
-				fmt([[    %s({ %s }), -- %s { }]], lush_group, get_lush_group(attrs.link), lush_group)
-			)
+
+			local lush_link = get_lush_group(attrs.link)
+			if not linked_groups[lush_link] then
+				linked_lines[lush_link] = linked_lines[lush_link] or {}
+				table.insert(
+					linked_lines[lush_link],
+					fmt([[    %s({ %s }), -- %s { }]], lush_group, lush_link, lush_group)
+				)
+			else
+				table.insert(dependent_lines, fmt([[    %s({ %s }), -- %s { }]], lush_group, lush_link, lush_group))
+			end
 		else
 			local op = parse_style(attrs.style)
 			op.bg = attrs.bg
 			op.fg = attrs.fg
 			op.sp = attrs.sp
 			table.insert(lines, fmt([[  h(0, "%s", %s)]], group, inspect(op)))
-			table.insert(grouped_lines, fmt([[    %s(%s), -- %s { }]], lush_group, inspect(op), lush_group))
+			table.insert(primary_lines, fmt([[    %s(%s), -- %s { }]], lush_group, inspect(op), lush_group))
+
+			table.insert(linked_groups, lush_group)
+			if linked_lines[lush_group] then
+				for _, line in ipairs(linked_lines[lush_group]) do
+					table.insert(dependent_lines, line)
+				end
+			end
 		end
 	end
 
-	table.sort(grouped_lines)
-	collect.insert(lush_lines, grouped_lines)
+	table.sort(primary_lines)
+	table.sort(dependent_lines)
+	collect.insert(lush_lines, primary_lines, dependent_lines)
 
 	table.insert(lines, "end)")
 	table.insert(
