@@ -168,7 +168,10 @@ local theme = lush(function(injected_functions)]],
 
 		if should_link(attrs.link) then
 			table.insert(lines, fmt([[  h(0, "%s", { link = "%s" })]], group, attrs.link))
-			table.insert(grouped_lines, fmt([[    %s({ %s }), -- %s { }]], lush_group, attrs.link, lush_group))
+			table.insert(
+				grouped_lines,
+				fmt([[    %s({ %s }), -- %s { }]], lush_group, get_lush_group(attrs.link), lush_group)
+			)
 		else
 			local op = parse_style(attrs.style)
 			op.bg = attrs.bg
