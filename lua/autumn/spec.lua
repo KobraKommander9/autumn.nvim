@@ -13,13 +13,9 @@ function M.load(name)
 	end
 
 	local result = {}
-
 	local styles = require("autumn.palette").styles
 	for _, style in ipairs(styles) do
 		result[style] = load_spec(style)
-		if not result.palette then
-			result.palette = result[style].palette
-		end
 	end
 
 	return result
