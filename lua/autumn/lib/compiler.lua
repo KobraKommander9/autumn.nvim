@@ -98,14 +98,15 @@ return string.dump(function()
 local lush = require("lush")
 local hsl = lush.hsl
 
+---@diagnostic disable: undefined-global
 local theme = lush(function(injected_functions)]],
 	}
 
 	if config.options.terminal_colors then
 		local terminal = require("autumn.group.terminal").get(spec)
 		for k, v in pairs(terminal) do
-			table.insert(lines, fmt([[vim.g.%s = "%s"]], k, v))
-			table.insert(lush_lines, fmt([[vim.g.%s = "%s"]], k, v))
+			table.insert(lines, fmt([[  vim.g.%s = "%s"]], k, v))
+			table.insert(lush_lines, fmt([[  vim.g.%s = "%s"]], k, v))
 		end
 	end
 
@@ -161,21 +162,25 @@ local theme = lush(function(injected_functions)]],
   return {]]
 	)
 
+	grouped_lines = {}
 	for group, attrs in pairs(groups) do
 		local lush_group = get_lush_group(group)
 
 		if should_link(attrs.link) then
 			table.insert(lines, fmt([[  h(0, "%s", { link = "%s" })]], group, attrs.link))
-			table.insert(lush_lines, fmt([[    %s({ link = "%s" }), -- %s { }]], lush_group, attrs.link, lush_group))
+			table.insert(grouped_lines, fmt([[    %s({ %s }), -- %s { }]], lush_group, attrs.link, lush_group))
 		else
 			local op = parse_style(attrs.style)
 			op.bg = attrs.bg
 			op.fg = attrs.fg
 			op.sp = attrs.sp
 			table.insert(lines, fmt([[  h(0, "%s", %s)]], group, inspect(op)))
-			table.insert(lush_lines, fmt([[    %s(%s), -- %s { }]], lush_group, inspect(op), lush_group))
+			table.insert(grouped_lines, fmt([[    %s(%s), -- %s { }]], lush_group, inspect(op), lush_group))
 		end
 	end
+
+	table.sort(grouped_lines)
+	collect.insert(lush_lines, grouped_lines)
 
 	table.insert(lines, "end)")
 	table.insert(
