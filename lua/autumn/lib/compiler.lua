@@ -106,7 +106,7 @@ local theme = lush(function(injected_functions)]],
 		local terminal = require("autumn.group.terminal").get(spec)
 		for k, v in pairs(terminal) do
 			table.insert(lines, fmt([[  vim.g.%s = "%s"]], k, v))
-			table.insert(lush_lines, fmt([[  vim.g.%s = "%s"]], k, v))
+			table.insert(lush_lines, fmt([[  -- vim.g.%s = "%s"]], k, v))
 		end
 	end
 

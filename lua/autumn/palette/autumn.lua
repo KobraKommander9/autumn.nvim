@@ -63,8 +63,8 @@ local function generate_spec(p)
 		s1 = p.secondary1,
 		s2 = p.secondary2,
 
-		sel0 = p.gray.bright,
-		sel1 = p.orange.base,
+		sel0 = p.gray.base,
+		sel1 = p.orange.bright,
 	}
 
 	spec.syntax = {
