@@ -7,7 +7,8 @@ local did_setup = false
 local lock = false
 
 function M.compile()
-	-- TODO : this
+	local compiler = require("autumn.compiler")
+	compiler.compile()
 end
 
 function M.load(opts)
