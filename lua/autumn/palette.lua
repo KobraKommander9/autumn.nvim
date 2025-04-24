@@ -1,20 +1,18 @@
 local Color = require("autumn.color")
 
 local function make(base, dim, bright)
-	base = Color(base)
-	dim = dim and Color(dim) or base:darken(50)
-	bright = bright and Color(bright) or base:lighten(50)
+	local c = {
+		base = Color(base),
+		dim = dim and Color(dim) or base:darken(50),
+		bright = bright and Color(bright) or base:lighten(50),
+	}
 
-	return setmetatable({
-		base = base,
-		dim = dim,
-		bright = bright,
-	}, {
-		__index = function(t, key)
-			if t[key] then
-				return t[key]
+	return setmetatable({}, {
+		__index = function(_, key)
+			if c[key] then
+				return c[key]
 			end
-			return t.base[key]
+			return c.base[key]
 		end,
 	})
 end
