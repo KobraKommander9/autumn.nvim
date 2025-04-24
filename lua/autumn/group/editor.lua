@@ -6,7 +6,7 @@ function M.get(spec, _)
 	local syn = spec.syntax
 
 	return {
-		Normal = { bg = spec.bg1, fg = spec.fg1 },
+		Normal = { bg = spec.git.removed, fg = spec.fg1 },
 		NormalFloat = { bg = spec.bg0 },
 		NormalNC = { link = "Normal" },
 		Visual = { bg = spec.sel0 },
