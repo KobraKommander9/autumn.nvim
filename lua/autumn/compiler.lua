@@ -30,10 +30,11 @@ function M.load_groups(spec)
 	local Config = require("autumn.config")
 	local cfg_opts = Config.options
 
+	local autumn = require("autumn.group.autumn").get(spec, cfg_opts)
 	local editor = require("autumn.group.editor").get(spec, cfg_opts)
 	local syntax = {}
 
-	local result = M.deep_extend(editor, syntax)
+	local result = M.deep_extend(autumn, editor, syntax)
 
 	local module_names = Config.module_names
 	for _, name in ipairs(module_names) do
