@@ -83,7 +83,7 @@ local function generate_spec(p)
 		builtin1 = spec.p0, -- builtin type
 		builtin2 = p.cyan.hex, -- builtin const
 		builtin3 = p.red.bright.hex, -- not used
-		comment = p.comment, -- comment
+		comment = p.comment.hex, -- comment
 		conditional = p.magenta.bright.hex, -- conditional and loop
 		const = p.cyan.hex, -- constants, imports, and booleans
 		dep = spec.fg3, -- deprecated
