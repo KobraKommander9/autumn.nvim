@@ -21,7 +21,7 @@ end
 
 function M.load_spec()
 	local p = require("autumn.palette")
-	local spec = p.generate_spec(p)
+	local spec = p.generate_spec(p.palette)
 	spec.palette = p.palette
 	return spec
 end
