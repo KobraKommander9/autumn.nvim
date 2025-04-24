@@ -137,8 +137,6 @@ function M.compile(opts)
 	local config = require("autumn.config")
 	local write_lush = config.options.lush.enabled == true
 
-	vim.notify("Autumn compiling to " .. config.options.compile_path)
-
 	local spec = M.load_spec()
 	local groups = M.load_groups(spec)
 
@@ -185,8 +183,9 @@ local theme = lush(function(injected_functions)]],
 	end
 
 	local function make_group(name, group, fn)
+		table.insert(lush_lines, fmt([[  local %s = {]], name))
+
 		local grouped_lines = {}
-		table.insert(grouped_lines, fmt([[  local %s = {]], name))
 		for key, value in pairs(group) do
 			if fn == true or fn(key) then
 				table.insert(grouped_lines, fmt([[    %s = hsl("%s"),]], key, value))
