@@ -83,7 +83,7 @@ local function generate_spec(p)
 		add = p.green,
 		removed = p.red.bright,
 		changed = p.blue.bright,
-		conflict = p.orange.bright,
+		conflict = p.yellow.bright,
 		ignored = p.gray.bright,
 	}
 
