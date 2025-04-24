@@ -1,10 +1,10 @@
-local Color = require("autumn.color")
+local C = require("autumn.color")
 
 local function make(base, dim, bright)
 	local c = {
-		base = Color(base),
-		dim = dim and Color(dim) or base.darken(50),
-		bright = bright and Color(bright) or base.lighten(50),
+		base = C(base),
+		dim = dim and C(dim) or base.darken(50),
+		bright = bright and C(bright) or base.lighten(50),
 	}
 
 	return setmetatable({}, {
@@ -20,7 +20,6 @@ end
 local palette = {
 	white = make("#f4ebbe", "#aaa485", "#fbf7e4"),
 	black = make("#272d2d", "#1b1f1f", "#525757"),
-	-- gray = make("#aea6a6", "#797474", "#e2dada"),
 
 	primary = make("#eb5e28", "#a4411c", "#ef7e53"),
 	secondary = make("#6a8532", "#4a5d23", "#879d5b"),
@@ -31,6 +30,7 @@ local palette = {
 	blue = make("#28b4eb", "#1c7da4", "#53c3ef"),
 	magenta = make("#7f5fac", "#584278", "#987fbc"),
 	cyan = make("#4bc6b9", "#348a81", "#6fd1c7"),
+	pink = make("#f990a7", "#ae6474", "#faa6b8"),
 }
 
 palette.gray = make(
@@ -43,23 +43,27 @@ palette.bg0 = make(palette.gray.darken(60))
 palette.bg1 = make(palette.gray.darken(50))
 palette.bg2 = make(palette.gray.darken(20))
 palette.bg3 = make(palette.gray.lighten(10))
+palette.bg4 = make(palette.gray.lighten(20))
 
 palette.fg0 = make(palette.gray.lighten(90))
 palette.fg1 = make(palette.gray.lighten(80))
 palette.fg2 = make(palette.gray.lighten(70))
 palette.fg3 = make(palette.gray.lighten(60))
 
+palette.comment = make(palette.bg1.mix(palette.fg1, 40))
+
 local function generate_spec(p)
 	local spec = {
-		bg0 = p.bg0.hex,
-		bg1 = p.bg1.hex,
-		bg2 = p.bg2.hex,
-		bg3 = p.bg3.hex,
+		bg0 = p.bg0.hex, -- dark bg (status line and float)
+		bg1 = p.bg1.hex, -- default bg
+		bg2 = p.bg2.hex, -- lighter bg (colorcolumn folds)
+		bg3 = p.bg3.hex, -- lighter bg (cursor line)
+		bg4 = p.bg4.hex, -- conceal, border fg
 
-		fg0 = p.fg0.hex,
-		fg1 = p.fg1.hex,
-		fg2 = p.fg2.hex,
-		fg3 = p.fg3.hex,
+		fg0 = p.fg0.hex, -- lighter fg
+		fg1 = p.fg1.hex, -- default fg
+		fg2 = p.fg2.hex, -- darker fg (status line)
+		fg3 = p.fg3.hex, -- darker fg (line numbers, fold columns)
 
 		p0 = p.primary.hex,
 		p1 = p.primary.dim.hex,
@@ -69,12 +73,32 @@ local function generate_spec(p)
 		s1 = p.secondary.dim.hex,
 		s2 = p.secondary.bright.hex,
 
-		sel0 = p.gray.hex,
-		sel1 = p.secondary.bright.hex,
+		sel0 = p.gray.hex, -- popup bg, visual selection bg
+		sel1 = p.secondary.bright.hex, -- popup sel bg, search bg
 	}
 
 	spec.syntax = {
-		func = spec.s2,
+		bracket = spec.fg2, -- brackets and punctuation
+		builtin0 = p.red.hex, -- builtin variable
+		builtin1 = spec.p0, -- builtin type
+		builtin2 = p.cyan.hex, -- builtin const
+		builtin3 = p.red.bright.hex, -- not used
+		comment = p.comment, -- comment
+		conditional = p.magenta.bright.hex, -- conditional and loop
+		const = p.cyan.hex, -- constants, imports, and booleans
+		dep = spec.fg3, -- deprecated
+		field = spec.s0, -- field
+		func = spec.s2, -- functions and titles
+		ident = spec.p0, -- identifiers
+		keyword = p.magenta.hex, -- keywords
+		number = p.cyan.hex, -- numbers
+		operator = spec.fg2, -- operators
+		preproc = p.pink.hex, -- preprocessor
+		regex = p.yellow.hex, -- regex
+		statement = p.magenta.hex, -- statements
+		string = p.blue.hex, -- strings
+		type = p.yellow.hex, -- types
+		variable = p.white.hex, -- variables
 	}
 
 	spec.diag = {
@@ -85,11 +109,19 @@ local function generate_spec(p)
 		ok = p.green.bright.hex,
 	}
 
+	spec.diag_bg = {
+		error = C(spec.bg1).mix(C(spec.diag.error), 15).hex,
+		warn = C(spec.bg1).mix(C(spec.diag.warn), 15).hex,
+		info = C(spec.bg1).mix(C(spec.diag.info), 15).hex,
+		hint = C(spec.bg1).mix(C(spec.diag.hint), 15).hex,
+		ok = C(spec.bg1).mix(C(spec.diag.ok), 15).hex,
+	}
+
 	spec.diff = {
-		add = p.green.hex,
-		delete = p.red.hex,
-		change = p.blue.hex,
-		text = p.magenta.bright.hex,
+		add = C(spec.bg1).mix(p.green.dim, 15).hex,
+		delete = C(spec.bg1).mix(p.red.dim, 15).hex,
+		change = C(spec.bg1).mix(p.blue.dim, 15).hex,
+		text = C(spec.bg1).mix(p.cyan.dim, 30).hex,
 	}
 
 	spec.git = {

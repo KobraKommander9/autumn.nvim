@@ -1,5 +1,7 @@
 local M = {}
 
+M.is_nvim = vim.fn.has("nvim") == 1
+
 local defaults = {
 	cache = true,
 	compile_path = vim.fn.stdpath("cache") .. "/autumn",
@@ -23,10 +25,30 @@ local defaults = {
 		types = "NONE",
 		variables = "NONE",
 	},
-	modules = {},
+	modules = {
+		diagnostic = {
+			enable = true,
+			background = true,
+		},
+		native_lsp = {
+			enable = M.is_nvim,
+			background = true,
+		},
+		treesitter = M.is_nvim,
+		lsp_semantic_tokens = M.is_nvim,
+	},
 }
 
-M.module_names = {}
+M.module_names = {
+	"blink",
+	"diagnostic",
+	"lazy",
+	"lsp_semantic_tokens",
+	"mini",
+	"native_lsp",
+	"notify",
+	"treesitter",
+}
 
 M.options = vim.deepcopy(defaults)
 

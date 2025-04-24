@@ -17,6 +17,7 @@ function M.get(spec, _)
 		AutumnBlue = { fg = p.blue.hex },
 		AutumnMagenta = { fg = p.magenta.hex },
 		AutumnCyan = { fg = p.cyan.hex },
+		AutumnPink = { fg = p.pink.hex },
 	}
 end
 
