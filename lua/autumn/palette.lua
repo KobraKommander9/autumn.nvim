@@ -42,7 +42,7 @@ palette.gray = make(
 palette.bg0 = make(palette.gray.darken(60))
 palette.bg1 = make(palette.gray.darken(50))
 palette.bg2 = make(palette.gray.darken(20))
-palette.bg3 = make(palette.gray.darken(10))
+palette.bg3 = make(palette.gray.lighten(10))
 
 palette.fg0 = make(palette.gray.lighten(90))
 palette.fg1 = make(palette.gray.lighten(80))
@@ -61,15 +61,15 @@ local function generate_spec(p)
 		fg2 = p.fg2.hex,
 		fg3 = p.fg3.hex,
 
-		p0 = p.primary.base.hex,
+		p0 = p.primary.hex,
 		p1 = p.primary.dim.hex,
 		p2 = p.primary.bright.hex,
 
-		s0 = p.secondary.base.hex,
+		s0 = p.secondary.hex,
 		s1 = p.secondary.dim.hex,
 		s2 = p.secondary.bright.hex,
 
-		sel0 = p.gray.dim.hex,
+		sel0 = p.gray.hex,
 		sel1 = p.secondary.bright.hex,
 	}
 
