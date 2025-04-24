@@ -6,6 +6,10 @@ local defaults = {
 	cache = true,
 	compile_path = vim.fn.stdpath("cache") .. "/autumn",
 	compile_file_suffix = "_compiled",
+	lush = {
+		enabled = false,
+		path = vim.fn.stdpath("cache") .. "/autumn_debug",
+	},
 	terminal_colors = true,
 	module_default = true,
 	styles = {
@@ -57,6 +61,12 @@ function M.get_compiled_info(opts)
 	local output_path = opts.output_path or M.options.compile_path
 	local file_suffix = opts.file_suffix or M.options.compile_file_suffix
 	return output_path, output_path .. "/autumn" .. file_suffix
+end
+
+function M.get_lush_info(opts)
+	opts = opts or {}
+	local output_path = opts.output_path or M.options.lush.path
+	return output_path, output_path .. "/autumn_lush.lua"
 end
 
 return M

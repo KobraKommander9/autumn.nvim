@@ -3,6 +3,52 @@ local M = {}
 local Files = require("autumn.files")
 local fmt = string.format
 
+local base_colors = {
+	"white",
+	"black",
+	"gray",
+
+	"primary",
+	"secondary",
+
+	"red",
+	"green",
+	"yellow",
+	"blue",
+	"magenta",
+	"cyan",
+	"pink",
+
+	"bg0",
+	"bg1",
+	"bg2",
+	"bg3",
+	"bg4",
+
+	"fg0",
+	"fg1",
+	"fg2",
+	"fg3",
+
+	"comment",
+}
+
+local spec_groups = {
+	"syntax",
+	"diag",
+	"diag_bg",
+	"diff",
+	"git",
+}
+
+function M.insert(tbl, ...)
+	for _, rhs in ipairs({ ... }) do
+		for _, v in ipairs(rhs) do
+			table.insert(tbl, v)
+		end
+	end
+end
+
 function M.deep_extend(...)
 	local lhs = {}
 
@@ -81,10 +127,15 @@ local function should_link(link)
 	return link and link ~= ""
 end
 
+local function get_lush_group(group)
+	return group:sub(1, 1) == "@" and fmt([[sym("%s")]], group) or group
+end
+
 function M.compile(opts)
 	opts = opts or {}
 
 	local config = require("autumn.config")
+	local write_lush = config.options.lush.enabled == true
 
 	local spec = M.load_spec()
 	local groups = M.load_groups(spec)
@@ -104,29 +155,136 @@ return string.dump(function()
 ]],
 	}
 
+	local lush_lines = {
+		[[
+local lush = require("lush")
+local hsl = lush.hsl
+
+---@diagnostic disable: undefined-global
+local theme = lush(function(injected_functions)]],
+	}
+
 	if config.options.terminal_colors then
 		local terminal = require("autumn.group.terminal").get(spec)
 		for k, v in pairs(terminal) do
 			table.insert(lines, fmt([[  vim.g.%s = "%s"]], k, v))
+			table.insert(lush_lines, fmt([[  -- vim.g.%s = "%s"]], k, v))
 		end
 	end
 
+	local function insert_color(name, color)
+		if type(color) == "string" then
+			table.insert(lush_lines, fmt([[    %s = hsl("%s"),]], name, color))
+		else
+			table.insert(lush_lines, fmt([[    %s = hsl("%s"),]], name, color.base.hex))
+			table.insert(lush_lines, fmt([[    %s_bright = hsl("%s"),]], name, color.bright.hex))
+			table.insert(lush_lines, fmt([[    %s_dim = hsl("%s"),]], name, color.dim.hex))
+		end
+	end
+
+	local function make_group(name, group, fn)
+		local grouped_lines = {}
+		table.insert(grouped_lines, fmt([[  local %s = {]], name))
+		for key, value in pairs(group) do
+			if fn == true or fn(key) then
+				table.insert(grouped_lines, fmt([[    %s = hsl("%s"),]], key, value))
+			end
+		end
+
+		table.sort(grouped_lines)
+		M.insert(lush_lines, grouped_lines)
+		table.insert(lush_lines, [[  }]])
+	end
+
+	table.insert(lush_lines, [[  local palette = {]])
+	for _, name in ipairs(base_colors) do
+		local color = spec.palette[name]
+		insert_color(name, color)
+	end
+	table.insert(lush_lines, [[  }]])
+
+	make_group("editor", spec, function(key)
+		if vim.tbl_contains(spec_groups, key) then
+			return false
+		elseif key == "palette" then
+			return false
+		end
+		return true
+	end)
+
+	for _, name in ipairs(spec_groups) do
+		make_group(name, spec[name], true)
+	end
+
+	table.insert(
+		lush_lines,
+		[[
+
+  local sym = injected_functions.sym
+  return{]]
+	)
+
+	local primary_lines = {}
+	local dependent_lines = {}
+
+	local linked_groups = {}
+	local linked_lines = {}
+
 	for group, attrs in pairs(groups) do
+		local lush_group = get_lush_group(group)
+
 		if should_link(attrs.link) then
 			table.insert(lines, fmt([[  h(0, "%s", { link = "%s" })]], group, attrs.link))
+
+			local lush_link = get_lush_group(attrs.link)
+			local lush_line = fmt([[    %s({ %s }), -- %s { }]], lush_group, lush_link, lush_group)
+
+			if not linked_groups[lush_link] then
+				linked_lines[lush_link] = linked_lines[lush_link] or {}
+				table.insert(linked_lines[lush_link], lush_line)
+			else
+				table.insert(dependent_lines, lush_line)
+			end
 		else
 			local op = parse_style(attrs.style)
 			op.bg = attrs.bg
 			op.fg = attrs.fg
 			op.sp = attrs.sp
 			table.insert(lines, fmt([[  h(0, "%s", %s)]], group, inspect(op)))
+			table.insert(primary_lines, fmt([[    %s(%s), -- %s { }]], lush_group, inspect(op), lush_group))
+
+			table.insert(linked_groups, lush_group)
+			if linked_lines[lush_group] then
+				for _, line in ipairs(linked_lines[lush_group]) do
+					table.insert(dependent_lines, line)
+				end
+			end
 		end
 	end
 
+	table.sort(primary_lines)
+	table.sort(dependent_lines)
+	M.insert(lush_lines, primary_lines, dependent_lines)
+
 	table.insert(lines, "end)")
+	table.insert(
+		lush_lines,
+		[[
+  }
+end)
+
+return theme]]
+	)
 
 	local output_path, output_file = config.get_compiled_info(opts)
 	Files.ensure_dir(output_path)
+
+	if write_lush then
+		local lush_path, lush_file = config.get_lush_info(opts)
+		Files.ensure_dir(lush_path)
+
+		Files.write_file(lush_file, table.concat(lush_lines, "\n"))
+	end
 
 	local f = loadstring(table.concat(lines, "\n"), "=")
 	if not f then
