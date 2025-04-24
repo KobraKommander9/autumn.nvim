@@ -66,7 +66,7 @@ local function generate_spec(p)
 
 	spec.diag = {
 		error = p.red.bright,
-		warn = p.yelow.bright,
+		warn = p.yellow.bright,
 		info = p.blue.bright,
 		hint = p.magenta.bright,
 		ok = p.green.bright,
