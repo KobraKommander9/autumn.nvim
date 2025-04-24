@@ -51,40 +51,53 @@ palette.fg3 = make(palette.gray.lighten(60))
 
 local function generate_spec(p)
 	local spec = {
-		bg0 = p.bg0,
-		bg1 = p.bg1,
-		bg2 = p.bg2,
-		bg3 = p.bg3,
+		bg0 = p.bg0.hex,
+		bg1 = p.bg1.hex,
+		bg2 = p.bg2.hex,
+		bg3 = p.bg3.hex,
 
-		fg0 = p.fg0,
-		fg1 = p.fg1,
-		fg2 = p.fg2,
-		fg3 = p.fg3,
+		fg0 = p.fg0.hex,
+		fg1 = p.fg1.hex,
+		fg2 = p.fg2.hex,
+		fg3 = p.fg3.hex,
+
+		p0 = p.primary.base.hex,
+		p1 = p.primary.dim.hex,
+		p2 = p.primary.bright.hex,
+
+		s0 = p.secondary.base.hex,
+		s1 = p.secondary.dim.hex,
+		s2 = p.secondary.bright.hex,
+
+		sel0 = p.gray.dim.hex,
+		sel1 = p.secondary.bright.hex,
 	}
 
-	spec.syntax = {}
+	spec.syntax = {
+		func = spec.s2,
+	}
 
 	spec.diag = {
-		error = p.red.bright,
-		warn = p.yellow.bright,
-		info = p.blue.bright,
-		hint = p.magenta.bright,
-		ok = p.green.bright,
+		error = p.red.bright.hex,
+		warn = p.yellow.bright.hex,
+		info = p.blue.bright.hex,
+		hint = p.magenta.bright.hex,
+		ok = p.green.bright.hex,
 	}
 
 	spec.diff = {
-		add = p.green,
-		delete = p.red,
-		change = p.blue,
-		text = p.magenta.bright,
+		add = p.green.hex,
+		delete = p.red.hex,
+		change = p.blue.hex,
+		text = p.magenta.bright.hex,
 	}
 
 	spec.git = {
-		add = p.green,
-		removed = p.red.bright,
-		changed = p.blue.bright,
-		conflict = p.yellow.bright,
-		ignored = p.gray.bright,
+		add = p.green.hex,
+		removed = p.red.bright.hex,
+		changed = p.blue.bright.hex,
+		conflict = p.yellow.bright.hex,
+		ignored = p.gray.bright.hex,
 	}
 
 	return spec
