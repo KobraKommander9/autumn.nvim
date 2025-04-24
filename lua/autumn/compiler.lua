@@ -137,6 +137,8 @@ function M.compile(opts)
 	local config = require("autumn.config")
 	local write_lush = config.options.lush.enabled == true
 
+	vim.notify("Autumn compiling to " .. config.options.compile_path)
+
 	local spec = M.load_spec()
 	local groups = M.load_groups(spec)
 
