@@ -1,5 +1,7 @@
+if !has('nvim') | finish | endif
+
 if exists('g:loaded_autumn') | finish | endif
 
-command! AutumnCompile lua require("autumn").compile()
-
 let g:loaded_autumn = 1
+
+command! AutumnCompile lua require("autumn").compile({ notify = true })

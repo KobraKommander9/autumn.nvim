@@ -6,9 +6,18 @@ local M = {}
 local did_setup = false
 local lock = false
 
-function M.compile()
+function M.compile(opts)
+	opts = opts or {}
+
 	local compiler = require("autumn.compiler")
 	compiler.compile()
+
+	if opts.notify then
+		vim.notify("Autumn compiled successfully", vim.log.levels.INFO, {
+			title = "Autumn",
+			timeout = 2000,
+		})
+	end
 end
 
 function M.load(opts)

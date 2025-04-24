@@ -6,21 +6,6 @@ local defaults = {
 	compile_file_suffix = "_compiled",
 	terminal_colors = true,
 	module_default = true,
-	transparency = {
-		enabled = false,
-		groups = {
-			"DiagnosticVirtualTextError",
-			"DiagnosticVirtualTextWarn",
-			"DiagnosticVirtualTextInfo",
-			"DiagnosticVirtualTextHint",
-			"DiagnosticVirtualTextOk",
-			"LspInlayHint",
-			"Normal",
-			"NormalFloat",
-			"NormalNC",
-			"Pmenu",
-		},
-	},
 	styles = {
 		comments = "italic",
 		conditionals = "NONE",
