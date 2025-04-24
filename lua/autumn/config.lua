@@ -8,7 +8,7 @@ local defaults = {
 	compile_file_suffix = "_compiled",
 	lush = {
 		enabled = false,
-		path = vim.fn.stdpath("cache") .. "/autumn_debug",
+		path = vim.fn.stdpath("cache") .. "/autumn",
 	},
 	terminal_colors = true,
 	module_default = true,
