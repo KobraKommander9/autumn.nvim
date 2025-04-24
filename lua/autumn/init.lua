@@ -41,6 +41,11 @@ function M.setup(opts)
 	did_setup = true
 	Config.options = vim.tbl_deep_extend("force", Config.options, opts or {})
 
+	if not Config.options.cache then
+		M.compile()
+		return
+	end
+
 	local cached_path = Config.options.compile_path .. "/cache"
 	local cached = Files.read_file(cached_path, true)
 
