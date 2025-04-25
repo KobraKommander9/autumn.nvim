@@ -98,7 +98,7 @@ local function generate_spec(p)
 		statement = spec.p0, -- statements
 		string = spec.p0, -- strings
 		type = spec.p0, -- types
-		variable = spec.p0, -- variables
+		variable = p.white_dim.hex, -- variables
 		-- bracket = spec.fg2, -- brackets and punctuation
 		-- builtin0 = p.red.hex, -- builtin variable
 		-- builtin1 = spec.p0, -- builtin type
