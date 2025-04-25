@@ -112,7 +112,7 @@ local function generate_spec(p)
 		regex = spec.p0, -- regex
 		statement = spec.p0, -- statements
 		string = p.cyan.hex, -- strings
-		type = spec.s0, -- types
+		type = spec.p2, -- types
 		variable = p.white.hex, -- variables
 		-- bracket = spec.fg2, -- brackets and punctuation
 		-- builtin0 = p.red.hex, -- builtin variable
