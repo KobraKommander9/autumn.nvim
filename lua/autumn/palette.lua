@@ -90,7 +90,7 @@ local function generate_spec(p)
 		field = p.white.hex, -- field
 		func = p.pink.hex, -- functions and titles
 		ident = spec.p0, -- identifiers
-		keyword = p.p0, -- keywords
+		keyword = spec.p0, -- keywords
 		number = spec.p0, -- numbers
 		operator = spec.p0, -- operators
 		preproc = spec.p0, -- preprocessor
