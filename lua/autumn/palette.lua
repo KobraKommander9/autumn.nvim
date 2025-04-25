@@ -80,7 +80,7 @@ local function generate_spec(p)
 	spec.syntax = {
 		bracket = p.white.hex, -- brackets and punctuation
 		builtin0 = spec.p0, -- builtin variable
-		builtin1 = spec.p0, -- builtin type
+		builtin1 = spec.s0, -- builtin type
 		builtin2 = spec.p0, -- builtin const
 		builtin3 = spec.p0, -- not used
 		comment = p.comment.hex, -- comment
