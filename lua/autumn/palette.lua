@@ -106,7 +106,7 @@ local function generate_spec(p)
 		dep = spec.fg3, -- deprecated
 		field = spec.s2, -- field
 		func = p.pink.hex, -- functions
-		ident = spec.yellow.hex, -- identifiers
+		ident = p.yellow.hex, -- identifiers
 		keyword = spec.p0, -- keywords
 		number = p.purple.bright.hex, -- numbers and booleans
 		operator = p.white.bright.hex, -- operators
