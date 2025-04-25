@@ -93,21 +93,21 @@ local function generate_spec(p)
 	}
 
 	spec.syntax = {
-		bracket = p.white.hex, -- brackets and punctuation
+		bracket = p.white.bright.hex, -- brackets and punctuation
 		builtin0 = p.blue.bright.hex, -- builtin variable
 		builtin1 = p.yellow.bright.hex, -- builtin type
 		builtin2 = p.magenta.bright.hex, -- builtin const
 		builtin3 = spec.p2, -- not used
 		comment = p.comment.hex, -- comment
 		conditional = spec.p0, -- conditional and loop
-		const = p.magenta_soft.hex, -- constants, imports, and booleans
+		const = p.magenta_soft.hex, -- constants and imports
 		dep = spec.fg3, -- deprecated
 		field = spec.s2, -- field
 		func = p.pink.hex, -- functions
 		ident = spec.p0, -- identifiers
 		keyword = spec.p0, -- keywords
-		number = spec.p0, -- numbers
-		operator = spec.p0, -- operators
+		number = p.magenta.hex, -- numbers and booleans
+		operator = p.white.bright.hex, -- operators
 		preproc = spec.p0, -- preprocessor
 		regex = spec.p0, -- regex
 		statement = spec.p0, -- statements
