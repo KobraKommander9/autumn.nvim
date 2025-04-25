@@ -117,8 +117,8 @@ local function inspect(tbl, color_names)
 	local list = {}
 
 	for k, v in pairs(tbl) do
-		if color_names[k] then
-			table.insert(list, fmt("%s = %s", k, color_names[k]))
+		if type(v) == "string" and color_names[v] then
+			table.insert(list, fmt("%s = %s", k, color_names[v]))
 		else
 			local q = type(v) == "string" and '"' or ""
 			table.insert(list, fmt("%s = %s%s%s", k, q, v, q))
