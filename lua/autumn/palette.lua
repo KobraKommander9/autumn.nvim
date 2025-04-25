@@ -116,27 +116,6 @@ local function generate_spec(p)
 		string = p.cyan.hex, -- strings
 		type = spec.p2, -- types and titles
 		variable = p.white.hex, -- variables
-		-- bracket = spec.fg2, -- brackets and punctuation
-		-- builtin0 = p.red.hex, -- builtin variable
-		-- builtin1 = spec.p0, -- builtin type
-		-- builtin2 = p.cyan.hex, -- builtin const
-		-- builtin3 = p.red.bright.hex, -- not used
-		-- comment = p.comment.hex, -- comment
-		-- conditional = p.magenta.bright.hex, -- conditional and loop
-		-- const = p.cyan.hex, -- constants, imports, and booleans
-		-- dep = spec.fg3, -- deprecated
-		-- field = spec.s0, -- field
-		-- func = spec.s2, -- functions and titles
-		-- ident = spec.p0, -- identifiers
-		-- keyword = p.magenta.hex, -- keywords
-		-- number = p.cyan.hex, -- numbers
-		-- operator = spec.fg2, -- operators
-		-- preproc = p.pink.hex, -- preprocessor
-		-- regex = p.yellow.hex, -- regex
-		-- statement = p.magenta.hex, -- statements
-		-- string = p.blue.hex, -- strings
-		-- type = p.yellow.hex, -- types
-		-- variable = p.white.hex, -- variables
 	}
 
 	spec.diag = {

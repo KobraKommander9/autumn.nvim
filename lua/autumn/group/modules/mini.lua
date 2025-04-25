@@ -32,10 +32,10 @@ function M.get(spec, _, _)
 		MiniIconsAzure = { fg = c.blue.bright.hex },
 		MiniIconsBlue = { fg = c.blue.hex },
 		MiniIconsCyan = { fg = c.cyan.hex },
-		MiniIconsGreen = { fg = spec.s0 },
+		MiniIconsGreen = { fg = c.green.hex },
 		MiniIconsGrey = { fg = spec.fg0 },
 		MiniIconsOrange = { fg = spec.p0 },
-		MiniIconsPurple = { fg = c.magenta.hex },
+		MiniIconsPurple = { fg = c.purple.hex },
 		MiniIconsRed = { fg = c.red.hex },
 		MiniIconsYellow = { fg = c.yellow.hex },
 
