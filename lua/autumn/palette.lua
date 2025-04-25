@@ -96,7 +96,7 @@ local function generate_spec(p)
 
 	spec.syntax = {
 		bracket = p.white.bright.hex, -- brackets and punctuation
-		builtin0 = p.blue.bright.hex, -- builtin variable
+		builtin0 = spec.p0, -- builtin variable
 		builtin1 = p.yellow.bright.hex, -- builtin type
 		builtin2 = p.purple.bright.hex, -- builtin const
 		builtin3 = spec.p2, -- not used
