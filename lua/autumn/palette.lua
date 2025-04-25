@@ -102,8 +102,8 @@ local function generate_spec(p)
 		conditional = spec.p0, -- conditional and loop
 		const = p.magenta_soft.hex, -- constants, imports, and booleans
 		dep = spec.p0, -- deprecated
-		field = spec.s2, -- field
-		func = p.pink.hex, -- functions and titles
+		field = spec.s2, -- field and titles
+		func = p.pink.hex, -- functions
 		ident = spec.p0, -- identifiers
 		keyword = spec.p0, -- keywords
 		number = spec.p0, -- numbers

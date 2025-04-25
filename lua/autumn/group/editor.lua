@@ -13,7 +13,7 @@ function M.get(spec, _)
 		VisualNOS = { link = "Visual" },
 
 		EndOfBuffer = { fg = spec.bg1 },
-		title = { fg = syn.func, style = "bold" },
+		title = { fg = syn.field, style = "bold" },
 		Whitespace = { fg = spec.bg3 },
 		NonText = { fg = spec.bg3 },
 		Conceal = { link = "NonText" },
@@ -78,7 +78,7 @@ function M.get(spec, _)
 
 		QuickFixLine = { bg = diag.info, fg = spec.bg2 },
 		MatchParen = { fg = diag.warn, style = "bold" },
-		Directory = { fg = syn.func },
+		Directory = { fg = syn.field },
 	}
 end
 

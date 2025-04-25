@@ -141,7 +141,7 @@ function M.get(spec, config, _)
 		["@field.rust"] = { fg = spec.fg2 },
 
 		-- yaml
-		["@variable.member.yaml"] = { fg = syn.func }, -- For fields.
+		["@variable.member.yaml"] = { fg = syn.field }, -- For fields.
 	}
 
 	-- Legacy highlights
