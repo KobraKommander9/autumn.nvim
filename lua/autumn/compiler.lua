@@ -116,8 +116,6 @@ local function inspect(tbl, color_names)
 	color_names = color_names or {}
 	local list = {}
 
-	vim.notify(vim.inspect(color_names))
-
 	for k, v in pairs(tbl) do
 		if type(v) == "string" and color_names[v] then
 			table.insert(list, fmt("%s = %s", k, color_names[v]))
