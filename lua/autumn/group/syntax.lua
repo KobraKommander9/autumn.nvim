@@ -5,7 +5,7 @@ function M.get(spec, config)
 	local stl = config.styles
 
 	return {
-		Comment = { fg = syn.comment, sytle = stl.comments }, -- any comment
+		Comment = { fg = syn.comment, style = stl.comments }, -- any comment
 		Constant = { fg = syn.const, style = stl.constants }, -- (preferred) any constant
 		String = { fg = syn.string, style = stl.strings }, -- a string constant: "this is a string"
 		Character = { link = "String" }, -- a character constant: 'c', '\n'
