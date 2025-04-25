@@ -99,16 +99,29 @@ function M.load_groups(spec)
 	return result
 end
 
-local function parse_style(style)
+local function parse_style(style, printme)
+	if printme then
+		print("parse_style", vim.inspect(style))
+	end
+
 	if not style or style == "NONE" then
+		if printme then
+			print("no style")
+		end
 		return {}
 	end
 
 	local result = {}
 	for token in string.gmatch(style, "([^,]+)") do
+		if printme then
+			print("token", token)
+		end
 		result[token] = true
 	end
 
+	if printme then
+		print(vim.inspect(result))
+	end
 	return result
 end
 
@@ -270,7 +283,7 @@ local theme = lush(function(injected_functions)]],
 				table.insert(dependent_lines, lush_line)
 			end
 		else
-			local op = parse_style(attrs.style)
+			local op = parse_style(attrs.style, group:lower() == "comment")
 			op.bg = attrs.bg
 			op.fg = attrs.fg
 			op.sp = attrs.sp
