@@ -28,7 +28,7 @@ local palette = {
 	green = make("#28eb58", "#1ca43d", "#53ef79"),
 	yellow = make("#ebc128", "#a4871c", "#efcd53"),
 	blue = make("#28b4eb", "#1c7da4", "#53c3ef"),
-	magenta = make("#7f5fac", "#584278", "#987fbc"),
+	magenta = make("#c128fb", "#871caf", "#cd53fb"),
 	cyan = make("#4bc6b9", "#348a81", "#6fd1c7"),
 	pink = make("#f990a7", "#ae6474", "#faa6b8"),
 }
@@ -81,7 +81,7 @@ local function generate_spec(p)
 		bracket = p.white.hex, -- brackets and punctuation
 		builtin0 = p.blue.hex, -- builtin variable
 		builtin1 = spec.s0, -- builtin type
-		builtin2 = spec.p0, -- builtin const
+		builtin2 = p.magenta.bright.hex, -- builtin const
 		builtin3 = spec.p0, -- not used
 		comment = p.comment.hex, -- comment
 		conditional = spec.p0, -- conditional and loop
