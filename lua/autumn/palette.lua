@@ -88,7 +88,7 @@ local function generate_spec(p)
 		const = spec.p0, -- constants, imports, and booleans
 		dep = spec.p0, -- deprecated
 		field = spec.p0, -- field
-		func = spec.p0, -- functions and titles
+		func = p.pink.hex, -- functions and titles
 		ident = spec.p0, -- identifiers
 		keyword = spec.p0, -- keywords
 		number = spec.p0, -- numbers
