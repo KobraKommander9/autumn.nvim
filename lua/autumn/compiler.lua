@@ -200,16 +200,24 @@ local theme = lush(function(injected_functions)]],
 		table.insert(lush_lines, fmt([[  local %s = {]], name))
 
 		local grouped_lines = {}
+		local new_names = {}
+
 		for key, value in pairs(group) do
 			if fn == true or fn(key) then
+				if color_names[value] then
+					value = color_names[value]
+				else
+					new_names[value] = name .. "." .. key
+				end
 				table.insert(grouped_lines, fmt([[    %s = hsl("%s"),]], key, value))
-				color_names[value] = name .. "." .. key
 			end
 		end
 
 		table.sort(grouped_lines)
 		M.insert(lush_lines, grouped_lines)
 		table.insert(lush_lines, [[  }]])
+
+		M.insert(color_names, new_names)
 	end
 
 	table.insert(lush_lines, [[  local palette = {]])
