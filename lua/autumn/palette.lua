@@ -106,7 +106,7 @@ local function generate_spec(p)
 		func = p.pink.hex, -- functions
 		ident = spec.p0, -- identifiers
 		keyword = spec.p0, -- keywords
-		number = p.magenta.hex, -- numbers and booleans
+		number = p.magenta.bright.hex, -- numbers and booleans
 		operator = p.white.bright.hex, -- operators
 		preproc = spec.p0, -- preprocessor
 		regex = spec.p0, -- regex
