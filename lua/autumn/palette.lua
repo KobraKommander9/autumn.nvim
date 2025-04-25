@@ -84,13 +84,13 @@ local function generate_spec(p)
 		builtin2 = spec.p0, -- builtin const
 		builtin3 = spec.p0, -- not used
 		comment = p.comment.hex, -- comment
-		conditional = p.blue.hex, -- conditional and loop
+		conditional = spec.p0, -- conditional and loop
 		const = spec.p0, -- constants, imports, and booleans
 		dep = spec.p0, -- deprecated
 		field = p.white.hex, -- field
 		func = p.pink.hex, -- functions and titles
 		ident = spec.p0, -- identifiers
-		keyword = p.blue.hex, -- keywords
+		keyword = p.p0, -- keywords
 		number = spec.p0, -- numbers
 		operator = spec.p0, -- operators
 		preproc = spec.p0, -- preprocessor
