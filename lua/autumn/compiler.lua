@@ -205,11 +205,11 @@ local theme = lush(function(injected_functions)]],
 		for key, value in pairs(group) do
 			if fn == true or fn(key) then
 				if color_names[value] then
-					value = color_names[value]
+					table.insert(grouped_lines, fmt([[    %s = %s,]], key, color_names[value]))
 				else
+					table.insert(grouped_lines, fmt([[    %s = hsl("%s"),]], key, value))
 					new_names[value] = name .. "." .. key
 				end
-				table.insert(grouped_lines, fmt([[    %s = hsl("%s"),]], key, value))
 			end
 		end
 
