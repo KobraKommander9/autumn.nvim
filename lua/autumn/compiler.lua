@@ -106,6 +106,7 @@ local function parse_style(style)
 
 	local result = {}
 	for token in string.gmatch(style, "([^,]+)") do
+		vim.notify(fmt("token: %s", token), vim.log.levels.DEBUG, { title = "Autumn" })
 		result[token] = true
 	end
 
