@@ -52,6 +52,21 @@ palette.fg3 = make(palette.gray.lighten(60))
 
 palette.comment = make(palette.bg1.mix(palette.fg1, 40))
 
+local base_colors = {
+	"red",
+	"green",
+	"yellow",
+	"blue",
+	"magenta",
+	"cyan",
+	"pink",
+}
+
+for _, color in ipairs(base_colors) do
+	palette[color .. "_soft"] = make(palette[color].mix(palette.white, 50))
+	palette[color .. "_hard"] = make(palette[color].mix(palette.black, 20))
+end
+
 local function generate_spec(p)
 	local spec = {
 		bg0 = p.bg0.hex, -- dark bg (status line and float)
