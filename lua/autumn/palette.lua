@@ -73,8 +73,8 @@ local function generate_spec(p)
 		s1 = p.secondary.dim.hex,
 		s2 = p.secondary.bright.hex,
 
-		sel0 = p.gray.hex, -- popup bg, visual selection bg
-		sel1 = p.secondary.bright.hex, -- popup sel bg, search bg
+		sel0 = p.gray.bright.hex, -- popup bg, visual selection bg
+		sel1 = p.white.bright.hex, -- popup sel bg, search bg
 	}
 
 	spec.syntax = {
@@ -118,10 +118,10 @@ local function generate_spec(p)
 	}
 
 	spec.diff = {
-		add = C(spec.bg1).mix(p.green.dim, 15).hex,
-		delete = C(spec.bg1).mix(p.red.dim, 15).hex,
-		change = C(spec.bg1).mix(p.blue.dim, 15).hex,
-		text = C(spec.bg1).mix(p.cyan.dim, 30).hex,
+		add = C(spec.bg1).mix(p.green.bright, 45).hex,
+		delete = C(spec.bg1).mix(p.red.bright, 45).hex,
+		change = C(spec.bg1).mix(p.blue.bright, 45).hex,
+		text = C(spec.bg1).mix(p.cyan.bright, 90).hex,
 	}
 
 	spec.git = {

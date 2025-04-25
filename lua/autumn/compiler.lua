@@ -78,7 +78,7 @@ function M.load_groups(spec)
 
 	local autumn = require("autumn.group.autumn").get(spec, cfg_opts)
 	local editor = require("autumn.group.editor").get(spec, cfg_opts)
-	local syntax = {}
+	local syntax = require("autumn.group.syntax").get(spec, cfg_opts)
 
 	local result = M.deep_extend(autumn, editor, syntax)
 
