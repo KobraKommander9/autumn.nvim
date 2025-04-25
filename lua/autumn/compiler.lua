@@ -112,11 +112,17 @@ local function parse_style(style)
 	return result
 end
 
-local function inspect(tbl)
+local function inspect(tbl, color_names)
+	color_names = color_names or {}
 	local list = {}
+
 	for k, v in pairs(tbl) do
-		local q = type(v) == "string" and '"' or ""
-		table.insert(list, fmt("%s = %s%s%s", k, q, v, q))
+		if color_names[k] then
+			table.insert(list, fmt("%s = %s", k, color_names[k]))
+		else
+			local q = type(v) == "string" and '"' or ""
+			table.insert(list, fmt("%s = %s%s%s", k, q, v, q))
+		end
 	end
 
 	table.sort(list)
@@ -172,13 +178,21 @@ local theme = lush(function(injected_functions)]],
 		end
 	end
 
+	local color_names = {}
+
 	local function insert_color(name, color)
+		local n = "palette." .. name
+
 		if type(color) == "string" then
 			table.insert(lush_lines, fmt([[    %s = hsl("%s"),]], name, color))
 		else
 			table.insert(lush_lines, fmt([[    %s = hsl("%s"),]], name, color.base.hex))
 			table.insert(lush_lines, fmt([[    %s_bright = hsl("%s"),]], name, color.bright.hex))
 			table.insert(lush_lines, fmt([[    %s_dim = hsl("%s"),]], name, color.dim.hex))
+
+			color_names[color.base.hex] = n
+			color_names[color.bright.hex] = n .. "_bright"
+			color_names[color.dim.hex] = n .. "_dim"
 		end
 	end
 
@@ -189,6 +203,7 @@ local theme = lush(function(injected_functions)]],
 		for key, value in pairs(group) do
 			if fn == true or fn(key) then
 				table.insert(grouped_lines, fmt([[    %s = hsl("%s"),]], key, value))
+				color_names[value] = name .. "." .. key
 			end
 		end
 
@@ -252,7 +267,10 @@ local theme = lush(function(injected_functions)]],
 			op.fg = attrs.fg
 			op.sp = attrs.sp
 			table.insert(lines, fmt([[  h(0, "%s", %s)]], group, inspect(op)))
-			table.insert(primary_lines, fmt([[    %s(%s), -- %s { }]], lush_group, inspect(op), lush_group))
+			table.insert(
+				primary_lines,
+				fmt([[    %s(%s), -- %s { }]], lush_group, inspect(op, color_names), lush_group)
+			)
 
 			table.insert(linked_groups, lush_group)
 			if linked_lines[lush_group] then
