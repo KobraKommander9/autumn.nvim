@@ -79,7 +79,7 @@ local function generate_spec(p)
 
 	spec.syntax = {
 		bracket = p.white.hex, -- brackets and punctuation
-		builtin0 = p.cyan.hex, -- builtin variable
+		builtin0 = p.blue.hex, -- builtin variable
 		builtin1 = spec.s0, -- builtin type
 		builtin2 = spec.p0, -- builtin const
 		builtin3 = spec.p0, -- not used
@@ -96,7 +96,7 @@ local function generate_spec(p)
 		preproc = spec.p0, -- preprocessor
 		regex = spec.p0, -- regex
 		statement = spec.p0, -- statements
-		string = spec.p0, -- strings
+		string = p.cyan.hex, -- strings
 		type = spec.s2, -- types
 		variable = p.white.hex, -- variables
 		-- bracket = spec.fg2, -- brackets and punctuation
