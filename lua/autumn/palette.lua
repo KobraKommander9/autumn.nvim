@@ -80,14 +80,14 @@ local function generate_spec(p)
 	spec.syntax = {
 		bracket = p.white.hex, -- brackets and punctuation
 		builtin0 = p.blue.hex, -- builtin variable
-		builtin1 = spec.s0, -- builtin type
+		builtin1 = p.yellow.bright.hex, -- builtin type
 		builtin2 = p.magenta.bright.hex, -- builtin const
 		builtin3 = spec.p0, -- not used
 		comment = p.comment.hex, -- comment
 		conditional = spec.p0, -- conditional and loop
 		const = spec.p0, -- constants, imports, and booleans
 		dep = spec.p0, -- deprecated
-		field = p.yellow.bright.hex, -- field
+		field = spec.s0, -- field
 		func = p.pink.hex, -- functions and titles
 		ident = spec.p0, -- identifiers
 		keyword = spec.p0, -- keywords
