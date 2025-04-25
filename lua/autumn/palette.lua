@@ -78,7 +78,7 @@ local function generate_spec(p)
 	}
 
 	spec.syntax = {
-		bracket = spec.p0, -- brackets and punctuation
+		bracket = p.white.hex, -- brackets and punctuation
 		builtin0 = spec.p0, -- builtin variable
 		builtin1 = spec.p0, -- builtin type
 		builtin2 = spec.p0, -- builtin const
@@ -142,7 +142,7 @@ local function generate_spec(p)
 		add = C(spec.bg1).mix(p.green.bright, 45).hex,
 		delete = C(spec.bg1).mix(p.red.bright, 45).hex,
 		change = C(spec.bg1).mix(p.blue.bright, 45).hex,
-		text = C(spec.bg1).mix(p.cyan.bright, 90).hex,
+		text = C(spec.bg1).mix(p.cyan.bright, 45).hex,
 	}
 
 	spec.git = {
