@@ -106,7 +106,6 @@ local function parse_style(style)
 
 	local result = {}
 	for token in string.gmatch(style, "([^,]+)") do
-		vim.notify(fmt("token: %s", token), vim.log.levels.DEBUG, { title = "Autumn" })
 		result[token] = true
 	end
 
@@ -280,6 +279,10 @@ local theme = lush(function(injected_functions)]],
 				primary_lines,
 				fmt([[    %s(%s), -- %s { }]], lush_group, inspect(op, color_names), lush_group)
 			)
+
+			if group:lower() == "comment" then
+				vim.notify(vim.inspect(op))
+			end
 
 			table.insert(linked_groups, lush_group)
 			if linked_lines[lush_group] then
