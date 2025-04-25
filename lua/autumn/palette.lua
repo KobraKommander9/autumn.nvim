@@ -106,13 +106,13 @@ local function generate_spec(p)
 		dep = spec.fg3, -- deprecated
 		field = spec.s2, -- field
 		func = p.pink.hex, -- functions
-		ident = spec.p0, -- identifiers
+		ident = p.pink.hex, -- identifiers
 		keyword = spec.p0, -- keywords
 		number = p.purple.bright.hex, -- numbers and booleans
 		operator = p.white.bright.hex, -- operators
-		preproc = spec.p0, -- preprocessor
-		regex = spec.p0, -- regex
-		statement = spec.p0, -- statements
+		preproc = spec.s0, -- preprocessor
+		regex = p.blue.hex, -- regex
+		statement = p.green.bright.hex, -- statements
 		string = p.cyan.hex, -- strings
 		type = spec.p2, -- types and titles
 		variable = p.white.hex, -- variables
