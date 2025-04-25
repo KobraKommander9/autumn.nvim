@@ -96,6 +96,24 @@ function M.load_groups(spec)
 		end
 	end
 
+	local lang_names = Config.lang_names
+	for _, name in ipairs(lang_names) do
+		local kind = type(cfg_opts.langs[name])
+		local opts = kind == "boolean" and { enable = cfg_opts.langs[name] }
+			or kind == "table" and cfg_opts.langs[name]
+			or {}
+
+		opts.enable = opts.enable == nil and cfg_opts.lang_default or opts.enable
+
+		if name == "lua" then
+			name = "nlua"
+		end
+
+		if opts.enable then
+			result = M.deep_extend(result, require("autumn.group.lang." .. name).get(spec, cfg_opts, opts))
+		end
+	end
+
 	return result
 end
 

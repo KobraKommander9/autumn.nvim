@@ -41,6 +41,14 @@ local defaults = {
 		treesitter = M.is_nvim,
 		lsp_semantic_tokens = M.is_nvim,
 	},
+	langs = {
+		lua = {
+			enabled = true,
+			styles = {
+				constructor = "NONE",
+			},
+		},
+	},
 }
 
 M.module_names = {
@@ -52,6 +60,10 @@ M.module_names = {
 	"native_lsp",
 	"notify",
 	"treesitter",
+}
+
+M.lang_names = {
+	"lua",
 }
 
 M.options = vim.deepcopy(defaults)
