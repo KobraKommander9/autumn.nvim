@@ -83,7 +83,7 @@ local function generate_spec(p)
 		builtin1 = spec.p0, -- builtin type
 		builtin2 = spec.p0, -- builtin const
 		builtin3 = spec.p0, -- not used
-		comment = spec.p0, -- comment
+		comment = p.comment.hex, -- comment
 		conditional = spec.p0, -- conditional and loop
 		const = spec.p0, -- constants, imports, and booleans
 		dep = spec.p0, -- deprecated
