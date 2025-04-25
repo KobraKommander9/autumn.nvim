@@ -87,7 +87,7 @@ local function generate_spec(p)
 		conditional = spec.p0, -- conditional and loop
 		const = spec.p0, -- constants, imports, and booleans
 		dep = spec.p0, -- deprecated
-		field = p.white.hex, -- field
+		field = p.yellow.bright.hex, -- field
 		func = p.pink.hex, -- functions and titles
 		ident = spec.p0, -- identifiers
 		keyword = spec.p0, -- keywords
@@ -125,8 +125,8 @@ local function generate_spec(p)
 	spec.diag = {
 		error = p.red.bright.hex,
 		warn = p.yellow.bright.hex,
-		info = p.blue.bright.hex,
-		hint = p.magenta.bright.hex,
+		info = p.magenta.bright.hex,
+		hint = p.blue.bright.hex,
 		ok = p.green.bright.hex,
 	}
 
