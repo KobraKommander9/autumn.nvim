@@ -43,7 +43,7 @@ local defaults = {
 	},
 	langs = {
 		lua = {
-			enabled = true,
+			enable = true,
 			styles = {
 				constructor = "NONE",
 			},
