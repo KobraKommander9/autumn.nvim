@@ -29,6 +29,7 @@ local palette = {
 	yellow = make("#ebc128", "#a4871c", "#efcd53"),
 	blue = make("#28b4eb", "#1c7da4", "#53c3ef"),
 	magenta = make("#c128fb", "#871caf", "#cd53fb"),
+	purple = make("#7f5fac", "#584278", "#987fbc"),
 	cyan = make("#4bc6b9", "#348a81", "#6fd1c7"),
 	pink = make("#f990a7", "#ae6474", "#faa6b8"),
 }
@@ -58,6 +59,7 @@ local base_colors = {
 	"yellow",
 	"blue",
 	"magenta",
+	"purple",
 	"cyan",
 	"pink",
 }
@@ -96,17 +98,17 @@ local function generate_spec(p)
 		bracket = p.white.bright.hex, -- brackets and punctuation
 		builtin0 = p.blue.bright.hex, -- builtin variable
 		builtin1 = p.yellow.bright.hex, -- builtin type
-		builtin2 = p.magenta.bright.hex, -- builtin const
+		builtin2 = p.purple.bright.hex, -- builtin const
 		builtin3 = spec.p2, -- not used
 		comment = p.comment.hex, -- comment
 		conditional = spec.p0, -- conditional and loop
-		const = p.magenta_soft.hex, -- constants and imports
+		const = p.purple.bright.hex, -- constants and imports
 		dep = spec.fg3, -- deprecated
 		field = spec.s2, -- field
 		func = p.pink.hex, -- functions
 		ident = spec.p0, -- identifiers
 		keyword = spec.p0, -- keywords
-		number = p.magenta.bright.hex, -- numbers and booleans
+		number = p.purple.bright.hex, -- numbers and booleans
 		operator = p.white.bright.hex, -- operators
 		preproc = spec.p0, -- preprocessor
 		regex = spec.p0, -- regex
