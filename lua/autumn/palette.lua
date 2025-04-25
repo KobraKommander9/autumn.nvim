@@ -142,7 +142,7 @@ local function generate_spec(p)
 	}
 
 	spec.git = {
-		add = p.green.hex,
+		add = p.green.bright.hex,
 		removed = p.red.bright.hex,
 		changed = p.blue.bright.hex,
 		conflict = p.yellow.bright.hex,
