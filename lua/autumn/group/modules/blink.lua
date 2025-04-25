@@ -10,7 +10,7 @@ function M.get(spec, config, _)
 
 		BlinkCmpLabel = { fg = spec.fg1 },
 		BlinkCmpLabelDeprecated = { fg = syn.dep, style = "strikethrough" },
-		BlinkCmpLabelMatch = { fg = syn.field },
+		BlinkCmpLabelMatch = { fg = syn.type },
 
 		BlinkCmpKindDefault = { fg = spec.fg2 },
 		BlinkCmpLabelDetail = { link = "Comment" },

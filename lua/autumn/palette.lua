@@ -101,8 +101,8 @@ local function generate_spec(p)
 		comment = p.comment.hex, -- comment
 		conditional = spec.p0, -- conditional and loop
 		const = p.magenta_soft.hex, -- constants, imports, and booleans
-		dep = spec.p0, -- deprecated
-		field = spec.s2, -- field and titles
+		dep = spec.fg3, -- deprecated
+		field = spec.s2, -- field
 		func = p.pink.hex, -- functions
 		ident = spec.p0, -- identifiers
 		keyword = spec.p0, -- keywords
@@ -112,7 +112,7 @@ local function generate_spec(p)
 		regex = spec.p0, -- regex
 		statement = spec.p0, -- statements
 		string = p.cyan.hex, -- strings
-		type = spec.p2, -- types
+		type = spec.p2, -- types and titles
 		variable = p.white.hex, -- variables
 		-- bracket = spec.fg2, -- brackets and punctuation
 		-- builtin0 = p.red.hex, -- builtin variable
