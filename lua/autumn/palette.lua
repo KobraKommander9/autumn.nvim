@@ -41,9 +41,9 @@ palette.gray = make(
 )
 
 palette.secondary_gray = make(
-	palette.gray.mix(palette.secondary, 30),
-	palette.gray.dim.mix(palette.secondary.dim, 30),
-	palette.gray.bright.mix(palette.secondary.bright, 30)
+	palette.gray.mix(palette.secondary, 15),
+	palette.gray.dim.mix(palette.secondary.dim, 15),
+	palette.gray.bright.mix(palette.secondary.bright, 15)
 )
 
 palette.bg0 = make(palette.secondary_gray.darken(60))
