@@ -39,3 +39,16 @@ luac.out
 *.x86_64
 *.hex
 
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependency directories
+node_modules/
+
+# Npm cache
+.npm
+
+# Vscode extensions
+.vscode-test
