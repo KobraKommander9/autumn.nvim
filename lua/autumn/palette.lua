@@ -47,11 +47,11 @@ palette.primary_gray = make(
 	palette.gray.bright.mix(palette.primary_soft.bright, 15)
 )
 
-palette.bg0 = make(palette.secondary_gray.darken(60))
-palette.bg1 = make(palette.secondary_gray.darken(50))
-palette.bg2 = make(palette.secondary_gray.darken(20))
-palette.bg3 = make(palette.secondary_gray.lighten(10))
-palette.bg4 = make(palette.secondary_gray.lighten(20))
+palette.bg0 = make(palette.primary_gray.darken(60))
+palette.bg1 = make(palette.primary_gray.darken(50))
+palette.bg2 = make(palette.primary_gray.darken(20))
+palette.bg3 = make(palette.primary_gray.lighten(10))
+palette.bg4 = make(palette.primary_gray.lighten(20))
 
 palette.fg0 = make(palette.gray.lighten(90))
 palette.fg1 = make(palette.gray.lighten(80))
