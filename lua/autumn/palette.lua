@@ -41,9 +41,9 @@ palette.gray = make(
 )
 
 local off_green = make(
-	palette.gray.mix(palette.secondary, 50),
-	palette.gray.dim.mix(palette.secondary.dim, 50),
-	palette.gray.bright.mix(palette.secondary.bright, 50)
+	palette.gray.mix(palette.secondary, 30),
+	palette.gray.dim.mix(palette.secondary.dim, 30),
+	palette.gray.bright.mix(palette.secondary.bright, 30)
 )
 
 palette.bg0 = make(off_green.darken(60))
