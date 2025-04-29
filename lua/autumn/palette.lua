@@ -40,22 +40,22 @@ palette.gray = make(
 	palette.white.bright.mix(palette.black.bright, 90)
 )
 
-local off_green = make(
+palette.secondary_gray = make(
 	palette.gray.mix(palette.secondary, 30),
 	palette.gray.dim.mix(palette.secondary.dim, 30),
 	palette.gray.bright.mix(palette.secondary.bright, 30)
 )
 
-palette.bg0 = make(off_green.darken(60))
-palette.bg1 = make(off_green.darken(50))
-palette.bg2 = make(off_green.darken(20))
-palette.bg3 = make(off_green.lighten(10))
-palette.bg4 = make(off_green.lighten(20))
+palette.bg0 = make(palette.secondary_gray.darken(60))
+palette.bg1 = make(palette.secondary_gray.darken(50))
+palette.bg2 = make(palette.gray.darken(20))
+palette.bg3 = make(palette.gray.lighten(10))
+palette.bg4 = make(palette.gray.lighten(20))
 
-palette.fg0 = make(off_green.lighten(90))
-palette.fg1 = make(off_green.lighten(80))
-palette.fg2 = make(off_green.lighten(70))
-palette.fg3 = make(off_green.lighten(60))
+palette.fg0 = make(palette.gray.lighten(90))
+palette.fg1 = make(palette.gray.lighten(80))
+palette.fg2 = make(palette.gray.lighten(70))
+palette.fg3 = make(palette.gray.lighten(60))
 
 palette.comment = make(palette.bg1.mix(palette.fg1, 40))
 
