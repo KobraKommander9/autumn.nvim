@@ -40,7 +40,7 @@ palette.gray = make(
 	palette.white.bright.mix(palette.black.bright, 90)
 )
 
-palette.primary_soft = make(palette.primary.mix(palette.white), 50)
+palette.primary_soft = make(palette.primary.mix(palette.white, 50))
 palette.primary_gray = make(
 	palette.gray.mix(palette.primary_soft, 15),
 	palette.gray.dim.mix(palette.primary_soft.dim, 15),
