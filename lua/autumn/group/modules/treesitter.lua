@@ -128,20 +128,6 @@ function M.get(spec, config, _)
 
 		-- ["@spell"] = { }, -- for defining regions to be spellchecked
 		-- ["@nospell"] = { }, -- for defining regions that should NOT be spellchecked
-
-		-- Language specific -------------------------------------------------------
-
-		-- json
-		["@label.json"] = { fg = syn.func }, -- For labels: label: in C and :label: in Lua.
-
-		-- lua
-		["@constructor.lua"] = { fg = spec.fg2 }, -- Lua's constructor is { }
-
-		-- rust
-		["@field.rust"] = { fg = spec.fg2 },
-
-		-- yaml
-		["@variable.member.yaml"] = { fg = syn.field }, -- For fields.
 	}
 
 	-- Legacy highlights

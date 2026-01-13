@@ -42,12 +42,15 @@ local defaults = {
 		lsp_semantic_tokens = M.is_nvim,
 	},
 	langs = {
+		json = true,
 		lua = {
 			enable = true,
 			styles = {
 				constructor = "NONE",
 			},
 		},
+		rust = true,
+		yaml = true,
 	},
 }
 
@@ -63,7 +66,10 @@ M.module_names = {
 }
 
 M.lang_names = {
+	"json",
 	"lua",
+	"rust",
+	"yaml",
 }
 
 M.options = vim.deepcopy(defaults)
