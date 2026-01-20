@@ -1,27 +1,26 @@
 local M = {}
 
-function M.get(spec, _, opts)
+function M.get(spec, _, _)
 	local d = spec.diag
-	local dbg = spec.diag_bg
 
 	return {
-		DiagnosticError = { fg = d.error },
-		DiagnosticWarn = { fg = d.warn },
-		DiagnosticInfo = { fg = d.info },
-		DiagnosticHint = { fg = d.hint },
-		DiagnosticOk = { fg = d.ok },
+		DiagnosticError = { fg = d.error, style = "underline" },
+		DiagnosticWarn = { fg = d.warn, style = "underline" },
+		DiagnosticInfo = { fg = d.info, style = "underline" },
+		DiagnosticHint = { fg = d.hint, style = "underline" },
+		DiagnosticOk = { fg = d.ok, style = "underline" },
 
-		DiagnosticSignError = { link = "DiagnosticError" },
-		DiagnosticSignWarn = { link = "DiagnosticWarn" },
-		DiagnosticSignInfo = { link = "DiagnosticInfo" },
-		DiagnosticSignHint = { link = "DiagnosticHint" },
-		DiagnosticSignOk = { link = "DiagnosticOk" },
+		DiagnosticSignError = { fg = d.error },
+		DiagnosticSignWarn = { fg = d.warn },
+		DiagnosticSignInfo = { fg = d.info },
+		DiagnosticSignHint = { fg = d.hint },
+		DiagnosticSignOk = { fg = d.ok },
 
-		DiagnosticVirtualTextError = { fg = d.error, bg = opts.background and dbg.error or "NONE" },
-		DiagnosticVirtualTextWarn = { fg = d.warn, bg = opts.background and dbg.warn or "NONE" },
-		DiagnosticVirtualTextInfo = { fg = d.info, bg = opts.background and dbg.info or "NONE" },
-		DiagnosticVirtualTextHint = { fg = d.hint, bg = opts.background and dbg.hint or "NONE" },
-		DiagnosticVirtualTextOk = { fg = d.ok, bg = opts.background and dbg.ok or "NONE" },
+		DiagnosticVirtualTextError = { fg = d.error, style = "italic" },
+		DiagnosticVirtualTextWarn = { fg = d.warn, style = "italic" },
+		DiagnosticVirtualTextInfo = { fg = d.info, style = "italic" },
+		DiagnosticVirtualTextHint = { fg = d.hint, style = "italic" },
+		DiagnosticVirtualTextOk = { fg = d.ok, style = "italic" },
 
 		DiagnosticUnderlineError = { style = "undercurl", sp = d.error },
 		DiagnosticUnderlineWarn = { style = "undercurl", sp = d.warn },

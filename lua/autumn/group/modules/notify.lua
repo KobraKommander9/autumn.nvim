@@ -1,33 +1,34 @@
-local C = require("autumn.color")
-
 local M = {}
 
 function M.get(spec, _, _)
-	local bg = C(spec.bg1)
-	local function border(color, amount)
-		amount = amount or 50
-		return bg.mix(C(color), amount).hex
-	end
+	local diag = spec.diag
 
 	return {
-		NotifyERRORBorder = { fg = border(spec.diag.error) },
-		NotifyWARNBorder = { fg = border(spec.diag.warn) },
-		NotifyINFOBorder = { fg = border(spec.diag.info) },
-		NotifyDEBUGBorder = { fg = border(spec.diag.hint) },
-		NotifyTRACEBorder = { fg = spec.bg4 },
+		NotifyBackground = { bg = spec.bg2 },
 
-		NotifyERRORTitle = { fg = spec.diag.error },
-		NotifyWARNTitle = { fg = spec.diag.warn },
-		NotifyINFOTitle = { fg = spec.diag.info },
-		NotifyDEBUGTitle = { fg = spec.diag.hint },
-		NotifyTRACETitle = { fg = spec.syntax.comment },
+		NotifyERRORBorder = { fg = diag.error },
+		NotifyWARNBorder = { fg = diag.warn },
+		NotifyINFOBorder = { fg = diag.info },
+		NotifyDEBUGBorder = { fg = spec.fg3 },
+		NotifyTRACEBorder = { fg = spec.fg3 },
 
-		NotifyERRORIcon = { link = "NotifyERRORTitle" },
-		NotifyWARNIcon = { link = "NotifyWARNTitle" },
-		NotifyINFOIcon = { link = "NotifyINFOTitle" },
-		NotifyDEBUGIcon = { link = "NotifyDEBUGTitle" },
-		NotifyTRACEIcon = { link = "NotifyTRACETitle" },
-		NotifyBackground = { link = "NormalFloat" },
+		NotifyERRORTitle = { fg = diag.error, style = "bold" },
+		NotifyWARNTitle = { fg = diag.warn, style = "bold" },
+		NotifyINFOTitle = { fg = diag.info, style = "bold" },
+		NotifyDEBUGTitle = { fg = spec.fg3, style = "bold" },
+		NotifyTRACETitle = { fg = spec.fg3, style = "bold" },
+
+		NotifyERRORIcon = { fg = diag.error },
+		NotifyWARNIcon = { fg = diag.warn },
+		NotifyINFOIcon = { fg = diag.info },
+		NotifyDEBUGIcon = { fg = spec.fg3 },
+		NotifyTRACEIcon = { fg = spec.fg3 },
+
+		NotifyERRORBody = { fg = spec.fg1 },
+		NotifyWARNBody = { fg = spec.fg1 },
+		NotifyINFOBody = { fg = spec.fg1 },
+		NotifyDEBUGBody = { fg = spec.fg1 },
+		NotifyTRACEBody = { fg = spec.fg1 },
 	}
 end
 

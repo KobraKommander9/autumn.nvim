@@ -1,90 +1,84 @@
 local M = {}
 
-M.is_nvim = vim.fn.has("nvim") == 1
-
 local defaults = {
-	cache = true,
-	compile_path = vim.fn.stdpath("cache") .. "/autumn",
-	compile_file_suffix = "_compiled",
-	lush = {
-		enabled = false,
+	compile = {
+		cache = true,
 		path = vim.fn.stdpath("cache") .. "/autumn",
+		suffix = "_compiled",
 	},
-	terminal_colors = true,
-	module_default = true,
+	terminal_color = true,
 	styles = {
 		comments = "italic",
+		documentation = "italic",
+
+		keywords = "bold",
+		statements = "NONE",
+
 		conditionals = "NONE",
 		constants = "NONE",
-		diagnostics = "italic,underline",
-		documentation = "italic",
 		functions = "NONE",
-		keywords = "bold",
-		links = "italic,underline",
 		numbers = "NONE",
 		operators = "NONE",
 		preprocs = "NONE",
-		statements = "bold",
 		strings = "NONE",
 		types = "NONE",
 		variables = "NONE",
+
+		diagnostics = "italic,underline",
+		links = "italic,underline",
 	},
 	modules = {
-		diagnostic = {
-			enable = true,
-			background = true,
-		},
-		native_lsp = {
-			enable = M.is_nvim,
-			background = true,
-		},
-		treesitter = M.is_nvim,
-		lsp_semantic_tokens = M.is_nvim,
+		blink = true,
+		diagnostic = true,
+		lazy = true,
+		lsp = true,
+		mini = true,
+		notify = true,
+		treesitter = true,
 	},
 	langs = {
+		go = true,
 		json = true,
-		lua = {
-			enable = true,
-			styles = {
-				constructor = "NONE",
-			},
-		},
+		lua = true,
 		rust = true,
+		shell = true,
+		typescript = true,
 		yaml = true,
 	},
 }
 
-M.module_names = {
-	"blink",
-	"diagnostic",
-	"lazy",
-	"lsp_semantic_tokens",
-	"mini",
-	"native_lsp",
-	"notify",
-	"treesitter",
-}
-
-M.lang_names = {
-	"json",
-	"lua",
-	"rust",
-	"yaml",
-}
-
 M.options = vim.deepcopy(defaults)
+
+M.lang_mappings = {
+	lua = "nlua",
+}
+
+local function is_enabled(t, key)
+	local entry = t[key]
+	if not entry then
+		return false
+	end
+
+	if type(entry) == "table" then
+		return entry.disable ~= true
+	end
+
+	return entry == true
+end
+
+function M.has_module(mod)
+	return is_enabled(M.options.modules, mod)
+end
+
+function M.has_lang(lang)
+	return is_enabled(M.options.langs, lang)
+end
 
 function M.get_compiled_info(opts)
 	opts = opts or {}
-	local output_path = opts.output_path or M.options.compile_path
-	local file_suffix = opts.file_suffix or M.options.compile_file_suffix
+	local output_path = opts.output_path or M.options.compile.path
+	local file_suffix = opts.file_suffix or M.options.compile.suffix
 	return output_path, output_path .. "/autumn" .. file_suffix
-end
-
-function M.get_lush_info(opts)
-	opts = opts or {}
-	local output_path = opts.output_path or M.options.lush.path
-	return output_path, output_path .. "/autumn_lush.lua"
 end
 
 return M

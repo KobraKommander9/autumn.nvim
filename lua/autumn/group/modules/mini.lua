@@ -1,59 +1,70 @@
 local M = {}
 
 function M.get(spec, _, _)
-	local c = spec.palette
+	local p = spec.palette
+	local syn = spec.syntax
+	local diag = spec.diag
+	local diff = spec.diff
 
 	return {
-		MiniClueBorder = { link = "FloatBorder" },
-		MiniClueDescGroup = { link = "DiagnosticFloatingWarn" },
-		MiniClueDescSingle = { link = "NormalFloat" },
-		MiniClueNextKey = { link = "DiagnosticFloatingHint" },
-		MiniClueNextKeyWithPostkeys = { link = "DiagnosticFloatingError" },
-		MiniClueSeparator = { link = "DiagnosticFloatingInfo" },
-		MiniClueTitle = { link = "FloatTitle" },
+		--------------------------------------
+		-- MiniClue
+		MiniClueCurrent = { fg = p.primary.base, style = "bold" },
+		MiniClueKeys = { fg = syn.keyword },
+		MiniClueDesc = { fg = syn.variable },
 
-		MiniDiffSignAdd = { fg = spec.git.add },
-		MiniDiffSignChange = { fg = spec.git.changed },
-		MiniDiffSignDelete = { fg = spec.git.removed },
-		MiniDiffOverAdd = { link = "DiffAdd" },
-		MiniDiffOverChange = { link = "DiffText" },
-		MiniDiffOverContext = { link = "DiffChange" },
-		MiniDiffOverDelete = { link = "DiffDelete" },
+		--------------------------------------
+		-- MiniDiff
+		MiniDiffAdd = { fg = diff.add },
+		MiniDiffDelete = { fg = diff.delete },
+		MiniDiffChange = { fg = diff.change },
+		MiniDiffText = { fg = diff.text },
 
-		MiniFilesBorder = { link = "FloatBorder" },
-		MiniFilesBorderModified = { link = "DiagnosticFloatingWarn" },
-		MiniFilesCursorLine = { link = "CursorLine" },
-		MiniFilesDirectory = { link = "Directory" },
-		MiniFilesFile = { fg = spec.fg1 },
-		MiniFilesNormal = { link = "NormalFloat" },
-		MiniFilesTitle = { link = "FloatTitle" },
-		MiniFilesTitleFocused = { fg = spec.fg1, style = "bold" },
+		--------------------------------------
+		-- MiniFiles
+		MiniFilesFile = { fg = syn.variable },
+		MiniFilesFolder = { fg = p.secondary.base, style = "bold" },
+		MiniFilesModule = { fg = p.purple.base },
+		MiniFilesSymlink = { fg = p.cyan.base },
+		MiniFilesExec = { fg = p.green.base },
+		MiniFilesDot = { fg = p.fg3 }, -- hidden dotfiles
+		MiniFilesNumber = { fg = syn.number },
+		MiniFilesSymbol = { fg = syn.operator },
 
-		MiniIconsAzure = { fg = c.blue.bright.hex },
-		MiniIconsBlue = { fg = c.blue.hex },
-		MiniIconsCyan = { fg = c.cyan.hex },
-		MiniIconsGreen = { fg = c.green.hex },
-		MiniIconsGrey = { fg = spec.fg0 },
-		MiniIconsOrange = { fg = spec.p0 },
-		MiniIconsPurple = { fg = c.purple.hex },
-		MiniIconsRed = { fg = c.red.hex },
-		MiniIconsYellow = { fg = c.yellow.hex },
+		--------------------------------------
+		-- MiniIcons
+		MiniIconFile = { link = "MiniFilesFile" },
+		MiniIconFolder = { link = "MiniFilesFolder" },
+		MiniIconModule = { link = "MiniFilesModule" },
+		MiniIconClass = { fg = p.secondary.base },
+		MiniIconMethod = { fg = p.pink.base },
+		MiniIconFunction = { fg = p.pink.base },
+		MiniIconVariable = { fg = syn.variable },
+		MiniIconConstant = { fg = p.magenta.base },
+		MiniIconBoolean = { fg = p.green.base },
+		MiniIconNumber = { fg = syn.number },
+		MiniIconString = { fg = syn.string },
+		MiniIconProperty = { fg = p.secondary.base },
+		MiniIconKeyword = { fg = syn.keyword },
+		MiniIconOperator = { fg = syn.operator },
+		MiniIconComment = { fg = syn.comment, style = "italic" },
+		MiniIconWarning = { fg = diag.warn },
+		MiniIconError = { fg = diag.error },
+		MiniIconInfo = { fg = diag.info },
 
-		MiniPickBorder = { link = "FloatBorder" },
-		MiniPickBorderBusy = { link = "DiagnosticFloatingWarn" },
-		MiniPickBorderText = { link = "FloatTitle" },
-		MiniPickIconDirectory = { link = "Directory" },
-		MiniPickIconFile = { link = "MiniPickNormal" },
-		MiniPickHeader = { link = "DiagnosticFloatingHint" },
-		MiniPickMatchCurrent = { link = "CursorLine" },
-		MiniPickMatchMarked = { link = "Visual" },
-		MiniPickMatchRanges = { link = "DiagnosticFloatingHint" },
-		MiniPickNormal = { link = "NormalFloat" },
-		MiniPickPreviewLine = { link = "CursorLine" },
-		MiniPickPreviewRegion = { link = "IncSearch" },
-		MiniPickPrompt = { link = "DiagnosticFloatingInfo" },
+		--------------------------------------
+		-- MiniPick
+		MiniPickPrompt = { fg = syn.keyword, style = "bold" },
+		MiniPickSelection = { bg = p.sel1 },
+		MiniPickCurrent = { bg = p.sel0, fg = p.fg1, style = "bold" },
+		MiniPickBorder = { fg = p.border },
+		MiniPickMatch = { fg = p.primary.base, style = "bold" },
 
-		MiniSurround = { link = "IncSearch" },
+		--------------------------------------
+		-- MiniSurround
+		MiniSurround = { fg = syn.operator }, -- surrounding symbols
+		MiniSurroundHighlight = { bg = p.sel0 }, -- selected area
+		MiniSurroundYank = { bg = p.secondary.base }, -- yanked text highlight
 	}
 end
 

@@ -6,21 +6,6 @@ function M.ensure_dir(path)
 	end
 end
 
-function M.read_file(filepath, silent)
-	local file = io.open(filepath, "r")
-	if file then
-		local content = file:read()
-		file:close()
-		return content
-	end
-
-	if silent then
-		return
-	end
-
-	vim.notify(string.format([[Unable to open %s for reading]], filepath), vim.log.levels.ERROR)
-end
-
 function M.write_file(filepath, content, silent)
 	local file = io.open(filepath, "wb")
 	if file then

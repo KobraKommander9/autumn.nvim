@@ -1,16 +1,24 @@
-local Config = require("autumn.config")
-local Files = require("autumn.files")
-
 local M = {}
 
+local config = require("autumn.config")
+
 local did_setup = false
-local lock = false
+
+local function get_cached_contents(path)
+	local f = loadfile(path)
+	if not f then
+		return nil
+	end
+
+	local ok, contents = pcall(f)
+	return ok and contents or nil
+end
 
 function M.compile(opts)
 	opts = opts or {}
+	opts.hash = opts.hash or require("autumn.compiler").get_hash(config.options)
 
-	local compiler = require("autumn.compiler")
-	compiler.compile()
+	require("autumn.compiler").compile(opts)
 
 	if opts.notify then
 		vim.notify("Autumn compiled successfully", vim.log.levels.INFO, {
@@ -21,50 +29,68 @@ function M.compile(opts)
 end
 
 function M.load(opts)
-	opts = opts or {}
-
-	if lock then
-		return
-	end
-
 	if not did_setup then
 		M.setup(opts)
 	end
 
-	local _, compiled_file = Config.get_compiled_info(opts)
-	lock = true
+	local _, compiled_file = config.get_compiled_info(config.options)
+	local cache = get_cached_contents(compiled_file)
 
-	local f = loadfile(compiled_file)
-	if not f then
-		M.compile()
-		f = loadfile(compiled_file)
+	if not cache then
+		M.compile({ hash = require("autumn.compiler").get_hash(config.options) })
+		cache = get_cached_contents(compiled_file)
 	end
 
-	assert(f)
-	f()
+	if cache and cache.code then
+		loadstring(cache.code)()
+	end
+end
 
-	lock = false
+function M.reload(opts)
+	opts = opts or {}
+
+	for name, _ in pairs(package.loaded) do
+		if name:match("^autumn") then
+			package.loaded[name] = nil
+		end
+	end
+
+	local cfg = require("autumn.config")
+	local hash = "FORCE_" .. os.clock()
+
+	M.compile({ hash = hash })
+
+	local _, cache_file = cfg.get_compiled_info(cfg.options)
+
+	local cache = get_cached_contents(cache_file)
+	if cache then
+		loadstring(cache.code)()
+
+		if opts.notify then
+			vim.notify("Autumn: reloaded", vim.log.levels.INFO)
+		end
+	end
 end
 
 function M.setup(opts)
 	did_setup = true
-	Config.options = vim.tbl_deep_extend("force", Config.options, opts or {})
+	config.options = vim.tbl_deep_extend("force", config.options, opts or {})
 
-	if not Config.options.cache then
-		M.compile()
+	local current_hash = require("autumn.compiler").get_hash(config.options)
+	local _, cache_file = config.get_compiled_info(config.options)
+
+	if not config.options.compile.cache then
+		M.compile({ hash = current_hash })
+		M.load()
 		return
 	end
 
-	local cached_path = Config.options.compile_path .. "/cache"
-	local cached = Files.read_file(cached_path, true)
-
-	local git_path = debug.getinfo(1).source:sub(2, -23) .. "/.git"
-	local git = vim.fn.getftime(git_path)
-	local hash = require("autumn.hash")(Config.options) .. (git == -1 and git_path or git)
-
-	if cached ~= hash then
-		M.compile()
-		Files.write_file(cached_path, hash)
+	local cache = get_cached_contents(cache_file)
+	if cache and cache.hash == current_hash then
+		loadstring(cache.code)()
+	else
+		M.compile({ hash = current_hash })
+		M.load()
 	end
 end
 

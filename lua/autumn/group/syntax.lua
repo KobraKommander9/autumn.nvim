@@ -1,68 +1,79 @@
 local M = {}
 
 function M.get(spec, config)
+	local diag = spec.diag
+	local git = spec.git
 	local syn = spec.syntax
 	local stl = config.styles
 
 	return {
-		Comment = { fg = syn.comment, style = stl.comments }, -- any comment
-		Constant = { fg = syn.const, style = stl.constants }, -- (preferred) any constant
-		String = { fg = syn.string, style = stl.strings }, -- a string constant: "this is a string"
-		Character = { link = "String" }, -- a character constant: 'c', '\n'
-		Number = { fg = syn.number, style = stl.numbers }, -- a number constant: 234, 0xff
-		Float = { link = "Number" }, -- a floating point constant: 2.3e10
-		Boolean = { link = "Number" }, -- a boolean constant: TRUE, false
+		-- Comments
+		Comment = { fg = syn.comment, style = stl.comments },
+		SpecialComment = { link = "Special" },
 
-		Identifier = { fg = syn.ident, style = stl.variables }, -- (preferred) any variable name
-		Function = { fg = syn.func, style = stl.functions }, -- function name (also: methods for classes)
+		-- Constents
+		Boolean = { link = "Number" },
+		Character = { link = "String" },
+		Constant = { fg = syn.const, style = stl.constants },
+		Float = { link = "Number" },
+		Number = { fg = syn.number, style = stl.numbers },
+		String = { fg = syn.string, style = stl.strings },
 
-		Statement = { fg = syn.statement, style = stl.statements }, -- (preferred) any statement
-		Conditional = { fg = syn.conditional, style = stl.conditionals }, -- if, then, else, endif, switch, etc
-		Repeat = { link = "Conditional" }, -- for, do, while, etc.
-		Label = { link = "Conditional" }, -- case, default, etc.
+		-- Identifiers
+		Function = { fg = syn.func, style = stl.functions },
+		Identifier = { fg = syn.ident, style = stl.variables },
 
-		Operator = { fg = syn.operator, style = stl.operators }, -- "sizeof", "+", "*", etc.
-		Keyword = { fg = syn.keyword, style = stl.keywords }, -- any other keyword
-		Exception = { link = "Keyword" }, -- try, catch, throw
+		-- Keywords / statements
+		Conditional = { fg = syn.conditional, style = stl.conditionals },
+		Exception = { link = "Keyword" },
+		Keyword = { fg = syn.keyword, style = stl.keywords },
+		Label = { link = "Conditional" },
+		Repeat = { link = "Conditional" },
+		Statement = { fg = syn.statement, style = stl.statements },
 
-		PreProc = { fg = syn.preproc, style = stl.preprocs }, -- (preferred) generic Preprocessor
-		Include = { link = "PreProc" }, -- preprocessor #include
-		Define = { link = "PreProc" }, -- preprocessor #define
-		Macro = { link = "PreProc" }, -- same as Define
-		PreCondit = { link = "PreProc" }, -- preprocessor #if, #else, #endif, etc.
+		-- Operators / Preprocessor
+		Define = { link = "PreProc" },
+		Include = { link = "PreProc" },
+		Macro = { link = "PreProc" },
+		Operator = { fg = syn.operator, style = stl.operators },
+		PreCondit = { link = "PreProc" },
+		PreProc = { fg = syn.preproc, style = stl.preprocs },
 
-		Type = { fg = syn.type, style = stl.types }, -- (preferred) int, long, char, etc
-		StorageClass = { link = "Type" }, -- static, register, volatile, etc
-		Structure = { link = "Type" }, -- struct, union, enum, etc
-		Typedef = { link = "Type" }, -- A typedef
+		-- Types / Storage
+		StorageClass = { link = "Type" },
+		Structure = { link = "Type" },
+		Type = { fg = syn.type, style = stl.types },
+		Typedef = { link = "Type" },
 
-		Special = { fg = syn.func }, -- (preferred) any special symbol
-		SpecialChar = { link = "Special" }, -- special character in a constant
-		Tag = { link = "Special" }, -- you can use CTRL-] on this
-		Delimiter = { link = "Special" }, -- character that needs attention
-		SpecialComment = { link = "Special" }, -- special things inside a comment
-		Debug = { link = "Special" }, -- debugging statements
+		-- Special Symbols
+		Debug = { link = "Special" },
+		Delimiter = { link = "Special" },
+		Special = { fg = syn.func },
+		SpecialChar = { link = "Special" },
+		Tag = { link = "Special" },
 
-		Underlined = { style = "underline" }, -- (preferred) text that stands out, HTML links
-		Bold = { style = "bold" }, -- bold text
-		Italic = { style = "italic" }, -- italic text
+		-- Text decoration
+		Bold = { style = "bold" },
+		Italic = { style = "italic" },
+		Underlined = { style = stl.links },
 
-		Error = { fg = spec.diag.error }, -- (preferred) any erroneous construct
-		Todo = { fg = spec.bg1, bg = spec.diag.info }, -- (preferred) anything that needs extra attention
+		-- Diagnostics
+		Error = { fg = diag.error, style = stl.diagnostics },
+		Todo = { fg = syn.variable, bg = diag.info, style = stl.diagnostics },
 
-		qfLineNr = { link = "lineNr" },
-		qfFileName = { link = "Directory" },
+		-- QuickFix
+		qfLineNr = { fg = syn.number },
+		qfFileName = { fg = syn.type },
 
-		diffAdded = { fg = spec.git.add }, -- Added lines ("^+.*" | "^>.*")
-		diffRemoved = { fg = spec.git.removed }, -- Removed lines ("^-.*" | "^<.*")
-		diffChanged = { fg = spec.git.changed }, -- Changed lines ("^!.*")
-		diffOldFile = { fg = spec.diag.warn }, -- Old file that is being diffed against
-		diffNewFile = { fg = spec.diag.hint }, -- New file that is being compared to the old file
-		diffFile = { fg = spec.diag.info }, -- The filename of the diff
-		diffLine = { fg = syn.builtin2 }, -- Line information
-		diffIndexLine = { fg = syn.preproc }, -- Index line of diff
-
-		typescriptParens = { fg = syn.bracket }, -- for typescript
+		-- Diff
+		diffAdded = { fg = git.added },
+		diffChanged = { fg = git.changed },
+		diffFile = { fg = diag.info },
+		diffIndexLine = { fg = syn.preproc },
+		diffLine = { fg = syn.builtin2 },
+		diffNewFile = { fg = diag.hint },
+		diffOldFile = { fg = diag.warn },
+		diffRemoved = { fg = git.removed },
 	}
 end
 

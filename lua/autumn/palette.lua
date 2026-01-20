@@ -1,165 +1,143 @@
-local C = require("autumn.color")
+local M = {}
 
-local function make(base, dim, bright)
-	local c = {
-		base = C(base),
-		dim = dim and C(dim) or base.darken(50),
-		bright = bright and C(bright) or base.lighten(50),
-	}
+local function color(base, dim, bg)
+	local c = { base = base, dim = dim, bg = bg }
 
-	return setmetatable({}, {
-		__index = function(_, key)
-			if c[key] then
-				return c[key]
-			end
-			return c.base[key]
+	return setmetatable(c, {
+		__index = function(t, key)
+			return rawget(t, key)
+		end,
+		__tostring = function(t)
+			return t.base
 		end,
 	})
 end
 
 local palette = {
-	white = make("#f4ebbe", "#aaa485", "#fbf7e4"),
-	black = make("#272d2d", "#1b1f1f", "#525757"),
+	-- Backgrounds (green gradient)
+	bg0 = "#1a1d16", -- main editing area
+	bg1 = "#23281e", -- slightly lighter, cursorline base
+	bg2 = "#2a2f23", -- panels, floats, sidebars
+	bg3 = "#38422f", -- visual selection
 
-	primary = make("#eb5e28", "#a4411c", "#ef7e53"),
-	secondary = make("#6a8532", "#4a5d23", "#879d5b"),
+	-- Foregrounds
+	fg0 = "#b8b2a7", -- dim / secondary text
+	fg1 = "#e6e1d8", -- main text
+	fg2 = "#6b8fa3", -- blue accents (functions/methods)
+	fg3 = "#8f8a80", -- subtle text (comments, nontext)
 
-	red = make("#eb2852", "#a41c39", "#ef5374"),
-	green = make("#28eb58", "#1ca43d", "#53ef79"),
-	yellow = make("#ebc128", "#a4871c", "#efcd53"),
-	blue = make("#28b4eb", "#1c7da4", "#53c3ef"),
-	magenta = make("#c128fb", "#871caf", "#cd53fb"),
-	purple = make("#7f5fac", "#584278", "#987fbc"),
-	cyan = make("#4bc6b9", "#348a81", "#6fd1c7"),
-	pink = make("#f990a7", "#ae6474", "#faa6b8"),
+	-- Selections
+	sel0 = "#38422f", -- visual select base
+	sel1 = "#414d36", -- visual select highlight / hover
+
+	-- Border / UI
+	border = "#3a372f",
+
+	-- Core semantic colors
+	primary = color("#eb5e28", "#7a341e", "#5f3a1c"), -- orange (keywords, control flow)
+	secondary = color("#7f9a3e", "#4f6430", "#3b4a21"), -- olive green (types, traits)
+
+	-- Standard syntax colors
+	red = color("#c14f3b", "#7a2f28", "#4a1f1c"),
+	green = color("#9bbf4f", "#5f7a2e", "#2f4a21"),
+	yellow = color("#d6a45a", "#8f6437", "#4a4720"),
+	blue = color("#6b8fa3", "#3d5e6e", "#2d4a57"),
+	cyan = color("#5f9ea0", "#386869", "#2a5052"),
+	purple = color("#7f5fac", "#4d3b74", "#352c4d"),
+	magenta = color("#b36b7d", "#724653", "#543640"),
+	pink = color("#f990a7", "#a65a6b", "#733f50"),
 }
-
-palette.gray = make(
-	palette.white.mix(palette.black, 90),
-	palette.white.dim.mix(palette.black.dim, 90),
-	palette.white.bright.mix(palette.black.bright, 90)
-)
-
-palette.primary_soft = make(palette.primary.mix(palette.white, 50))
-palette.primary_gray = make(
-	palette.gray.mix(palette.primary_soft, 15),
-	palette.gray.dim.mix(palette.primary_soft.dim, 15),
-	palette.gray.bright.mix(palette.primary_soft.bright, 15)
-)
-
-palette.bg0 = make(palette.primary_gray.darken(60))
-palette.bg1 = make(palette.primary_gray.darken(50))
-palette.bg2 = make(palette.primary_gray.darken(20))
-palette.bg3 = make(palette.primary_gray.lighten(10))
-palette.bg4 = make(palette.primary_gray.lighten(20))
-
-palette.fg0 = make(palette.gray.lighten(90))
-palette.fg1 = make(palette.gray.lighten(80))
-palette.fg2 = make(palette.gray.lighten(70))
-palette.fg3 = make(palette.gray.lighten(60))
-
-palette.comment = make(palette.bg1.mix(palette.fg1, 40))
-
-local base_colors = {
-	"red",
-	"green",
-	"yellow",
-	"blue",
-	"magenta",
-	"purple",
-	"cyan",
-	"pink",
-}
-
-for _, color in ipairs(base_colors) do
-	palette[color .. "_soft"] = make(palette[color].mix(palette.white, 50))
-	palette[color .. "_hard"] = make(palette[color].mix(palette.black, 20))
-end
 
 local function generate_spec(p)
 	local spec = {
-		bg0 = p.bg0.hex, -- dark bg (status line and float)
-		bg1 = p.bg1.hex, -- default bg
-		bg2 = p.bg2.hex, -- lighter bg (colorcolumn folds)
-		bg3 = p.bg3.hex, -- lighter bg (cursor line)
-		bg4 = p.bg4.hex, -- conceal, border fg
+		bg0 = p.bg0,
+		bg1 = p.bg1,
+		bg2 = p.bg2,
+		bg3 = p.bg3,
 
-		fg0 = p.fg0.hex, -- lighter fg
-		fg1 = p.fg1.hex, -- default fg
-		fg2 = p.fg2.hex, -- darker fg (status line)
-		fg3 = p.fg3.hex, -- darker fg (line numbers, fold columns)
+		fg0 = p.fg0,
+		fg1 = p.fg1,
+		fg2 = p.fg2,
+		fg3 = p.fg3,
 
-		p0 = p.primary.hex,
-		p1 = p.primary.dim.hex,
-		p2 = p.primary.bright.hex,
+		sel0 = p.sel0,
+		sel1 = p.sel1,
 
-		s0 = p.secondary.hex,
-		s1 = p.secondary.dim.hex,
-		s2 = p.secondary.bright.hex,
+		border = p.border,
 
-		sel0 = p.gray.bright.hex, -- popup bg, visual selection bg
-		sel1 = p.white.bright.hex, -- popup sel bg, search bg
+		primary = p.primary.base,
+		secondary = p.secondary.base,
 	}
 
 	spec.syntax = {
-		bracket = p.white.bright.hex, -- brackets and punctuation
-		builtin0 = p.blue.bright.hex, -- builtin variable
-		builtin1 = p.yellow.bright.hex, -- builtin type
-		builtin2 = p.purple.bright.hex, -- builtin const
-		builtin3 = spec.p2, -- not used
-		comment = p.comment.hex, -- comment
-		conditional = spec.p0, -- conditional and loop
-		const = p.purple.bright.hex, -- constants and imports
-		dep = spec.fg3, -- deprecated
-		field = spec.s2, -- field
-		func = p.pink.hex, -- functions
-		ident = p.pink.hex, -- identifiers
-		keyword = spec.p0, -- keywords
-		number = p.purple.bright.hex, -- numbers and booleans
-		operator = p.white.bright.hex, -- operators
-		preproc = spec.s0, -- preprocessor
-		regex = p.blue.hex, -- regex
-		statement = p.green.bright.hex, -- statements
-		string = p.cyan.hex, -- strings
-		type = spec.p2, -- types and titles
-		variable = p.white.hex, -- variables
+		-- punctuation / brackets
+		bracket = p.fg1.base,
+
+		-- builtins
+		builtin0 = p.blue.base, -- builtin variable
+		builtin1 = p.secondary.base, -- builtin type
+		builtin2 = p.purple.base, -- builtin const
+
+		-- comments
+		comment = p.fg3,
+
+		-- conditionals / loops
+		conditional = p.primary.base, -- keywords, if/else, loops
+
+		-- constants / imports
+		const = p.magenta.base, -- constants, enums, imports
+		dep = p.fg0, -- deprecated symbols
+
+		-- fields / object properties
+		field = p.secondary.base, -- fields
+		func = p.pink.base, -- function names
+		ident = p.fg1, -- variable identifiers
+
+		-- keywords / operators / statements
+		keyword = p.primary.base, -- keywords
+		operator = p.fg1, -- operators
+		statement = p.green.dim, -- statements (control flow)
+
+		-- numbers / booleans
+		number = p.purple.base, -- numbers, booleans
+
+		-- preprocessor, regex
+		preproc = p.secondary.base, -- preprocessor directives
+		regex = p.blue.dim, -- regex literals
+
+		-- strings / types
+		string = p.cyan.base, -- string literals
+		type = p.secondary.base, -- types, classes, titles
+		variable = p.fg1, -- plain variables
 	}
 
 	spec.diag = {
-		error = p.red.bright.hex,
-		warn = p.yellow.bright.hex,
-		info = p.magenta_soft.hex,
-		hint = p.blue_soft.hex,
-		ok = p.green.bright.hex,
-	}
-
-	spec.diag_bg = {
-		error = C(spec.bg1).mix(C(spec.diag.error), 15).hex,
-		warn = C(spec.bg1).mix(C(spec.diag.warn), 15).hex,
-		info = C(spec.bg1).mix(C(spec.diag.info), 15).hex,
-		hint = C(spec.bg1).mix(C(spec.diag.hint), 15).hex,
-		ok = C(spec.bg1).mix(C(spec.diag.ok), 15).hex,
+		error = p.red.base,
+		warn = p.yellow.base,
+		info = p.blue.base,
+		hint = p.cyan.base,
+		ok = p.green.base,
 	}
 
 	spec.diff = {
-		add = C(spec.bg1).mix(p.green.bright, 45).hex,
-		delete = C(spec.bg1).mix(p.red.bright, 45).hex,
-		change = C(spec.bg1).mix(p.blue.bright, 45).hex,
-		text = C(spec.bg1).mix(p.cyan.bright, 45).hex,
+		add = p.green.bg,
+		delete = p.red.bg,
+		change = p.blue.bg,
+		text = p.cyan.bg,
 	}
 
 	spec.git = {
-		add = p.green.bright.hex,
-		removed = p.red.bright.hex,
-		changed = p.blue.bright.hex,
-		conflict = p.yellow.bright.hex,
-		ignored = p.gray.bright.hex,
+		added = p.green.base,
+		removed = p.red.base,
+		changed = p.yellow.base,
+		conflict = p.purple.base,
+		ignored = p.fg3,
 	}
 
 	return spec
 end
 
-return {
-	palette = palette,
-	generate_spec = generate_spec,
-}
+M.palette = palette
+M.generate_spec = generate_spec
+
+return M
