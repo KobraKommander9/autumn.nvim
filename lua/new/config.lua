@@ -2,6 +2,7 @@ local M = {}
 
 local defaults = {
 	compile = {
+		cache = true,
 		path = vim.fn.stdpath("cache") .. "/autumn",
 		suffix = "_compiled",
 	},
