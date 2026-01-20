@@ -1,7 +1,11 @@
 local M = {}
 
 local defaults = {
-	terminal_colors = true,
+	compile = {
+		path = vim.fn.stdpath("cache") .. "/autumn",
+		suffix = "_compiled",
+	},
+	terminal_color = true,
 	styles = {
 		comments = "italic",
 		documentation = "italic",
@@ -34,18 +38,10 @@ local defaults = {
 	langs = {
 		go = true,
 		json = true,
-		lua = {
-			styles = {
-				constructor = "NONE",
-			},
-		},
+		lua = true,
 		rust = true,
 		shell = true,
-		typescript = {
-			styles = {
-				decorator = "italic",
-			},
-		},
+		typescript = true,
 		yaml = true,
 	},
 }
@@ -75,6 +71,13 @@ end
 
 function M.has_lang(lang)
 	return is_enabled(M.options.langs, lang)
+end
+
+function M.get_compiled_info(opts)
+	opts = opts or {}
+	local output_path = opts.output_path or M.options.compile.path
+	local file_suffix = opts.file_suffix or M.options.compile.suffix
+	return output_path, output_path .. "/autumn" .. file_suffix
 end
 
 return M

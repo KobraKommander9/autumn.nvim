@@ -1,6 +1,14 @@
 local M = {}
 
+local defaults = {
+	styles = {
+		constructor = "NONE",
+	},
+}
+
 function M.get(spec, _, opts)
+	opts = vim.tbl_deep_extend("force", defaults, opts or {})
+
 	local syn = spec.syntax
 	local stl = opts.styles
 

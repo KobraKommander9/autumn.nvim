@@ -1,6 +1,14 @@
 local M = {}
 
+local defaults = {
+	styles = {
+		decorator = "italic",
+	},
+}
+
 function M.get(spec, config, opts)
+	opts = vim.tbl_deep_extend("force", defaults, opts or {})
+
 	local p = spec.palette
 	local syn = spec.syntax
 	local stl = config.styles
