@@ -36,8 +36,8 @@ function M.get(spec, config, _)
 
 		BlinkCmpKindProperty = { link = has_ts and "@property" or "Identifier", bg = spec.bg3 },
 		BlinkCmpKindField = { link = has_ts and "@field" or "Identifier", bg = spec.bg3 },
-		BlinkCmpKindTypeParameter = { fg = syn.secondary.dim, bg = spec.bg3 },
-		BlinkCmpKindEnumMember = { fg = syn.secondary.dim, bg = spec.bg3 },
+		BlinkCmpKindTypeParameter = { fg = p.secondary.dim, bg = spec.bg3 },
+		BlinkCmpKindEnumMember = { fg = p.secondary.dim, bg = spec.bg3 },
 		BlinkCmpKindOperator = { link = "Operator", bg = spec.bg3 },
 		BlinkCmpKindSnippet = { fg = p.pink.base, bg = spec.bg3 },
 	}

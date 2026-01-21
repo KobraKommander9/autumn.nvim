@@ -7,7 +7,7 @@ function M.ensure_dir(path)
 end
 
 function M.write_file(filepath, content, silent)
-	local file = io.open(filepath, "wb")
+	local file = io.open(filepath, "w")
 	if file then
 		file:write(content)
 		file:close()

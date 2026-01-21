@@ -7,24 +7,14 @@ local function parse_style(style)
 		return {}
 	end
 
+	if type(style) == "table" then return style end
+
 	local result = {}
 	for token in string.gmatch(style, "([^,]+)") do
 		result[token] = true
 	end
 
 	return result
-end
-
-local function inspect(tbl)
-	local list = {}
-
-	for k, v in pairs(tbl) do
-		local q = type(v) == "string" and '"' or ""
-		table.insert(list, fmt("%s = %s%s%s", k, q, v, q))
-	end
-
-	table.sort(list)
-	return fmt([[{ %s }]], table.concat(list, ", "))
 end
 
 local function template(spec, groups, opts, hash)
@@ -35,7 +25,7 @@ local function template(spec, groups, opts, hash)
 		"\tend\n",
 		'\tvim.cmd("syntax reset")',
 		"\tvim.o.termguicolors = true",
-		'\tvim.o.colors_name = "autumn"',
+		'\tvim.g.colors_name = "autumn"',
 		'\tvim.o.background = "dark"\n',
 		"\t--- spec\n",
 	}
@@ -51,12 +41,14 @@ local function template(spec, groups, opts, hash)
 		if attrs.link and attrs.link ~= "" then
 			table.insert(lines, "\t" .. fmt([[hl(0, "%s", { link = "%s" })]], group, attrs.link))
 		else
-			local op = parse_style(attrs)
+			local style_str = attrs.style or attrs.gui or "NONE"
+
+			local op = parse_style(style_str)
 			op.bg = attrs.bg
 			op.fg = attrs.fg
 			op.sp = attrs.sp
 
-			table.insert(lines, "\t" .. fmt([[hl(0, "%s", %s)]], group, inspect(op)))
+			table.insert(lines, "\t" .. fmt([[hl(0, "%s", %s)]], group, vim.inspect(op)))
 		end
 	end
 
@@ -76,20 +68,6 @@ return {
 	)
 end
 
-local function deep_extend(...)
-	local lhs = {}
-
-	for _, rhs in ipairs({ ... }) do
-		for k, v in pairs(rhs) do
-			if type(lhs[k]) == "table" and type(v) == "table" then
-				lhs[k] = deep_extend(lhs[k], v)
-			else
-				lhs[k] = v
-			end
-		end
-	end
-end
-
 local function get_opts(opts)
 	return type(opts) == "boolean" and { disable = not opts } or type(opts) == "table" and opts or {}
 end
@@ -101,25 +79,27 @@ local function load_spec()
 	return spec
 end
 
-local function load_groups(cfg, spec)
-	local editor = require("autumn.group.editor").get(spec, cfg.options)
-	local syntax = require("autumn.group.syntax").get(spec, cfg.options)
+local function load_groups(cfg, langs, spec)
+	local editor = require("autumn.group.editor").get(spec, cfg)
+	local syntax = require("autumn.group.syntax").get(spec, cfg)
 
-	local built = deep_extend(editor, syntax)
+	local built = vim.tbl_deep_extend("force", editor, syntax)
 
 	for mod, mod_opts in pairs(cfg.modules) do
 		local opts = get_opts(mod_opts)
 		if opts.disable == false then
-			built = deep_extend(built, require("autumn.group.modules." .. mod).get(spec, cfg.options, opts))
+			local mod_hls = require("autumn.group.modules." .. mod).get(spec, cfg, opts)
+			built = vim.tbl_deep_extend("force", built, mod_hls)
 		end
 	end
 
 	for lang, lang_opts in pairs(cfg.langs) do
-		lang = cfg.lang_mappings[lang] or lang
+		lang = langs[lang] or lang
 
 		local opts = get_opts(lang_opts)
 		if opts.disable == false then
-			built = deep_extend(built, require("autumn.group.lang." .. lang).get(spec, cfg.options, opts))
+			local lang_hls = require("autumn.group.lang." .. lang).get(spec, cfg, opts)
+			built = vim.tbl_deep_extend("force", built, lang_hls)
 		end
 	end
 
@@ -134,7 +114,7 @@ function M.get_hash(opts)
 	local git_mtime = vim.fn.getftime(git_path)
 
 	if git_mtime == -1 then
-		git_mtime = vim.fn.gitftime(script_path)
+		git_mtime = vim.fn.getftime(script_path)
 	end
 
 	local content = vim.inspect(opts) .. tostring(git_mtime)
@@ -148,7 +128,7 @@ function M.compile(opts)
 	local files = require("autumn.files")
 
 	local spec = load_spec()
-	local groups = load_groups(config, spec)
+	local groups = load_groups(config.options, config.lang_mappings, spec)
 
 	local output_path, output_file = config.get_compiled_info(opts)
 	files.ensure_dir(output_path)
@@ -156,15 +136,15 @@ function M.compile(opts)
 	local hash = opts.hash or M.get_hash(config.options)
 	local scheme = template(spec, groups, config.options, hash)
 
-	local f = loadstring(scheme)
-	if not f then
+	local isValid = loadstring(scheme)
+	if not isValid then
 		local logfile = vim.fn.stdpath("log") .. "/autumn.lua"
 		vim.notify(fmt([[There is an error in your autumn config, refer to %s]], logfile))
 
 		files.write_file(logfile, scheme)
 		dofile(logfile)
 	else
-		files.write_file(output_file, f())
+		files.write_file(output_file, scheme)
 	end
 end
 

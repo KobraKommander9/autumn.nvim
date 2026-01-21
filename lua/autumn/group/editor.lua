@@ -8,7 +8,7 @@ function M.get(spec, _)
 	return {
 		-- Basic editor
 		Normal = { bg = spec.bg0, fg = spec.fg1 },
-		NormalFloat = { bg = spec.bg1, fg = spec.fg1 },
+		NormalFloat = { bg = spec.bg2, fg = spec.fg2 },
 		NormalNC = { link = "Normal" },
 		Visual = { bg = spec.sel0 },
 		VisualNOS = { link = "Visual" },
@@ -48,7 +48,7 @@ function M.get(spec, _)
 		WinBar = { bg = spec.bg0, fg = spec.fg1, style = "bold" },
 		WinBarNC = { bg = spec.bg0, fg = spec.fg3 },
 
-		FloatBoarder = { fg = spec.border },
+		FloatBoarder = { fg = spec.border, bg = spec.bg2 },
 
 		-- Search
 		Search = { bg = spec.sel0, fg = spec.bg0 },

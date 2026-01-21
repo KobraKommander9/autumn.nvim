@@ -32,7 +32,7 @@ local defaults = {
 		diagnostic = true,
 		lazy = true,
 		lsp = true,
-		mini = true,
+		mini = false,
 		notify = true,
 		treesitter = true,
 	},
@@ -46,8 +46,6 @@ local defaults = {
 		yaml = true,
 	},
 }
-
-M.options = vim.deepcopy(defaults)
 
 M.lang_mappings = {
 	lua = "nlua",
@@ -66,11 +64,11 @@ local function is_enabled(t, key)
 	return entry == true
 end
 
-function M.has_module(mod)
+M.options = vim.deepcopy(defaults)
+M.options.has_module = function(mod)
 	return is_enabled(M.options.modules, mod)
 end
-
-function M.has_lang(lang)
+M.options.has_lang = function(lang)
 	return is_enabled(M.options.langs, lang)
 end
 
