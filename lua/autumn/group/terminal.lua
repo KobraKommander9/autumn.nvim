@@ -1,7 +1,7 @@
 local M = {}
 
-function M.get(spec, _)
-	local p = spec.palette
+function M.get(roles, _)
+	local p = roles.palette
 
 	return {
 		terminal_color_0 = p.black.base,

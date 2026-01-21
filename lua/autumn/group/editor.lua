@@ -1,95 +1,89 @@
 local M = {}
 
-function M.get(spec, _)
-	local diag = spec.diag
-	local diff = spec.diff
-	local syn = spec.syntax
-
+function M.get(roles, _)
 	return {
 		-- Basic editor
-		Normal = { bg = spec.bg0, fg = spec.fg1 },
-		NormalFloat = { bg = spec.bg2, fg = spec.fg2 },
+		Normal = { fg = roles.ui.fg.main, roles.ui.bg.main },
+		NormalFloat = { fg = roles.ui.fg.main, bg = roles.ui.bg.float },
 		NormalNC = { link = "Normal" },
-		Visual = { bg = spec.sel0 },
+		Visual = { bg = roles.ui.bg.visual },
 		VisualNOS = { link = "Visual" },
 
-		EndOfBuffer = { fg = spec.bg3 },
-		Whitespace = { fg = spec.bg3 },
-		NonText = { fg = spec.bg3 },
+		EndOfBuffer = { fg = roles.ui.bg.main },
+		Whitespace = { fg = roles.ui.fg.subtle },
+		NonText = { fg = roles.ui.fg.subtle },
 		Conceal = { link = "NonText" },
 		SpecialKey = { link = "NonText" },
 
 		-- Cursor / line
-		CursorLine = { bg = spec.bg1 },
-		CursorColumn = { link = "CursorLine" },
-		CursorLineNr = { fg = syn.number, style = "bold" },
-		LineNr = { fg = spec.fg3 },
-		ColorColumn = { bg = spec.bg2 },
+		CursorLine = { bg = roles.ui.bg.alt },
+		CursorLineNr = { fg = roles.ui.gutter.active, bg = roles.ui.gutter.bg },
+		LineNr = { fg = roles.ui.gutter.fg, bg = roles.ui.gutter.bg },
+		ColorColumn = { bg = roles.ui.bg.alt },
 
-		Cursor = { fg = spec.bg0, bg = spec.fg1 },
+		Cursor = { fg = roles.ui.bg.main, bg = roles.ui.fg.main },
 		lCursor = { link = "Cursor" },
 		CursorIM = { link = "Cursor" },
 
 		-- Signs / folds
-		SignColumn = { fg = spec.fg3 },
+		SignColumn = { bg = roles.ui.bg.main },
 		SignColumnSB = { link = "SignColumn" },
-		FoldColumn = { fg = spec.fg3 },
-		Folded = { fg = spec.fg3, bg = spec.bg2 },
+		FoldColumn = { fg = roles.ui.fg.subtle, bg = roles.ui.bg.main },
+		Folded = { fg = roles.ui.fg.dim, bg = roles.ui.bg.alt, style = "italic" },
 
 		-- Tabs / status
-		StatusLine = { fg = spec.fg2, bg = spec.bg2 },
-		StatusLineNC = { fg = spec.fg0, bg = spec.bg0 },
-		TabLine = { fg = spec.fg2, bg = spec.bg2 },
-		TabLineFill = { bg = spec.bg0 },
-		TabLineSel = { fg = spec.bg0, bg = spec.fg2 },
+		StatusLine = { fg = roles.ui.fg.main, bg = roles.ui.bg.alt },
+		StatusLineNC = { fg = roles.ui.fg.subtle, bg = roles.ui.bg.alt },
+		TabLine = { fg = roles.ui.fg.dim, bg = roles.ui.bg.alt },
+		TabLineFill = { bg = roles.ui.bg.alt },
+		TabLineSel = { fg = roles.ui.bg.main, bg = roles.ui.fg.main, style = "bold" },
 
-		WinSeparator = { fg = spec.border },
+		WinSeparator = { fg = roles.ui.border.base },
 		VertSplit = { link = "WinSeparator" },
-		WinBar = { bg = spec.bg0, fg = spec.fg1, style = "bold" },
-		WinBarNC = { bg = spec.bg0, fg = spec.fg3 },
+		WinBar = { fg = roles.ui.fg.main, bg = roles.ui.bg.main, style = "bold" },
+		WinBarNC = { fg = roles.ui.fg.subtle, bg = roles.ui.bg.main },
 
-		FloatBoarder = { fg = spec.border, bg = spec.bg2 },
+		FloatBorder = { fg = roles.ui.border.base, bg = roles.ui.bg.float },
 
 		-- Search
-		Search = { bg = spec.sel0, fg = spec.bg0 },
-		IncSearch = { bg = spec.sel1, fg = spec.bg0 },
+		Search = { bg = roles.ui.selection.bg, fg = roles.ui.fg.main },
+		IncSearch = { bg = roles.ui.selection.active, fg = roles.ui.bg.main },
 		CurSearch = { link = "IncSearch" },
-		Substitute = { bg = diag.error, fg = spec.bg0 },
+		Substitute = { bg = roles.ui.bg.accent, fg = roles.ui.bg.main },
 
-		-- Diagnostics
-		SpellBad = { sp = diag.error, style = "undercurl" },
-		SpellCap = { sp = diag.warn, style = "undercurl" },
-		SpellLocal = { sp = diag.info, style = "undercurl" },
-		SpellRare = { sp = diag.hint, style = "undercurl" },
+		-- Spelling & Diffs
+		SpellBad = { sp = roles.semantic.error.fg, style = "undercurl" },
+		SpellCap = { sp = roles.semantic.warn.fg, style = "undercurl" },
+		SpellLocal = { sp = roles.semantic.info.fg, style = "undercurl" },
+		SpellRare = { sp = roles.semantic.hint.fg, style = "undercurl" },
 
-		-- Diff
-		DiffAdd = { bg = diff.add },
-		DiffChange = { bg = diff.change },
-		DiffDelete = { bg = diff.delete },
-		DiffText = { bg = diff.text },
+		DiffAdd = { bg = roles.semantic.success.fg, fg = roles.ui.bg.main },
+		DiffChange = { bg = roles.semantic.changed.fg, fg = roles.ui.bg.main },
+		DiffDelete = { bg = roles.semantic.deleted.fg, fg = roles.ui.bg.main },
+		DiffText = { bg = roles.semantic.info.fg, fg = roles.ui.bg.main },
 
 		-- Popup menus
-		Pmenu = { bg = spec.sel0, fg = spec.fg1 },
+		Pmenu = { fg = roles.ui.fg.main, bg = roles.ui.bg.float },
 		PmenuSbar = { link = "Pmenu" },
-		PmenuSel = { bg = spec.sel1 },
-		PmenuThumb = { bg = spec.sel1 },
+		PmenuSel = { bg = roles.ui.selection.active },
+		PmenuThumb = { bg = roles.ui.fg.subtle },
 		WildMenu = { link = "Pmenu" },
 
 		-- Messages
-		MsgArea = { fg = spec.fg1 },
-		ModeMsg = { fg = diag.ok, style = "bold" },
-		MoreMsg = { fg = diag.info, style = "bold" },
+		MsgArea = { fg = roles.ui.fg.main },
+		ModeMsg = { fg = roles.ui.fg.main, style = "bold" },
+		MoreMsg = { fg = roles.semantic.info.fg },
 		Question = { link = "MoreMsg" },
-		ErrorMsg = { fg = diag.error },
-		WarningMsg = { fg = diag.warn },
+		ErrorMsg = { fg = roles.semantic.error.fg, style = "bold" },
+		WarningMsg = { fg = roles.semantic.warn.fg, style = "bold" },
 
 		-- QuickFix / misc
-		QuickFixLine = { bg = diag.info, fg = spec.bg0 },
-		MatchParen = { fg = diag.warn, style = "bold" },
-		Directory = { fg = syn.type },
+		QuickFixLine = { bg = roles.ui.bg.alt, style = "bold" },
+		MatchParen = { bg = roles.ui.selection.bg, style = "bold" },
+		Directory = { fg = roles.semantic.info.fg, style = "bold" },
 
 		-- Titles / headings
-		title = { fg = syn.type, style = "bold" },
+		Title = roles.markup.heading,
 	}
 end
 

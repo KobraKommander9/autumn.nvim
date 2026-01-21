@@ -7,48 +7,24 @@ local defaults = {
 		suffix = "_compiled",
 	},
 	terminal_color = true,
-	styles = {
-		comments = "italic",
-		documentation = "italic",
-
-		keywords = "bold",
-		statements = "NONE",
-
-		conditionals = "NONE",
-		constants = "NONE",
-		functions = "NONE",
-		numbers = "NONE",
-		operators = "NONE",
-		preprocs = "NONE",
-		strings = "NONE",
-		types = "NONE",
-		variables = "NONE",
-
-		diagnostics = "italic,underline",
-		links = "italic,underline",
-	},
 	modules = {
-		blink = true,
-		diagnostic = true,
-		lazy = true,
-		lsp = true,
+		blink = false,
+		diagnostic = false,
+		lazy = false,
+		lsp = false,
 		mini = false,
-		notify = true,
-		treesitter = true,
+		notify = false,
+		treesitter = false,
 	},
 	langs = {
-		go = true,
-		json = true,
-		lua = true,
-		rust = true,
-		shell = true,
-		typescript = true,
-		yaml = true,
+		go = false,
+		json = false,
+		lua = false,
+		rust = false,
+		shell = false,
+		typescript = false,
+		yaml = false,
 	},
-}
-
-M.lang_mappings = {
-	lua = "nlua",
 }
 
 local function is_enabled(t, key)

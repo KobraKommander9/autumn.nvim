@@ -2,12 +2,18 @@ local M = {}
 
 local fmt = string.format
 
+local lang_mappings = {
+	lua = "nlua",
+}
+
 local function parse_style(style)
 	if not style or style == "NONE" then
 		return {}
 	end
 
-	if type(style) == "table" then return style end
+	if type(style) == "table" then
+		return style
+	end
 
 	local result = {}
 	for token in string.gmatch(style, "([^,]+)") do
@@ -17,7 +23,7 @@ local function parse_style(style)
 	return result
 end
 
-local function template(spec, groups, opts, hash)
+local function template(roles, groups, opts, hash)
 	local lines = {
 		"\tlocal hl = vim.api.nvim_set_hl",
 		"\tif vim.g.colors_name then",
@@ -31,7 +37,7 @@ local function template(spec, groups, opts, hash)
 	}
 
 	if opts.terminal_colors == true then
-		local terminal = require("autumn.group.terminal").get(spec)
+		local terminal = require("autumn.group.terminal").get(roles)
 		for k, v in pairs(terminal) do
 			table.insert(lines, "\t" .. fmt([[vim.g.%s = "%s"]], k, v))
 		end
@@ -72,33 +78,36 @@ local function get_opts(opts)
 	return type(opts) == "boolean" and { disable = not opts } or type(opts) == "table" and opts or {}
 end
 
-local function load_spec()
+local function load_roles(opts)
 	local p = require("autumn.palette")
-	local spec = p.generate_spec(p.palette)
-	spec.palette = p.palette
-	return spec
+
+	local roles = require("autumn.roles").get(p, opts.styles)
+	roles = vim.tbl_deep_extend("force", roles, opts.overrides or {})
+
+	roles.palette = p.palette
+
+	return roles
 end
 
-local function load_groups(cfg, langs, spec)
-	local editor = require("autumn.group.editor").get(spec, cfg)
-	local syntax = require("autumn.group.syntax").get(spec, cfg)
+local function load_groups(opts, roles)
+	local editor = require("autumn.group.editor").get(roles, opts)
+	local syntax = require("autumn.group.syntax").get(roles, opts)
 
 	local built = vim.tbl_deep_extend("force", editor, syntax)
 
-	for mod, mod_opts in pairs(cfg.modules) do
-		local opts = get_opts(mod_opts)
-		if opts.disable == false then
-			local mod_hls = require("autumn.group.modules." .. mod).get(spec, cfg, opts)
+	for mod, mod_opts in pairs(opts.modules) do
+		mod_opts = get_opts(mod_opts)
+		if mod_opts.disable == false then
+			local mod_hls = require("autumn.group.modules." .. mod).get(roles, opts, mod_opts)
 			built = vim.tbl_deep_extend("force", built, mod_hls)
 		end
 	end
 
-	for lang, lang_opts in pairs(cfg.langs) do
-		lang = langs[lang] or lang
-
-		local opts = get_opts(lang_opts)
-		if opts.disable == false then
-			local lang_hls = require("autumn.group.lang." .. lang).get(spec, cfg, opts)
+	for lang, lang_opts in pairs(opts.langs) do
+		lang = lang_mappings[lang] or lang
+		lang_opts = get_opts(lang_opts)
+		if lang_opts.disable == false then
+			local lang_hls = require("autumn.group.lang." .. lang).get(roles, opts, lang_opts)
 			built = vim.tbl_deep_extend("force", built, lang_hls)
 		end
 	end
@@ -127,14 +136,14 @@ function M.compile(opts)
 	local config = require("autumn.config")
 	local files = require("autumn.files")
 
-	local spec = load_spec()
-	local groups = load_groups(config.options, config.lang_mappings, spec)
+	local roles = load_roles()
+	local groups = load_groups(config.options, roles)
 
 	local output_path, output_file = config.get_compiled_info(opts)
 	files.ensure_dir(output_path)
 
 	local hash = opts.hash or M.get_hash(config.options)
-	local scheme = template(spec, groups, config.options, hash)
+	local scheme = template(roles, groups, config.options, hash)
 
 	local isValid = loadstring(scheme)
 	if not isValid then

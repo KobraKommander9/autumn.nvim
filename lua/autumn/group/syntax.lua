@@ -1,79 +1,77 @@
 local M = {}
 
-function M.get(spec, config)
-	local diag = spec.diag
-	local git = spec.git
-	local syn = spec.syntax
-	local stl = config.styles
+function M.get(roles, _)
+	local p = roles.palette
 
 	return {
 		-- Comments
-		Comment = { fg = syn.comment, style = stl.comments },
+		Comment = roles.syntax.comment,
 		SpecialComment = { link = "Special" },
 
 		-- Constents
-		Boolean = { link = "Number" },
+		Boolean = roles.syntax.boolean,
 		Character = { link = "String" },
-		Constant = { fg = syn.const, style = stl.constants },
+		Constant = roles.syntax.constant,
 		Float = { link = "Number" },
-		Number = { fg = syn.number, style = stl.numbers },
-		String = { fg = syn.string, style = stl.strings },
+		Number = roles.syntax.number,
+		String = roles.syntax.string,
 
 		-- Identifiers
-		Function = { fg = syn.func, style = stl.functions },
-		Identifier = { fg = syn.ident, style = stl.variables },
+		Function = roles.syntax.func,
+		Identifier = roles.syntax.ident,
 
 		-- Keywords / statements
-		Conditional = { fg = syn.conditional, style = stl.conditionals },
-		Exception = { link = "Keyword" },
-		Keyword = { fg = syn.keyword, style = stl.keywords },
-		Label = { link = "Conditional" },
+		Conditional = roles.syntax.control,
+		Exception = { link = "Conditional" },
+		Keyword = roles.syntax.keyword,
+		Label = { link = "Keyword" },
 		Repeat = { link = "Conditional" },
-		Statement = { fg = syn.statement, style = stl.statements },
+		Statement = roles.syntax.statement,
 
 		-- Operators / Preprocessor
 		Define = { link = "PreProc" },
 		Include = { link = "PreProc" },
 		Macro = { link = "PreProc" },
-		Operator = { fg = syn.operator, style = stl.operators },
+		Operator = roles.syntax.operator,
 		PreCondit = { link = "PreProc" },
-		PreProc = { fg = syn.preproc, style = stl.preprocs },
+		PreProc = roles.syntax.preproc,
 
 		-- Types / Storage
 		StorageClass = { link = "Type" },
 		Structure = { link = "Type" },
-		Type = { fg = syn.type, style = stl.types },
+		Type = roles.syntax.type,
 		Typedef = { link = "Type" },
 
 		-- Special Symbols
 		Debug = { link = "Special" },
 		Delimiter = { link = "Special" },
-		Special = { fg = syn.func },
+		Special = roles.syntax.builtin_func,
 		SpecialChar = { link = "Special" },
 		Tag = { link = "Special" },
 
 		-- Text decoration
-		Bold = { style = "bold" },
-		Italic = { style = "italic" },
-		Underlined = { style = stl.links },
+		Bold = roles.markup.bold,
+		Italic = roles.markup.italic,
+		Underlined = roles.markup.underlined,
 
 		-- Diagnostics
-		Error = { fg = diag.error, style = stl.diagnostics },
-		Todo = { fg = syn.variable, bg = diag.info, style = stl.diagnostics },
+		Error = roles.semantic.error,
+		Todo = roles.semantic.info,
 
 		-- QuickFix
-		qfLineNr = { fg = syn.number },
-		qfFileName = { fg = syn.type },
+		qfLineNr = { fg = roles.ui.gutter.fg },
+		qfFileName = { fg = roles.syntax.func.fg },
+		qfSeparator = { fg = roles.ui.fg.subtle },
 
 		-- Diff
-		diffAdded = { fg = git.added },
-		diffChanged = { fg = git.changed },
-		diffFile = { fg = diag.info },
-		diffIndexLine = { fg = syn.preproc },
-		diffLine = { fg = syn.builtin2 },
-		diffNewFile = { fg = diag.hint },
-		diffOldFile = { fg = diag.warn },
-		diffRemoved = { fg = git.removed },
+		diffAdded = roles.semantic.success,
+		diffChanged = roles.semantic.changed,
+		diffFile = { fg = p.blue.base },
+		diffIndexLine = { fg = p.magenta.base },
+		diffLine = { fg = p.purple.base },
+		diffNewFile = { fg = p.green.dim },
+		diffOldFile = { fg = p.yellow.dim },
+		diffRemoved = roles.semantic.deleted,
 	}
 end
 
