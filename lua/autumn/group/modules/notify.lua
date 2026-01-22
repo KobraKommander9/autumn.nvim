@@ -1,34 +1,33 @@
 local M = {}
 
-function M.get(spec, _, _)
-	local diag = spec.diag
+function M.get(roles, _, _)
+	local p = roles.palette
+	local sem = roles.semantic
+	local ui = roles.ui
 
 	return {
-		NotifyBackground = { bg = spec.bg2 },
+		NotifyBackground = { bg = ui.bg.float, fg = ui.fg.main },
 
-		NotifyERRORBorder = { fg = diag.error },
-		NotifyWARNBorder = { fg = diag.warn },
-		NotifyINFOBorder = { fg = diag.info },
-		NotifyDEBUGBorder = { fg = spec.fg3 },
-		NotifyTRACEBorder = { fg = spec.fg3 },
+		NotifyERRORBorder = { fg = sem.error.fg },
+		NotifyWARNBorder = { fg = sem.warn.fg },
+		NotifyINFOBorder = { fg = sem.info.fg },
+		NotifyDEBUGBorder = { fg = p.purple.base },
+		NotifyTRACEBorder = { fg = p.magenta.base },
 
-		NotifyERRORTitle = { fg = diag.error, style = "bold" },
-		NotifyWARNTitle = { fg = diag.warn, style = "bold" },
-		NotifyINFOTitle = { fg = diag.info, style = "bold" },
-		NotifyDEBUGTitle = { fg = spec.fg3, style = "bold" },
-		NotifyTRACETitle = { fg = spec.fg3, style = "bold" },
+		NotifyERRORIcon = { fg = sem.error.fg },
+		NotifyWARNIcon = { fg = sem.warn.fg },
+		NotifyINFOIcon = { fg = sem.info.fg },
+		NotifyDEBUGIcon = { fg = p.purple.base },
+		NotifyTRACEIcon = { fg = p.magenta.base },
 
-		NotifyERRORIcon = { fg = diag.error },
-		NotifyWARNIcon = { fg = diag.warn },
-		NotifyINFOIcon = { fg = diag.info },
-		NotifyDEBUGIcon = { fg = spec.fg3 },
-		NotifyTRACEIcon = { fg = spec.fg3 },
+		NotifyERRORTitle = { fg = sem.error.fg, style = "bold" },
+		NotifyWARNTitle = { fg = sem.warn.fg, style = "bold" },
+		NotifyINFOTitle = { fg = sem.info.fg, style = "bold" },
+		NotifyDEBUGTitle = { fg = p.purple.base, style = "bold" },
+		NotifyTRACETitle = { fg = p.magenta.base, style = "bold" },
 
-		NotifyERRORBody = { fg = spec.fg1 },
-		NotifyWARNBody = { fg = spec.fg1 },
-		NotifyINFOBody = { fg = spec.fg1 },
-		NotifyDEBUGBody = { fg = spec.fg1 },
-		NotifyTRACEBody = { fg = spec.fg1 },
+		NotifyBody = { fg = ui.fg.main, bg = ui.bg.float },
+		NotifyLogTime = { fg = ui.fg.subtle },
 	}
 end
 

@@ -1,18 +1,25 @@
 local M = {}
 
-function M.get(spec, config, _)
-	local p = spec.palette
-	local syn = spec.syntax
-	local stl = config.styles
+function M.get(roles, _, _)
+	local syn = roles.syntax
 
 	return {
-		["@variable.go"] = { fg = syn.variable, style = stl.variables },
-		["@function.go"] = { fg = syn.func, style = stl.functions },
-		["@function.builtin.go"] = { fg = syn.builtin0, style = stl.functions },
-		["@interface.go"] = { fg = spec.secondary, style = stl.types },
-		["@type.builtin.go"] = { fg = spec.secondary, style = stl.types },
-		["@keyword.go"] = { fg = spec.primary, style = stl.keywords },
-		["@constant.go"] = { fg = p.magenta.base, style = stl.constants },
+		-- structs & interfaces
+		["@type.go"] = syn.type,
+		["@type.definition.go"] = syn.interface,
+
+		-- functions & methods
+		["@function.method.go"] = syn.func,
+		["@variable.receiver.go"] = { fg = syn.param.fg, style = "italic" },
+
+		-- builtins & keywords
+		["@function.builtin.go"] = syn.builtin_func,
+		["@constant.builtin.go"] = syn.constant,
+
+		-- semantic tokens
+		["@lsp.typemod.variable.defaultLibrary.go"] = syn.builtin_var,
+		["@lsp.type.namespace.go"] = syn.module,
+		["@lsp.type.type.go"] = syn.type,
 	}
 end
 

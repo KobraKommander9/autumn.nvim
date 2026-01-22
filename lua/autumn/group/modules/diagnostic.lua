@@ -1,32 +1,32 @@
 local M = {}
 
-function M.get(spec, _, _)
-	local d = spec.diag
+function M.get(roles, _, _)
+	local sem = roles.semantic
 
 	return {
-		DiagnosticError = { fg = d.error, style = "underline" },
-		DiagnosticWarn = { fg = d.warn, style = "underline" },
-		DiagnosticInfo = { fg = d.info, style = "underline" },
-		DiagnosticHint = { fg = d.hint, style = "underline" },
-		DiagnosticOk = { fg = d.ok, style = "underline" },
+		DiagnosticError = { fg = sem.error.fg, style = "underline" },
+		DiagnosticWarn = { fg = sem.warn.fg, style = "underline" },
+		DiagnosticInfo = { fg = sem.info.fg, style = "underline" },
+		DiagnosticHint = { fg = sem.hint.fg, style = "underline" },
+		DiagnosticOk = { fg = sem.ok.fg, style = "underline" },
 
-		DiagnosticSignError = { fg = d.error },
-		DiagnosticSignWarn = { fg = d.warn },
-		DiagnosticSignInfo = { fg = d.info },
-		DiagnosticSignHint = { fg = d.hint },
-		DiagnosticSignOk = { fg = d.ok },
+		DiagnosticSignError = { fg = sem.error.fg },
+		DiagnosticSignWarn = { fg = sem.warn.fg },
+		DiagnosticSignInfo = { fg = sem.info.fg },
+		DiagnosticSignHint = { fg = sem.hint.fg },
+		DiagnosticSignOk = { fg = sem.ok.fg },
 
-		DiagnosticVirtualTextError = { fg = d.error, style = "italic" },
-		DiagnosticVirtualTextWarn = { fg = d.warn, style = "italic" },
-		DiagnosticVirtualTextInfo = { fg = d.info, style = "italic" },
-		DiagnosticVirtualTextHint = { fg = d.hint, style = "italic" },
-		DiagnosticVirtualTextOk = { fg = d.ok, style = "italic" },
+		DiagnosticVirtualTextError = { fg = sem.error.fg, style = "italic" },
+		DiagnosticVirtualTextWarn = { fg = sem.warn.fg, style = "italic" },
+		DiagnosticVirtualTextInfo = { fg = sem.info.fg, style = "italic" },
+		DiagnosticVirtualTextHint = { fg = sem.hint.fg, style = "italic" },
+		DiagnosticVirtualTextOk = { fg = sem.ok.fg, style = "italic" },
 
-		DiagnosticUnderlineError = { style = "undercurl", sp = d.error },
-		DiagnosticUnderlineWarn = { style = "undercurl", sp = d.warn },
-		DiagnosticUnderlineInfo = { style = "undercurl", sp = d.info },
-		DiagnosticUnderlineHint = { style = "undercurl", sp = d.hint },
-		DiagnosticUnderlineOk = { style = "undercurl", sp = d.ok },
+		DiagnosticUnderlineError = { style = "undercurl", sp = sem.error.fg },
+		DiagnosticUnderlineWarn = { style = "undercurl", sp = sem.warn.fg },
+		DiagnosticUnderlineInfo = { style = "undercurl", sp = sem.info.fg },
+		DiagnosticUnderlineHint = { style = "undercurl", sp = sem.hint.fg },
+		DiagnosticUnderlineOk = { style = "undercurl", sp = sem.ok.fg },
 	}
 end
 

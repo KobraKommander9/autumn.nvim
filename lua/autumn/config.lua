@@ -1,6 +1,7 @@
 local M = {}
 
 local defaults = {
+	palette = "original",
 	compile = {
 		cache = true,
 		path = vim.fn.stdpath("cache") .. "/autumn",
@@ -8,16 +9,16 @@ local defaults = {
 	},
 	terminal_color = true,
 	modules = {
-		blink = false,
-		diagnostic = false,
-		lazy = false,
-		lsp = false,
-		mini = false,
-		notify = false,
-		treesitter = false,
+		blink = true,
+		diagnostic = true,
+		lazy = true,
+		lsp = true,
+		mini = true,
+		notify = true,
+		treesitter = true,
 	},
 	langs = {
-		go = false,
+		go = true,
 		json = false,
 		lua = false,
 		rust = false,

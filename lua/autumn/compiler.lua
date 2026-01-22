@@ -25,27 +25,27 @@ end
 
 local function template(roles, groups, opts, hash)
 	local lines = {
-		"\tlocal hl = vim.api.nvim_set_hl",
-		"\tif vim.g.colors_name then",
-		'\t\tvim.cmd("hi clear")',
-		"\tend\n",
-		'\tvim.cmd("syntax reset")',
-		"\tvim.o.termguicolors = true",
-		'\tvim.g.colors_name = "autumn"',
-		'\tvim.o.background = "dark"\n',
-		"\t--- spec\n",
+		"  local hl = vim.api.nvim_set_hl",
+		"  if vim.g.colors_name then",
+		'    vim.cmd("hi clear")',
+		"  end\n",
+		'  vim.cmd("syntax reset")',
+		"  vim.o.termguicolors = true",
+		'  vim.g.colors_name = "autumn"',
+		'  vim.o.background = "dark"\n',
+		"  --- spec\n",
 	}
 
 	if opts.terminal_colors == true then
 		local terminal = require("autumn.group.terminal").get(roles)
 		for k, v in pairs(terminal) do
-			table.insert(lines, "\t" .. fmt([[vim.g.%s = "%s"]], k, v))
+			table.insert(lines, "  " .. fmt([[vim.g.%s = "%s"]], k, v))
 		end
 	end
 
 	for group, attrs in pairs(groups) do
 		if attrs.link and attrs.link ~= "" then
-			table.insert(lines, "\t" .. fmt([[hl(0, "%s", { link = "%s" })]], group, attrs.link))
+			table.insert(lines, "  " .. fmt([[hl(0, "%s", { link = "%s" })]], group, attrs.link))
 		else
 			local style_str = attrs.style or attrs.gui or "NONE"
 
@@ -54,7 +54,7 @@ local function template(roles, groups, opts, hash)
 			op.fg = attrs.fg
 			op.sp = attrs.sp
 
-			table.insert(lines, "\t" .. fmt([[hl(0, "%s", %s)]], group, vim.inspect(op)))
+			table.insert(lines, "  " .. fmt([[hl(0, "%s", %s)]], group, vim.inspect(op)))
 		end
 	end
 
@@ -79,12 +79,34 @@ local function get_opts(opts)
 end
 
 local function load_roles(opts)
-	local p = require("autumn.palette")
+	local defaults = require("autumn.palettes")
 
-	local roles = require("autumn.roles").get(p, opts.styles)
+	local p = defaults.palette
+	local roles
+
+	if opts.palette and opts.palette ~= "default" then
+		local ok, pal = pcall(require, "autumn.palettes." .. opts.palette)
+		if ok then
+			p = pal.palette
+
+			pal.get = pal.get or function(_)
+				return {}
+			end
+
+			roles = vim.tbl_deep_extend("force", defaults.get(p, opts.styles), pal.get(p))
+		else
+			vim.notify(fmt([[Autumn palette error (%s): %s]], opts.palette, pal), vim.log.levels.ERROR, {
+				title = "Autumn",
+				timeout = 2000,
+			})
+			roles = defaults.get(p, opts.styles)
+		end
+	else
+		roles = defaults.get(p, opts.styles)
+	end
+
 	roles = vim.tbl_deep_extend("force", roles, opts.overrides or {})
-
-	roles.palette = p.palette
+	roles.palette = p
 
 	return roles
 end
@@ -136,7 +158,7 @@ function M.compile(opts)
 	local config = require("autumn.config")
 	local files = require("autumn.files")
 
-	local roles = load_roles()
+	local roles = load_roles(config.options)
 	local groups = load_groups(config.options, roles)
 
 	local output_path, output_file = config.get_compiled_info(opts)

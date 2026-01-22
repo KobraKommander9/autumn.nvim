@@ -3,7 +3,7 @@ local M = {}
 function M.get(roles, _)
 	return {
 		-- Basic editor
-		Normal = { fg = roles.ui.fg.main, roles.ui.bg.main },
+		Normal = { fg = roles.ui.fg.main, bg = roles.ui.bg.main },
 		NormalFloat = { fg = roles.ui.fg.main, bg = roles.ui.bg.float },
 		NormalNC = { link = "Normal" },
 		Visual = { bg = roles.ui.bg.visual },

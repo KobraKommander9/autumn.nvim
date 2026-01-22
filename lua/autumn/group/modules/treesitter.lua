@@ -1,126 +1,126 @@
 local M = {}
 
-function M.get(spec, config, _)
-	local p = spec.palette
-	local syn = spec.syntax
-	local stl = config.styles
+function M.get(roles, _, _)
+	local syn = roles.syntax
+	local ui = roles.ui
+	local sem = roles.semantic
 
 	local hl = {
 		-- Identifiers ------------------------------------------------------------
-		["@variable"] = { fg = syn.variable, style = stl.variables }, -- various variable names
-		["@variable.builtin"] = { fg = syn.builtin0, style = stl.variables }, -- built-in variable names (e.g. `this`)
-		["@variable.parameter"] = { fg = syn.builtin1, style = stl.variables }, -- parameters of a function
-		["@variable.member"] = { fg = syn.field, style = stl.variables }, -- object and struct fields
+		["@variable"] = syn.variable,
+		["@variable.builtin"] = syn.builtin_var,
+		["@variable.parameter"] = syn.param,
+		["@variable.member"] = syn.field,
 
-		["@constant"] = { link = "Constant" }, -- constant identifiers
-		["@constant.builtin"] = { fg = syn.builtin2, style = stl.keywords }, -- built-in constant values
-		["@constant.macro"] = { link = "Macro" }, -- constants defined by the preprocessor
+		["@constant"] = { link = "Constant" },
+		["@constant.builtin"] = syn.constant,
+		["@constant.macro"] = syn.preproc,
 
-		["@module"] = { fg = syn.builtin1 }, -- modules or namespaces
-		["@module.builtin"] = { fg = syn.builtin0 }, -- built-in modules or namespaces
-		["@label"] = { link = "Label" }, -- GOTO and other labels (e.g. `label:` in C), including heredoc labels
+		["@module"] = syn.module,
+		["@module.builtin"] = syn.ynbuiltin_var,
+		["@label"] = { link = "Label" },
 
 		-- Literals ---------------------------------------------------------------
-		["@string"] = { link = "String" }, -- string literals
-		["@string.documentation"] = { fg = syn.string, style = stl.documentation }, -- string documenting code (e.g. Python docstrings)
-		["@string.regexp"] = { fg = syn.regex, style = stl.strings }, -- regular expressions
-		["@string.escape"] = { fg = syn.regex, style = "bold" }, -- escape sequences
-		["@string.special"] = { link = "Special" }, -- other special strings (e.g. dates)
-		["@string.special.symbol"] = { fg = syn.builtin2 }, -- symbols or atoms
-		["@string.special.url"] = { fg = syn.const, style = "italic,underline" }, -- URIs (e.g. hyperlinks)
-		["@string.special.path"] = { fg = syn.builtin1, style = "italic" }, -- filenames
+		["@string"] = { link = "String" },
+		["@string.documentation"] = roles.info.documentation,
+		["@string.regexp"] = syn.regex,
+		["@string.escape"] = { fg = syn.regex.fg, style = "bold" },
+		["@string.special"] = { link = "Special" },
+		["@string.special.symbol"] = syn.constant,
+		["@string.special.url"] = roles.markup.link,
+		["@string.special.path"] = syn.string_sp,
 
-		["@character"] = { link = "Character" }, -- character literals
-		["@character.special"] = { link = "SpecialChar" }, -- special characters (e.g. wildcards)
+		["@character"] = { link = "Character" },
+		["@character.special"] = { link = "SpecialChar" },
 
-		["@boolean"] = { link = "Boolean" }, -- boolean literals
-		["@number"] = { link = "Number" }, -- numeric literals
-		["@number.float"] = { link = "Float" }, -- floating-point number literals
+		["@boolean"] = { link = "Boolean" },
+		["@number"] = { link = "Number" },
+		["@number.float"] = { link = "Float" },
 
 		-- Types ------------------------------------------------------------------
-		["@type"] = { link = "Type" }, -- type or class definitions and annotations
-		["@type.builtin"] = { fg = syn.builtin1, style = stl.types }, -- built-in types
-		["@type.definition"] = { link = "@type" }, -- identifiers in type definitions (e.g. `typedef <type> <identifier>` in C)
-		["@type.qualifier"] = { fg = syn.builtin1, style = "italic" }, -- type qualifiers (e.g. `const`)
+		["@type"] = { link = "Type" },
+		["@type.builtin"] = syn.builtin_type,
+		["@type.definition"] = syn.interface,
+		["@type.qualifier"] = syn.keyword,
 
-		["@attribute"] = { link = "Constant" }, -- attribute annotations (e.g. Python decorators)
-		["@property"] = { fg = syn.field }, -- the key in key/value pairs
+		["@attribute"] = syn.constant,
+		["@property"] = syn.field,
 
 		-- Functions --------------------------------------------------------------
-		["@function"] = { link = "Function" }, -- function definitions
-		["@function.builtin"] = { fg = syn.builtin0, style = stl.functions }, -- built-in functions
-		["@function.call"] = { link = "@function" }, -- function calls
-		["@function.macro"] = { fg = syn.builtin0, style = stl.functions }, -- preprocessor macros
+		["@function"] = { link = "Function" },
+		["@function.builtin"] = syn.builtin_func,
+		["@function.call"] = { link = "@function" },
+		["@function.macro"] = syn.preproc,
 
-		["@function.method"] = { link = "@function" }, -- method definitions
-		["@function.method.call"] = { link = "@function" }, -- method calls
+		["@function.method"] = { link = "@function" },
+		["@function.method.call"] = { link = "@function" },
 
-		["@constructor"] = { fg = syn.ident }, -- constructor calls and definitions
-		["@operator"] = { link = "Operator" }, -- symbolic operators (e.g. `+` / `*`)
+		["@constructor"] = syn.func,
+		["@operator"] = { link = "Operator" },
 
 		-- Keywords ---------------------------------------------------------------
-		["@keyword"] = { link = "Keyword" }, -- keywords not fitting into specific categories
-		["@keyword.coroutine"] = { link = "@keyword" }, -- keywords related to coroutines (e.g. `go` in Go, `async/await` in Python)
-		["@keyword.function"] = { fg = syn.keyword, style = stl.functions }, -- keywords that define a function (e.g. `func` in Go, `def` in Python)
-		["@keyword.operator"] = { fg = syn.operator, style = stl.operators }, -- operators that are English words (e.g. `and` / `or`)
-		["@keyword.import"] = { link = "Include" }, -- keywords for including modules (e.g. `import` / `from` in Python)
-		["@keyword.storage"] = { link = "StorageClass" }, -- modifiers that affect storage in memory or life-time
-		["@keyword.repeat"] = { link = "Repeat" }, -- keywords related to loops (e.g. `for` / `while`)
-		["@keyword.return"] = { fg = syn.builtin0, style = stl.keywords }, -- keywords like `return` and `yield`
-		["@keyword.debug"] = { fg = spec.primary, style = "bold" }, -- keywords related to debugging
-		["@keyword.exception"] = { link = "Exception" }, -- keywords related to exceptions (e.g. `throw` / `catch`)
+		["@keyword"] = { link = "Keyword" },
+		["@keyword.coroutine"] = syn.control,
+		["@keyword.function"] = syn.keyword,
+		["@keyword.operator"] = syn.operator,
+		["@keyword.import"] = { link = "Include" },
+		["@keyword.storage"] = { link = "StorageClass" },
+		["@keyword.repeat"] = { link = "Repeat" },
+		["@keyword.return"] = syn.control,
+		["@keyword.debug"] = roles.emphasis.high,
+		["@keyword.exception"] = { link = "Exception" },
 
-		["@keyword.conditional"] = { link = "Conditional" }, -- keywords related to conditionals (e.g. `if` / `else`)
-		["@keyword.conditional.ternary"] = { link = "Conditional" }, -- ternary operator (e.g. `?` / `:`)
+		["@keyword.conditional"] = { link = "Conditional" },
+		["@keyword.conditional.ternary"] = syn.operator,
 
-		["@keyword.directive"] = { link = "PreProc" }, -- various preprocessor directives & shebangs
-		["@keyword.directive.define"] = { link = "@keyword.directive" }, -- preprocessor definition directives
+		["@keyword.directive"] = syn.preproc,
+		["@keyword.directive.define"] = syn.preproc,
 
 		-- Punctuation ------------------------------------------------------------
-		["@punctuation.delimiter"] = { fg = syn.bracket }, -- delimiters (e.g. `;` / `.` / `,`)
-		["@punctuation.bracket"] = { fg = syn.bracket }, -- brackets (e.g. `()` / `{}` / `[]`)
-		["@punctuation.special"] = { fg = syn.builtin1, style = stl.operators }, -- special symbols (e.g. `{}` in string interpolation)
+		["@punctuation.delimiter"] = syn.punctuation,
+		["@punctuation.bracket"] = syn.bracket,
+		["@punctuation.special"] = syn.operator,
 
 		-- Comments ---------------------------------------------------------------
-		["@comment"] = { link = "Comment" }, -- line and block comments
-		["@comment.documentation"] = { fg = syn.comment, style = stl.documentation }, -- comments documenting code
+		["@comment"] = { link = "Comment" },
+		["@comment.documentation"] = roles.info.documentation,
 
-		["@comment.error"] = { fg = spec.bg1, bg = spec.diag.error }, -- error-type comments (e.g. `ERROR`, `FIXME`, `DEPRECATED:`)
-		["@comment.warning"] = { fg = spec.bg1, bg = spec.diag.warn }, -- warning-type comments (e.g. `WARNING:`, `FIX:`, `HACK:`)
-		["@comment.todo"] = { fg = spec.bg1, bg = spec.diag.hint }, -- todo-type comments (e.g. `TODO:`, `WIP:`, `FIXME:`)
-		["@comment.note"] = { fg = spec.bg1, bg = spec.diag.info }, -- note-type comments (e.g. `NOTE:`, `INFO:`, `XXX`)
+		["@comment.error"] = { fg = ui.bg.main, bg = sem.error.fg },
+		["@comment.warning"] = { fg = ui.bg.main, bg = sem.warn.fg },
+		["@comment.todo"] = { fg = ui.bg.main, bg = sem.hint.fg },
+		["@comment.note"] = { fg = ui.bg.main, bg = sem.info.fg },
 
 		-- Markup -----------------------------------------------------------------
-		["@markup"] = { fg = spec.fg1 }, -- For strings considerated text in a markup language.
-		["@markup.strong"] = { fg = p.red.dim, style = "bold" }, -- bold text
-		["@markup.italic"] = { link = "Italic" }, -- italic text
-		["@markup.strikethrough"] = { fg = spec.fg1, style = "strikethrough" }, -- struck-through text
-		["@markup.underline"] = { link = "Underline" }, -- underlined text (only for literal underline markup!)
+		["@markup"] = { fg = ui.fg.main },
+		["@markup.strong"] = roles.markup.bold,
+		["@markup.italic"] = roles.markup.italic,
+		["@markup.strikethrough"] = syn.deprecated,
+		["@markup.underline"] = { style = "underline" },
 
-		["@markup.heading"] = { link = "Title" }, -- headings, titles (including markers)
+		["@markup.heading"] = roles.markup.heading,
 
-		["@markup.quote"] = { fg = spec.fg2 }, -- block quotes
-		["@markup.math"] = { fg = syn.func }, -- math environments (e.g. `$ ... $` in LaTeX)
-		["@markup.environment"] = { link = "@markup" }, -- environments (e.g. in LaTeX)
+		["@markup.quote"] = roles.markup.quote,
+		["@markup.math"] = syn.func,
+		["@markup.environment"] = syn.preproc,
 
-		["@markup.link"] = { fg = syn.keyword, style = "bold" }, -- text references, footnotes, citations, etc.
-		["@markup.link.label"] = { link = "Special" }, -- link, reference descriptions
-		["@markup.link.url"] = { fg = syn.const, style = "italic,underline" }, -- URL-style links
+		["@markup.link"] = roles.markup.link,
+		["@markup.link.label"] = { link = "Special" },
+		["@markup.link.url"] = roles.markup.link,
 
-		["@markup.raw"] = { fg = syn.ident, style = "italic" }, -- literal or verbatim text (e.g. inline code)
-		["@markup.raw.block"] = { fg = p.pink.base }, -- literal or verbatim text as a stand-alone block (use priority 90 for blocks with injections)
+		["@markup.raw"] = roles.markup.raw,
+		["@markup.raw.block"] = { fg = ui.fg.main },
 
-		["@markup.list"] = { fg = syn.builtin1, style = stl.operators }, -- list markers
-		["@markup.list.checked"] = { fg = p.green.base }, -- checked todo-style list markers
-		["@markup.list.unchecked"] = { fg = p.yellow.base }, -- unchecked todo-style list markers
+		["@markup.list"] = syn.punctuation,
+		["@markup.list.checked"] = { fg = sem.success.fg },
+		["@markup.list.unchecked"] = { fg = sem.warn.fg },
 
-		["@diff.plus"] = { link = "diffAdded" }, -- added text (for diff files)
-		["@diff.minus"] = { link = "diffRemoved" }, -- deleted text (for diff files)
-		["@diff.delta"] = { link = "diffChanged" }, -- changed text (for diff files)
+		["@diff.plus"] = { link = "diffAdded" },
+		["@diff.minus"] = { link = "diffRemoved" },
+		["@diff.delta"] = { link = "diffChanged" },
 
-		["@tag"] = { fg = syn.keyword }, -- XML-style tag names (and similar)
-		["@tag.attribute"] = { fg = syn.func, style = "italic" }, -- XML-style tag attributes
-		["@tag.delimiter"] = { fg = syn.builtin1 }, -- XML-style tag delimiters
+		["@tag"] = syn.keyword,
+		["@tag.attribute"] = syn.field,
+		["@tag.delimiter"] = syn.punctuation,
 
 		-- Misc -------------------------------------------------------------------
 		-- ["@none"] = { }, -- completely disable the highlight

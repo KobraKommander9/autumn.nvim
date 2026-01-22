@@ -1,70 +1,69 @@
 local M = {}
 
-function M.get(spec, _, _)
-	local p = spec.palette
-	local syn = spec.syntax
-	local diag = spec.diag
-	local diff = spec.diff
+function M.get(roles, _, _)
+	local p = roles.palette
+	local sem = roles.semantic
+	local syn = roles.syntax
+	local ui = roles.ui
 
 	return {
 		--------------------------------------
-		-- MiniClue
-		MiniClueCurrent = { fg = p.primary.base, style = "bold" },
-		MiniClueKeys = { fg = syn.keyword },
-		MiniClueDesc = { fg = syn.variable },
+		-- MiniClue (The keybinding helper)
+		--------------------------------------
+		MiniClueCurrent = roles.emphasis.high,
+		MiniClueKeys = syn.keyword,
+		MiniClueDesc = syn.variable,
+		MiniClueBorder = { fg = ui.border.base, bg = ui.bg.float },
 
 		--------------------------------------
-		-- MiniDiff
-		MiniDiffAdd = { fg = diff.add },
-		MiniDiffDelete = { fg = diff.delete },
-		MiniDiffChange = { fg = diff.change },
-		MiniDiffText = { fg = diff.text },
+		-- MiniDiff (The gutter signs)
+		--------------------------------------
+		MiniDiffAdd = { fg = sem.success.fg },
+		MiniDiffDelete = { fg = sem.deleted.fg },
+		MiniDiffChange = { fg = sem.changed.fg },
+		MiniDiffText = { fg = p.blue.base }, -- Used in diff overlays
 
 		--------------------------------------
-		-- MiniFiles
-		MiniFilesFile = { fg = syn.variable },
-		MiniFilesFolder = { fg = p.secondary.base, style = "bold" },
-		MiniFilesModule = { fg = p.purple.base },
+		-- MiniFiles (The file explorer)
+		--------------------------------------
+		MiniFilesFile = syn.variable,
+		MiniFilesFolder = { fg = syn.type.fg, style = "bold" }, -- Linked to Olive
+		MiniFilesModule = syn.module,
 		MiniFilesSymlink = { fg = p.cyan.base },
 		MiniFilesExec = { fg = p.green.base },
-		MiniFilesDot = { fg = p.fg3 }, -- hidden dotfiles
-		MiniFilesNumber = { fg = syn.number },
-		MiniFilesSymbol = { fg = syn.operator },
+		MiniFilesDot = { fg = ui.fg.subtle },
+		MiniFilesNumber = syn.number,
+		MiniFilesSymbol = syn.punctuation,
+		MiniFilesBorder = { fg = ui.border.base },
 
 		--------------------------------------
-		-- MiniIcons
-		MiniIconFile = { link = "MiniFilesFile" },
-		MiniIconFolder = { link = "MiniFilesFolder" },
-		MiniIconModule = { link = "MiniFilesModule" },
-		MiniIconClass = { fg = p.secondary.base },
-		MiniIconMethod = { fg = p.pink.base },
-		MiniIconFunction = { fg = p.pink.base },
-		MiniIconVariable = { fg = syn.variable },
-		MiniIconConstant = { fg = p.magenta.base },
-		MiniIconBoolean = { fg = p.green.base },
-		MiniIconNumber = { fg = syn.number },
-		MiniIconString = { fg = syn.string },
-		MiniIconProperty = { fg = p.secondary.base },
-		MiniIconKeyword = { fg = syn.keyword },
-		MiniIconOperator = { fg = syn.operator },
-		MiniIconComment = { fg = syn.comment, style = "italic" },
-		MiniIconWarning = { fg = diag.warn },
-		MiniIconError = { fg = diag.error },
-		MiniIconInfo = { fg = diag.info },
+		-- MiniIcons (Used across the mini ecosystem)
+		--------------------------------------
+		MiniIconsAzure = { fg = p.blue.base },
+		MiniIconsBlue = { fg = p.blue.dim },
+		MiniIconsCyan = { fg = p.cyan.base },
+		MiniIconsGreen = { fg = p.green.base },
+		MiniIconsGrey = { fg = p.fg0 },
+		MiniIconsMagenta = { fg = p.magenta.base },
+		MiniIconsOrange = { fg = p.primary.base },
+		MiniIconsPurple = { fg = p.purple.base },
+		MiniIconsRed = { fg = p.red.base },
+		MiniIconsYellow = { fg = p.yellow.base },
 
 		--------------------------------------
-		-- MiniPick
-		MiniPickPrompt = { fg = syn.keyword, style = "bold" },
-		MiniPickSelection = { bg = p.sel1 },
-		MiniPickCurrent = { bg = p.sel0, fg = p.fg1, style = "bold" },
-		MiniPickBorder = { fg = p.border },
-		MiniPickMatch = { fg = p.primary.base, style = "bold" },
+		-- MiniPick (The fuzzy selector)
+		--------------------------------------
+		MiniPickPrompt = { fg = syn.keyword.fg, style = "bold" },
+		MiniPickBorder = { fg = ui.border.base, bg = ui.bg.float },
+		MiniPickHeader = { fg = syn.keyword.fg },
+		MiniPickMatch = { fg = p.primary.base, style = "bold" }, -- Match Blink matching
+		MiniPickSelection = { bg = ui.selection.active, style = "bold" },
 
 		--------------------------------------
 		-- MiniSurround
-		MiniSurround = { fg = syn.operator }, -- surrounding symbols
-		MiniSurroundHighlight = { bg = p.sel0 }, -- selected area
-		MiniSurroundYank = { bg = p.secondary.base }, -- yanked text highlight
+		--------------------------------------
+		MiniSurround = syn.operator,
+		MiniSurroundHighlight = { bg = ui.bg.accent }, -- Make it pop using bg3
 	}
 end
 
