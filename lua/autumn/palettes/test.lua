@@ -5,36 +5,37 @@ local color = require("autumn.palettes.color")
 local palette = {
 	-- Backgrounds
 	bg0 = "#262318", -- main editing area
-	bg1 = "#363225", -- slightly lighter, cursorline base
+	bg1 = "#322f25", -- slightly lighter, cursorline base
 	bg2 = "#3c392c", -- panels, floats, sidebars
 	bg3 = "#585341", -- visual selection
 
 	-- Foregrounds
 	fg0 = "#dbd7c3", -- dim / secondary text
 	fg1 = "#f2eed9", -- main text
-	fg2 = "#e6e1d8", -- accents (functions/methods)
+	fg2 = "#d69981", -- accents (functions/methods)
 	fg3 = "#858171", -- subtle text (comments, nontext)
 
 	-- Selections
-	sel0 = "#524f3a", -- visual select base
-	sel1 = "#c2d699", -- visual select highlight / hover
+	sel0 = "#4a2b30", -- visual select base
+	sel1 = "#8c4351", -- visual select highlight / hover
+	sel2 = "#52363b", -- references
 
 	-- Border / UI
 	border = "#706d5d",
 
 	-- Core semantic colors
-	primary = color.new("#eb5e28", "#e04e15", "#844221"),
-	secondary = color.new("#7f9a3e", "#687a35", "#515b2b"),
+	primary = color.new("#f7768e", "#965b67", "#3d262a"),
+	secondary = color.new("#e0af68", "#8c7352", "#382e21"),
 
 	-- Standard syntax colors
-	red = color.new("#e6e1d8", "#e6e1d8", "#e6e1d8"), -- #bc4749
-	green = color.new("#e6e1d8", "#e6e1d8", "#e6e1d8"), -- #6a7045
-	yellow = color.new("#e6e1d8", "#e6e1d8", "#e6e1d8"), -- #d4a373
-	blue = color.new("#e6e1d8", "#e6e1d8", "#e6e1d8"), -- #4a6d7c
-	cyan = color.new("#e6e1d8", "#e6e1d8", "#e6e1d8"), -- #83a598
-	purple = color.new("#e6e1d8", "#e6e1d8", "#e6e1d8"), -- #6d597a
-	magenta = color.new("#e6e1d8", "#e6e1d8", "#e6e1d8"), -- #a66d85
-	pink = color.new("#e6e1d8", "#e6e1d8", "#e6e1d8"), -- #c2847a
+	red = color.new("#db4b4b"),
+	green = color.new("#9ece6a", "#7da383"),
+	yellow = color.new("#ff9e64"),
+	blue = color.new("#7aa2f7"),
+	cyan = color.new("#89ddff"),
+	purple = color.new("#bb9af7", "#a48ead"),
+	magenta = color.new("#c678dd"),
+	pink = color.new("#f7768e", "#965b67", "#3d262a"),
 }
 
 function M.get(p)
@@ -57,6 +58,7 @@ function M.get(p)
 		selection = {
 			bg = p.sel0,
 			active = p.sel1,
+			reference = p.sel2,
 		},
 
 		border = p.border,
@@ -98,16 +100,16 @@ function M.get(p)
 
 		-- conditionals / loops
 		control = {
-			fg = p.primary.dim,
+			fg = p.primary.base,
 		},
 
 		-- constants / imports
 		constant = {
-			fg = p.purple.base,
+			fg = p.cyan.base,
 		},
 
 		module = {
-			fg = p.pink.base,
+			fg = p.purple.dim,
 		},
 
 		-- fields / object properties
@@ -116,8 +118,7 @@ function M.get(p)
 		},
 
 		func = {
-			-- fg = p.secondary.base,
-			fg = p.fg1,
+			fg = p.secondary.base,
 		},
 
 		ident = {
@@ -125,7 +126,7 @@ function M.get(p)
 		},
 
 		interface = {
-			fg = p.pink.base,
+			fg = p.purple.dim,
 		},
 
 		param = {
@@ -138,8 +139,7 @@ function M.get(p)
 		},
 
 		operator = {
-			-- fg = p.primary.dim,
-			fg = p.fg1,
+			fg = p.secondary.dim,
 		},
 
 		statement = {
@@ -148,25 +148,24 @@ function M.get(p)
 
 		-- data atoms
 		boolean = {
-			fg = p.purple.base,
-		},
-
-		number = {
-			fg = p.purple.base,
-		},
-
-		string = {
 			fg = p.cyan.base,
 		},
 
+		number = {
+			fg = p.cyan.base,
+		},
+
+		string = {
+			fg = p.green.base,
+		},
+
 		string_sp = {
-			fg = p.cyan.dim,
+			fg = p.green.dim,
 		},
 
 		-- types
 		type = {
-			-- fg = p.secondary.base,
-			fg = p.fg1,
+			fg = p.secondary.base,
 		},
 
 		variable = {
@@ -175,7 +174,7 @@ function M.get(p)
 
 		-- meta
 		preproc = {
-			fg = p.magenta.dim,
+			fg = p.magenta.base,
 		},
 
 		regex = {

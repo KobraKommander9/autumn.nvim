@@ -52,7 +52,7 @@ function M.get(roles, _)
 
 		-- Search
 		Search = { bg = ui.selection.bg, fg = ui.fg.main },
-		IncSearch = { bg = ui.selection.active, fg = ui.bg.main },
+		IncSearch = { bg = ui.selection.active, fg = ui.fg.main },
 		CurSearch = { link = "IncSearch" },
 		Substitute = { link = "IncSearch" },
 
