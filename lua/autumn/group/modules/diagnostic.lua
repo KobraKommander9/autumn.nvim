@@ -4,17 +4,23 @@ function M.get(roles, _, _)
 	local sem = roles.semantic
 
 	return {
-		DiagnosticError = { fg = sem.error.fg, style = "underline" },
-		DiagnosticWarn = { fg = sem.warn.fg, style = "underline" },
-		DiagnosticInfo = { fg = sem.info.fg, style = "underline" },
-		DiagnosticHint = { fg = sem.hint.fg, style = "underline" },
-		DiagnosticOk = { fg = sem.ok.fg, style = "underline" },
+		DiagnosticError = { fg = sem.error.fg },
+		DiagnosticWarn = { fg = sem.warn.fg },
+		DiagnosticInfo = { fg = sem.info.fg },
+		DiagnosticHint = { fg = sem.hint.fg },
+		DiagnosticOk = { fg = sem.ok.fg },
 
-		DiagnosticSignError = { fg = sem.error.fg },
-		DiagnosticSignWarn = { fg = sem.warn.fg },
-		DiagnosticSignInfo = { fg = sem.info.fg },
-		DiagnosticSignHint = { fg = sem.hint.fg },
-		DiagnosticSignOk = { fg = sem.ok.fg },
+		DiagnosticFloatingError = { link = "DiagnosticError" },
+		DiagnosticFloatingWarn = { link = "DiagnosticWarn" },
+		DiagnosticFloatingInfo = { link = "DiagnosticInfo" },
+		DiagnosticFloatingHint = { link = "DiagnosticHint" },
+		DiagnosticFloatingOk = { link = "DiagnosticOk" },
+
+		DiagnosticSignError = { link = "DiagnosticError" },
+		DiagnosticSignWarn = { link = "DiagnosticWarn" },
+		DiagnosticSignInfo = { link = "DiagnosticInfo" },
+		DiagnosticSignHint = { link = "DiagnosticHint" },
+		DiagnosticSignOk = { link = "DiagnosticOk" },
 
 		DiagnosticVirtualTextError = { fg = sem.error.fg, style = "italic" },
 		DiagnosticVirtualTextWarn = { fg = sem.warn.fg, style = "italic" },
