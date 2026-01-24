@@ -1,7 +1,7 @@
 local M = {}
 
 local defaults = {
-	palette = "original",
+	palette = "test",
 	compile = {
 		cache = true,
 		path = vim.fn.stdpath("cache") .. "/autumn",

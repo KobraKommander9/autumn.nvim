@@ -8,7 +8,7 @@ function M.get(roles, _, _)
 	return {
 		-- the main menu
 		BlinkCmpMenu = { fg = ui.fg.main, bg = ui.bg.float },
-		BlinkCmpMenuBorder = { fg = ui.border.base, bg = ui.bg.float },
+		BlinkCmpMenuBorder = { fg = ui.border, bg = ui.bg.float },
 		BlinkCmpMenuSelection = { fg = ui.fg.main, bg = ui.selection.active, style = "bold" },
 		BlinkCmpLabelDescription = { fg = ui.fg.subtle },
 		BlinkCmpSource = { fg = p.purple.dim, style = "italic" },
@@ -33,12 +33,12 @@ function M.get(roles, _, _)
 
 		-- documentation window
 		BlinkCmpDoc = { fg = ui.fg.main, bg = ui.bg.float },
-		BlinkCmpDocBorder = { fg = ui.border.base, bg = ui.bg.float },
+		BlinkCmpDocBorder = { fg = ui.border, bg = ui.bg.float },
 		BlinkCmpDocCursorLine = { bg = ui.selection.bg },
 
 		-- signature help
 		BlinkCmpSignatureHelp = { fg = ui.fg.main, bg = ui.bg.float },
-		BlinkCmpSignatureHelpBorder = { fg = ui.border.base, bg = ui.bg.float },
+		BlinkCmpSignatureHelpBorder = { fg = ui.border, bg = ui.bg.float },
 		BlinkCmpSignatureHelpActiveParameter = roles.emphasis.high,
 	}
 end

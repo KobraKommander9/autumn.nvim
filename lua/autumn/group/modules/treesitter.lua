@@ -13,11 +13,11 @@ function M.get(roles, _, _)
 		["@variable.member"] = syn.field,
 
 		["@constant"] = { link = "Constant" },
-		["@constant.builtin"] = syn.constant,
-		["@constant.macro"] = syn.preproc,
+		["@constant.builtin"] = { link = "Constant" },
+		["@constant.macro"] = { link = "PreProc" },
 
 		["@module"] = syn.module,
-		["@module.builtin"] = syn.ynbuiltin_var,
+		["@module.builtin"] = syn.builtin_var,
 		["@label"] = { link = "Label" },
 
 		-- Literals ---------------------------------------------------------------
@@ -26,7 +26,7 @@ function M.get(roles, _, _)
 		["@string.regexp"] = syn.regex,
 		["@string.escape"] = { fg = syn.regex.fg, style = "bold" },
 		["@string.special"] = { link = "Special" },
-		["@string.special.symbol"] = syn.constant,
+		["@string.special.symbol"] = { link = "Constant" },
 		["@string.special.url"] = roles.markup.link,
 		["@string.special.path"] = syn.string_sp,
 
@@ -41,9 +41,9 @@ function M.get(roles, _, _)
 		["@type"] = { link = "Type" },
 		["@type.builtin"] = syn.builtin_type,
 		["@type.definition"] = syn.interface,
-		["@type.qualifier"] = syn.keyword,
+		["@type.qualifier"] = { link = "Keyword" },
 
-		["@attribute"] = syn.constant,
+		["@attribute"] = { link = "Constant" },
 		["@property"] = syn.field,
 
 		-- Functions --------------------------------------------------------------
@@ -60,21 +60,21 @@ function M.get(roles, _, _)
 
 		-- Keywords ---------------------------------------------------------------
 		["@keyword"] = { link = "Keyword" },
-		["@keyword.coroutine"] = syn.control,
-		["@keyword.function"] = syn.keyword,
-		["@keyword.operator"] = syn.operator,
-		["@keyword.import"] = { link = "Include" },
+		["@keyword.coroutine"] = { link = "Conditional" },
+		["@keyword.function"] = { link = "Keyword" },
+		["@keyword.operator"] = { link = "Operator" },
+		["@keyword.import"] = { link = "Keyword" },
 		["@keyword.storage"] = { link = "StorageClass" },
 		["@keyword.repeat"] = { link = "Repeat" },
-		["@keyword.return"] = syn.control,
+		["@keyword.return"] = { link = "Conditional" },
 		["@keyword.debug"] = roles.emphasis.high,
 		["@keyword.exception"] = { link = "Exception" },
 
 		["@keyword.conditional"] = { link = "Conditional" },
-		["@keyword.conditional.ternary"] = syn.operator,
+		["@keyword.conditional.ternary"] = { link = "Operator" },
 
-		["@keyword.directive"] = syn.preproc,
-		["@keyword.directive.define"] = syn.preproc,
+		["@keyword.directive"] = { link = "PreProc" },
+		["@keyword.directive.define"] = { link = "PreProc" },
 
 		-- Punctuation ------------------------------------------------------------
 		["@punctuation.delimiter"] = syn.punctuation,

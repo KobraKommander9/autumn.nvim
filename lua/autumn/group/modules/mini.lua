@@ -13,7 +13,7 @@ function M.get(roles, _, _)
 		MiniClueCurrent = roles.emphasis.high,
 		MiniClueKeys = syn.keyword,
 		MiniClueDesc = syn.variable,
-		MiniClueBorder = { fg = ui.border.base, bg = ui.bg.float },
+		MiniClueBorder = { fg = ui.border, bg = ui.bg.float },
 
 		--------------------------------------
 		-- MiniDiff (The gutter signs)
@@ -34,7 +34,7 @@ function M.get(roles, _, _)
 		MiniFilesDot = { fg = ui.fg.subtle },
 		MiniFilesNumber = syn.number,
 		MiniFilesSymbol = syn.punctuation,
-		MiniFilesBorder = { fg = ui.border.base },
+		MiniFilesBorder = { fg = ui.border },
 
 		--------------------------------------
 		-- MiniIcons (Used across the mini ecosystem)
@@ -54,7 +54,7 @@ function M.get(roles, _, _)
 		-- MiniPick (The fuzzy selector)
 		--------------------------------------
 		MiniPickPrompt = { fg = syn.keyword.fg, style = "bold" },
-		MiniPickBorder = { fg = ui.border.base, bg = ui.bg.float },
+		MiniPickBorder = { fg = ui.border, bg = ui.bg.float },
 		MiniPickHeader = { fg = syn.keyword.fg },
 		MiniPickMatch = { fg = p.primary.base, style = "bold" }, -- Match Blink matching
 		MiniPickSelection = { bg = ui.selection.active, style = "bold" },
@@ -63,7 +63,7 @@ function M.get(roles, _, _)
 		-- MiniSurround
 		--------------------------------------
 		MiniSurround = syn.operator,
-		MiniSurroundHighlight = { bg = ui.bg.accent }, -- Make it pop using bg3
+		MiniSurroundHighlight = { bg = ui.bg.visual }, -- Make it pop using bg3
 	}
 end
 

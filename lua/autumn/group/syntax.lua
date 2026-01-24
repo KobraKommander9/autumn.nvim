@@ -2,50 +2,51 @@ local M = {}
 
 function M.get(roles, _)
 	local p = roles.palette
+	local syn = roles.syntax
 
 	return {
 		-- Comments
-		Comment = roles.syntax.comment,
+		Comment = syn.comment,
 		SpecialComment = { link = "Special" },
 
 		-- Constents
-		Boolean = roles.syntax.boolean,
+		Boolean = syn.boolean,
 		Character = { link = "String" },
-		Constant = roles.syntax.constant,
+		Constant = syn.constant,
 		Float = { link = "Number" },
-		Number = roles.syntax.number,
-		String = roles.syntax.string,
+		Number = syn.number,
+		String = syn.string,
 
 		-- Identifiers
-		Function = roles.syntax.func,
-		Identifier = roles.syntax.ident,
+		Function = syn.func,
+		Identifier = syn.ident,
 
 		-- Keywords / statements
-		Conditional = roles.syntax.control,
+		Conditional = syn.control,
 		Exception = { link = "Conditional" },
-		Keyword = roles.syntax.keyword,
+		Keyword = syn.keyword,
 		Label = { link = "Keyword" },
 		Repeat = { link = "Conditional" },
-		Statement = roles.syntax.statement,
+		Statement = syn.statement,
 
 		-- Operators / Preprocessor
 		Define = { link = "PreProc" },
 		Include = { link = "PreProc" },
 		Macro = { link = "PreProc" },
-		Operator = roles.syntax.operator,
+		Operator = syn.operator,
 		PreCondit = { link = "PreProc" },
-		PreProc = roles.syntax.preproc,
+		PreProc = syn.preproc,
 
 		-- Types / Storage
 		StorageClass = { link = "Type" },
 		Structure = { link = "Type" },
-		Type = roles.syntax.type,
+		Type = syn.type,
 		Typedef = { link = "Type" },
 
 		-- Special Symbols
 		Debug = { link = "Special" },
 		Delimiter = { link = "Special" },
-		Special = roles.syntax.builtin_func,
+		Special = syn.builtin_func,
 		SpecialChar = { link = "Special" },
 		Tag = { link = "Special" },
 
@@ -60,7 +61,7 @@ function M.get(roles, _)
 
 		-- QuickFix
 		qfLineNr = { fg = roles.ui.gutter.fg },
-		qfFileName = { fg = roles.syntax.func.fg },
+		qfFileName = { fg = syn.func.fg },
 		qfSeparator = { fg = roles.ui.fg.subtle },
 
 		-- Diff

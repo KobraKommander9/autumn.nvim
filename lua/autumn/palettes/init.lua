@@ -61,10 +61,7 @@ function M.get(p, styles)
 			active = p.sel1, -- focused selection or "current match"
 		},
 
-		border = {
-			base = p.border,
-			focus = p.sel1,
-		},
+		border = p.border,
 
 		gutter = {
 			bg = p.bg0,
@@ -162,11 +159,6 @@ function M.get(p, styles)
 		statement = {
 			fg = p.primary.base,
 			style = color.get_style(styles.statements),
-		},
-
-		tag = {
-			fg = p.primary.base,
-			style = color.get_style(styles.keywords, "bold"),
 		},
 
 		-- data atoms
