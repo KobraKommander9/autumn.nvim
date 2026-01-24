@@ -12,7 +12,6 @@ local defaults = {
 		blink = true,
 		diagnostic = true,
 		lsp = true,
-		mini = true,
 		notify = true,
 		treesitter = true,
 	},
