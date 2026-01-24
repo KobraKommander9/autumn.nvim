@@ -11,7 +11,6 @@ local defaults = {
 	modules = {
 		blink = true,
 		diagnostic = true,
-		lazy = true,
 		lsp = true,
 		mini = true,
 		notify = true,
