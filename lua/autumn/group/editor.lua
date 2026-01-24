@@ -2,6 +2,7 @@ local M = {}
 
 function M.get(roles, _)
 	local sem = roles.semantic
+	local syn = roles.syntax
 	local ui = roles.ui
 
 	return {
@@ -47,12 +48,13 @@ function M.get(roles, _)
 		WinBarNC = { fg = ui.fg.subtle, bg = ui.bg.main },
 
 		FloatBorder = { fg = ui.border, bg = ui.bg.float },
+		FloatTitle = vim.tbl_extend("keep", { bg = ui.bg.float }, roles.markup.heading),
 
 		-- Search
 		Search = { bg = ui.selection.bg, fg = ui.fg.main },
 		IncSearch = { bg = ui.selection.active, fg = ui.bg.main },
 		CurSearch = { link = "IncSearch" },
-		Substitute = { bg = ui.selection.active, fg = ui.bg.main },
+		Substitute = { link = "IncSearch" },
 
 		-- Spelling & Diffs
 		SpellBad = { sp = sem.error.fg, style = "undercurl" },
@@ -67,8 +69,9 @@ function M.get(roles, _)
 
 		-- Popup menus
 		Pmenu = { fg = ui.fg.main, bg = ui.bg.float },
-		PmenuSbar = { link = "Pmenu" },
-		PmenuSel = { bg = ui.selection.active },
+		PmenuExtra = syn.deprecated,
+		PmenuSbar = { fg = ui.gutter.fg, bg = ui.gutter.bg },
+		PmenuSel = { link = "IncSearch" },
 		PmenuThumb = { bg = ui.fg.subtle },
 		WildMenu = { link = "Pmenu" },
 
