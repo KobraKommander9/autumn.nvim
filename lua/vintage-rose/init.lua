@@ -1,6 +1,6 @@
 local M = {}
 
-local config = require("autumn.config")
+local config = require("vintage-rose.config")
 
 local did_setup = false
 
@@ -16,13 +16,13 @@ end
 
 function M.compile(opts)
 	opts = opts or {}
-	opts.hash = opts.hash or require("autumn.compiler").get_hash(config.options)
+	opts.hash = opts.hash or require("vintage-rose.compiler").get_hash(config.options)
 
-	require("autumn.compiler").compile(opts)
+	require("vintage-rose.compiler").compile(opts)
 
 	if opts.notify then
-		vim.notify("Autumn compiled successfully", vim.log.levels.INFO, {
-			title = "Autumn",
+		vim.notify("VintageRose compiled successfully", vim.log.levels.INFO, {
+			title = "VintageRose",
 			timeout = 2000,
 		})
 	end
@@ -37,7 +37,7 @@ function M.load(opts)
 	local cache = get_cached_contents(compiled_file)
 
 	if not cache then
-		M.compile({ hash = require("autumn.compiler").get_hash(config.options) })
+		M.compile({ hash = require("vintage-rose.compiler").get_hash(config.options) })
 		cache = get_cached_contents(compiled_file)
 	end
 
@@ -50,12 +50,12 @@ function M.reload(opts)
 	opts = opts or {}
 
 	for name, _ in pairs(package.loaded) do
-		if name:match("^autumn") then
+		if name:match("^vintage-rose") then
 			package.loaded[name] = nil
 		end
 	end
 
-	local cfg = require("autumn.config")
+	local cfg = require("vintage-rose.config")
 	local hash = "FORCE_" .. os.clock()
 
 	M.compile({ hash = hash })
@@ -67,7 +67,7 @@ function M.reload(opts)
 		loadstring(cache.code)()
 
 		if opts.notify then
-			vim.notify("Autumn: reloaded", vim.log.levels.INFO)
+			vim.notify("VintageRose: reloaded", vim.log.levels.INFO)
 		end
 	end
 end
@@ -76,7 +76,7 @@ function M.setup(opts)
 	did_setup = true
 	config.options = vim.tbl_deep_extend("force", config.options, opts or {})
 
-	local current_hash = require("autumn.compiler").get_hash(config.options)
+	local current_hash = require("vintage-rose.compiler").get_hash(config.options)
 	local _, cache_file = config.get_compiled_info(config.options)
 
 	if not config.options.compile.cache then

@@ -1,6 +1,6 @@
 local M = {}
 
-local color = require("autumn.palettes.color")
+local color = require("vintage-rose.palettes.color")
 
 local palette = {
 	-- Backgrounds

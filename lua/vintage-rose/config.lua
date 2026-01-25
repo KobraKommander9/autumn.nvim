@@ -3,7 +3,7 @@ local M = {}
 local defaults = {
 	compile = {
 		cache = true,
-		path = vim.fn.stdpath("cache") .. "/autumn",
+		path = vim.fn.stdpath("cache") .. "/vintage-rose",
 		suffix = "_compiled",
 	},
 	terminal_color = true,
@@ -47,7 +47,7 @@ function M.get_compiled_info(opts)
 	opts = opts or {}
 	local output_path = opts.output_path or M.options.compile.path
 	local file_suffix = opts.file_suffix or M.options.compile.suffix
-	return output_path, output_path .. "/autumn" .. file_suffix
+	return output_path, output_path .. "/vintage-rose" .. file_suffix
 end
 
 return M
