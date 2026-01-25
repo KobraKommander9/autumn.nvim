@@ -22,11 +22,11 @@ function M.get(roles, _, _)
 		DiagnosticSignHint = { link = "DiagnosticHint" },
 		DiagnosticSignOk = { link = "DiagnosticOk" },
 
-		DiagnosticVirtualTextError = { fg = sem.error.fg, style = "italic" },
-		DiagnosticVirtualTextWarn = { fg = sem.warn.fg, style = "italic" },
-		DiagnosticVirtualTextInfo = { fg = sem.info.fg, style = "italic" },
-		DiagnosticVirtualTextHint = { fg = sem.hint.fg, style = "italic" },
-		DiagnosticVirtualTextOk = { fg = sem.ok.fg, style = "italic" },
+		DiagnosticVirtualTextError = sem.error,
+		DiagnosticVirtualTextWarn = sem.warn,
+		DiagnosticVirtualTextInfo = sem.info,
+		DiagnosticVirtualTextHint = sem.hint,
+		DiagnosticVirtualTextOk = sem.ok,
 
 		DiagnosticUnderlineError = { style = "undercurl", sp = sem.error.fg },
 		DiagnosticUnderlineWarn = { style = "undercurl", sp = sem.warn.fg },

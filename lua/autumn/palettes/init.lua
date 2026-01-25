@@ -11,10 +11,10 @@ local palette = {
 	bg4 = "#423d2b", -- surfaces (diff changes, lsp hover background)
 
 	-- Foregrounds
-	fg0 = "#dbd7c3", -- dim / secondary text
+	fg0 = "#b8b4a0", -- dim / secondary text
 	fg1 = "#f2eed9", -- main text
 	fg2 = "#d69981", -- accents (functions/methods)
-	fg3 = "#858171", -- subtle text (comments, nontext)
+	fg3 = "#616355", -- subtle text (comments, nontext)
 
 	-- Selections
 	sel0 = "#4a2b30", -- visual select base
@@ -112,7 +112,7 @@ function M.get(p, styles)
 
 		-- constants / imports
 		constant = {
-			fg = p.cyan.base,
+			fg = roles.ui.fg.main,
 			style = color.get_style(styles.constants),
 		},
 
@@ -154,7 +154,7 @@ function M.get(p, styles)
 		},
 
 		operator = {
-			fg = p.secondary.dim,
+			fg = p.fg0,
 			style = color.get_style(styles.operators),
 		},
 

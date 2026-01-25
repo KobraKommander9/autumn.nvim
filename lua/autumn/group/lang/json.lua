@@ -1,15 +1,12 @@
 local M = {}
 
-function M.get(spec, _, _)
-	local p = spec.palette
-	local syn = spec.syntax
+function M.get(roles, _, _)
+	local syn = roles.syntax
 
 	return {
-		-- ["@string.json"] = { fg = syn.string },
-		-- ["@number.json"] = { fg = p.purple.base },
-		-- ["@boolean.json"] = { fg = p.green.dim },
-		-- ["@null.json"] = { fg = p.yellow.dim },
-		-- ["@key.json"] = { fg = spec.secondary },
+		jsonKeyword = { fg = syn.field.fg },
+
+		["@constant.builtin.json"] = { link = "@number" },
 	}
 end
 

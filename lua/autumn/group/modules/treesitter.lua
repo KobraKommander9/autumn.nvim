@@ -66,7 +66,7 @@ function M.get(roles, _, _)
 		["@keyword.import"] = { link = "Keyword" },
 		["@keyword.storage"] = { link = "StorageClass" },
 		["@keyword.repeat"] = { link = "Repeat" },
-		["@keyword.return"] = { link = "Conditional" },
+		["@keyword.return"] = { fg = syn.control.fg, style = "bold" },
 		["@keyword.debug"] = roles.emphasis.high,
 		["@keyword.exception"] = { link = "Exception" },
 
