@@ -4,37 +4,38 @@ local color = require("autumn.palettes.color")
 
 local palette = {
 	-- Backgrounds
-	bg0 = "#1a1d16", -- main editing area
-	bg1 = "#23281e", -- slightly lighter, cursorline base
-	bg2 = "#2a2f23", -- panels, floats, sidebars
-	bg3 = "#38422f", -- visual selection
+	bg0 = "#262318", -- main editing area
+	bg1 = "#322f25", -- slightly lighter, cursorline base
+	bg2 = "#3c392c", -- panels, floats, sidebars
+	bg3 = "#585341", -- visual selection
 
 	-- Foregrounds
-	fg0 = "#b8b2a7", -- dim / secondary text
-	fg1 = "#e6e1d8", -- main text
-	fg2 = "#6b8fa3", -- accents (functions/methods)
-	fg3 = "#8f8a80", -- subtle text (comments, nontext)
+	fg0 = "#dbd7c3", -- dim / secondary text
+	fg1 = "#f2eed9", -- main text
+	fg2 = "#d69981", -- accents (functions/methods)
+	fg3 = "#858171", -- subtle text (comments, nontext)
 
 	-- Selections
-	sel0 = "#38422f", -- visual select base
-	sel1 = "#414d36", -- visual select highlight / hover
+	sel0 = "#4a2b30", -- visual select base
+	sel1 = "#8c4351", -- visual select highlight / hover
+	sel2 = "#52363b", -- references
 
 	-- Border / UI
-	border = "#3a372f",
+	border = "#706d5d",
 
 	-- Core semantic colors
-	primary = color.new("#eb5e28", "#7a341e", "#5f3a1c"),
-	secondary = color.new("#7f9a3e", "#4f6430", "#3b4a21"),
+	primary = color.new("#f7768e", "#965b67", "#3d262a"),
+	secondary = color.new("#e0af68", "#8c7352", "#382e21"),
 
 	-- Standard syntax colors
-	red = color.new("#c14f3b", "#7a2f28", "#4a1f1c"),
-	green = color.new("#9bbf4f", "#5f7a2e", "#2f4a21"),
-	yellow = color.new("#d6a45a", "#8f6437", "#4a4720"),
-	blue = color.new("#6b8fa3", "#3d5e6e", "#2d4a57"),
-	cyan = color.new("#5f9ea0", "#386869", "#2a5052"),
-	purple = color.new("#7f5fac", "#4d3b74", "#352c4d"),
-	magenta = color.new("#b36b7d", "#724653", "#543640"),
-	pink = color.new("#f990a7", "#a65a6b", "#733f50"),
+	red = color.new("#db4b4b"),
+	green = color.new("#9ece6a", "#7da383"),
+	yellow = color.new("#ff9e64"),
+	blue = color.new("#7aa2f7"),
+	cyan = color.new("#89ddff"),
+	purple = color.new("#bb9af7", "#a48ead"),
+	magenta = color.new("#c678dd"),
+	pink = color.new("#f7768e", "#965b67", "#3d262a"),
 }
 
 function M.get(p, styles)
@@ -59,6 +60,7 @@ function M.get(p, styles)
 		selection = {
 			bg = p.sel0,
 			active = p.sel1, -- focused selection or "current match"
+			reference = p.sel2,
 		},
 
 		border = p.border,
@@ -66,7 +68,7 @@ function M.get(p, styles)
 		gutter = {
 			bg = p.bg0,
 			fg = p.fg3, -- line numbers
-			active = p.fg0, -- current line number
+			active = p.primary.dim, -- current line number
 		},
 	}
 
@@ -82,12 +84,12 @@ function M.get(p, styles)
 
 		-- builtins
 		builtin_type = {
-			fg = p.secondary.base,
+			fg = p.primary.base,
 			style = color.get_style(styles.types),
 		},
 
 		builtin_func = {
-			fg = p.blue.base,
+			fg = p.primary.base,
 			style = color.get_style(styles.functions),
 		},
 
@@ -104,18 +106,18 @@ function M.get(p, styles)
 
 		-- conditionals / loops
 		control = {
-			fg = p.primary.dim,
+			fg = p.primary.base,
 			style = color.get_style(styles.flows),
 		},
 
 		-- constants / imports
 		constant = {
-			fg = p.purple.base,
+			fg = p.cyan.base,
 			style = color.get_style(styles.constants),
 		},
 
 		module = {
-			fg = p.magenta.base,
+			fg = p.purple.dim,
 			style = color.get_style(styles.modules),
 		},
 
@@ -136,7 +138,7 @@ function M.get(p, styles)
 		},
 
 		interface = {
-			fg = p.magenta.dim,
+			fg = p.purple.dim,
 			style = color.get_style(styles.interfaces),
 		},
 
@@ -152,7 +154,7 @@ function M.get(p, styles)
 		},
 
 		operator = {
-			fg = p.primary.dim,
+			fg = p.secondary.dim,
 			style = color.get_style(styles.operators),
 		},
 
@@ -163,22 +165,22 @@ function M.get(p, styles)
 
 		-- data atoms
 		boolean = {
-			fg = p.purple.base,
+			fg = p.cyan.base,
 			style = color.get_style(styles.booleans),
 		},
 
 		number = {
-			fg = p.purple.base,
+			fg = p.cyan.base,
 			style = color.get_style(styles.numbers),
 		},
 
 		string = {
-			fg = p.cyan.base,
+			fg = p.green.base,
 			style = color.get_style(styles.strings),
 		},
 
 		string_sp = {
-			fg = p.cyan.dim,
+			fg = p.green.dim,
 			style = color.get_style(styles.special, "italic"),
 		},
 
@@ -195,7 +197,7 @@ function M.get(p, styles)
 
 		-- meta
 		preproc = {
-			fg = p.magenta.dim,
+			fg = p.magenta.base,
 			style = color.get_style(styles.preprocs),
 		},
 
@@ -224,7 +226,7 @@ function M.get(p, styles)
 		},
 
 		msg = {
-			fg = p.fg1,
+			fg = roles.ui.fg.normal,
 		},
 	}
 
