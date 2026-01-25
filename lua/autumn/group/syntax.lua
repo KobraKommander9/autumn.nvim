@@ -1,8 +1,10 @@
 local M = {}
 
 function M.get(roles, _)
-	local p = roles.palette
+	local diff = roles.diff
+	local sem = roles.semantic
 	local syn = roles.syntax
+	local ui = roles.ui
 
 	return {
 		-- Comments
@@ -56,23 +58,28 @@ function M.get(roles, _)
 		Underlined = roles.markup.underlined,
 
 		-- Diagnostics
-		Error = roles.semantic.error,
-		Todo = roles.semantic.info,
+		Error = sem.error,
+		Todo = sem.info,
 
 		-- QuickFix
-		qfLineNr = { fg = roles.ui.gutter.fg },
+		qfLineNr = { fg = ui.gutter.fg },
 		qfFileName = { fg = syn.func.fg },
-		qfSeparator = { fg = roles.ui.fg.subtle },
+		qfSeparator = { fg = ui.fg.subtle },
 
 		-- Diff
-		diffAdded = roles.semantic.success,
-		diffChanged = roles.semantic.changed,
-		diffFile = { fg = p.blue.base },
-		diffIndexLine = { fg = p.magenta.base },
-		diffLine = { fg = p.purple.base },
-		diffNewFile = { fg = p.green.dim },
-		diffOldFile = { fg = p.yellow.dim },
-		diffRemoved = roles.semantic.deleted,
+		Added = diff.added,
+		Changed = diff.changed,
+		Removed = diff.removed,
+
+		diffAdded = { link = "Added" },
+		diffChanged = { link = "Changed" },
+		diffRemoved = { link = "Removed" },
+
+		diffFile = diff.header,
+		diffIndexLine = diff.meta,
+		diffLine = diff.fragment,
+		diffNewFile = diff.new_file,
+		diffOldFile = diff.old_file,
 	}
 end
 

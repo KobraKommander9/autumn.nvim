@@ -111,7 +111,7 @@ function M.get(roles, _, _)
 		["@markup.raw.block"] = { fg = ui.fg.main },
 
 		["@markup.list"] = syn.punctuation,
-		["@markup.list.checked"] = { fg = sem.success.fg },
+		["@markup.list.checked"] = { fg = sem.added.fg },
 		["@markup.list.unchecked"] = { fg = sem.warn.fg },
 
 		["@diff.plus"] = { link = "diffAdded" },

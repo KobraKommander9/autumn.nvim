@@ -34,7 +34,7 @@ local palette = {
 	blue = color.new("#7aa2f7"),
 	cyan = color.new("#89ddff"),
 	purple = color.new("#bb9af7", "#a48ead"),
-	magenta = color.new("#c678dd"),
+	magenta = color.new("#ad8ee6"),
 	pink = color.new("#f7768e", "#965b67", "#3d262a"),
 }
 
@@ -256,16 +256,60 @@ function M.get(p, styles)
 			style = color.get_style(styles.diagnostics, "italic,underline"),
 		},
 
+		added = {
+			fg = p.green.base,
+		},
+
 		changed = {
 			fg = p.yellow.base,
 		},
 
-		deleted = {
+		removed = {
 			fg = p.red.base,
 		},
+	}
 
-		success = {
-			fg = p.green.base,
+	roles.diff = {
+		header = {
+			fg = roles.syntax.type.fg,
+			style = "bold",
+		},
+
+		meta = {
+			fg = roles.ui.fg.subtle,
+		},
+
+		fragment = {
+			fg = roles.syntax.module.fg,
+		},
+
+		old_file = { fg = roles.semantic.removed.fg },
+		new_file = { fg = roles.semantic.added.fg },
+
+		add = { bg = p.secondary.dim },
+		delete = { bg = p.primary.dim },
+		change = { bg = p.bg2 },
+
+		added = roles.semantic.added,
+		changed = roles.semantic.changed,
+		removed = roles.semantic.removed,
+
+		plus = {
+			fg = roles.semantic.added.fg,
+			bg = p.green.dim,
+			style = "bold",
+		},
+
+		minus = {
+			fg = roles.semantic.removed.fg,
+			bg = p.primary.dim,
+			style = "bold",
+		},
+
+		text = {
+			fg = p.cyan.base,
+			bg = p.sel0,
+			style = "bold",
 		},
 	}
 

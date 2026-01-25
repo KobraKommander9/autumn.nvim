@@ -1,6 +1,7 @@
 local M = {}
 
 function M.get(roles, _)
+	local diff = roles.diff
 	local sem = roles.semantic
 	local syn = roles.syntax
 	local ui = roles.ui
@@ -62,10 +63,10 @@ function M.get(roles, _)
 		SpellLocal = { sp = sem.info.fg, style = "undercurl" },
 		SpellRare = { sp = sem.hint.fg, style = "undercurl" },
 
-		DiffAdd = { bg = sem.success.fg, fg = ui.bg.main },
-		DiffChange = { bg = sem.changed.fg, fg = ui.bg.main },
-		DiffDelete = { bg = sem.deleted.fg, fg = ui.bg.main },
-		DiffText = { bg = sem.info.fg, fg = ui.bg.main },
+		DiffAdd = diff.add,
+		DiffChange = diff.change,
+		DiffDelete = diff.delete,
+		DiffText = diff.text,
 
 		-- Popup menus
 		Pmenu = { fg = ui.fg.main, bg = ui.bg.float },
