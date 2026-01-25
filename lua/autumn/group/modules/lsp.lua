@@ -23,9 +23,9 @@ function M.get(roles, _, _)
 		LspDiagnosticsUnderlineHint = { sp = sem.hint.fg, style = "undercurl" },
 
 		-- LSP Semantic Tokens (linked to treesitter)
-		LspReferenceText = { bg = ui.selection.reference },
-		LspReferenceRead = { bg = ui.selection.reference },
-		LspReferenceWrite = { bg = ui.selection.reference, sp = roles.emphasis.high.fg, style = "underline" },
+		LspReferenceText = { bg = ui.bg.surface },
+		LspReferenceRead = { bg = ui.bg.surface },
+		LspReferenceWrite = { bg = ui.bg.surface, sp = roles.emphasis.high.fg, style = "underline" },
 
 		LspCodeLens = roles.emphasis.muted,
 		LspCodeLensSeparator = { fg = ui.fg.subtle },

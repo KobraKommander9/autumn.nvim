@@ -8,6 +8,7 @@ local palette = {
 	bg1 = "#322f25", -- slightly lighter, cursorline base
 	bg2 = "#3c392c", -- panels, floats, sidebars
 	bg3 = "#585341", -- visual selection
+	bg4 = "#423d2b", -- surfaces (diff changes, lsp hover background)
 
 	-- Foregrounds
 	fg0 = "#dbd7c3", -- dim / secondary text
@@ -18,7 +19,6 @@ local palette = {
 	-- Selections
 	sel0 = "#4a2b30", -- visual select base
 	sel1 = "#8c4351", -- visual select highlight / hover
-	sel2 = "#52363b", -- references
 
 	-- Border / UI
 	border = "#706d5d",
@@ -49,6 +49,7 @@ function M.get(p, styles)
 			alt = p.bg1, -- sidebar / inactive windows
 			float = p.bg2, -- popus, hover docs
 			visual = p.bg3, -- high constrast (folds, visual search)
+			surface = p.bg4,
 		},
 
 		fg = {
@@ -60,7 +61,6 @@ function M.get(p, styles)
 		selection = {
 			bg = p.sel0,
 			active = p.sel1, -- focused selection or "current match"
-			reference = p.sel2,
 		},
 
 		border = p.border,
@@ -288,7 +288,7 @@ function M.get(p, styles)
 
 		add = { bg = p.secondary.dim },
 		delete = { bg = p.primary.dim },
-		change = { bg = p.bg2 },
+		change = { bg = roles.ui.bg.surface },
 
 		added = roles.semantic.added,
 		changed = roles.semantic.changed,
