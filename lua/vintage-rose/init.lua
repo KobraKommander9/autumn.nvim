@@ -28,6 +28,22 @@ function M.compile(opts)
 	end
 end
 
+function M.get_palette(opts)
+	if not did_setup then
+		M.setup(opts)
+	end
+
+	local _, compiled_file = config.get_compiled_info(config.options)
+	local cache = get_cached_contents(compiled_file)
+
+	if not cache or not cache.roles then
+		M.compile({ hash = require("vintage-rose.compiler").get_hash(config.options) })
+		cache = get_cached_contents(compiled_file)
+	end
+
+	return cache and cache.roles or {}
+end
+
 function M.load(opts)
 	if not did_setup then
 		M.setup(opts)
