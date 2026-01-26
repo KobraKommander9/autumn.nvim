@@ -6,7 +6,7 @@ local defaults = {
 		path = vim.fn.stdpath("cache") .. "/vintage-rose",
 		suffix = "_compiled",
 	},
-	terminal_color = true,
+	terminal_colors = true,
 	modules = {
 		blink = true,
 		diagnostic = true,

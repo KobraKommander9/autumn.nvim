@@ -1,6 +1,8 @@
 local M = {}
 
-function M.build(roles, groups)
+function M.build(roles, _)
+	local terminal = require("vintage-rose.group.terminal").get(roles)
+
 	return string.format(
 		[[
 [colors]
@@ -14,23 +16,23 @@ brights = ["%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s"]
 		roles.ui.fg.main,
 		roles.ui.bg.alt,
 		-- ansi
-		groups.terminal_color_8,
-		groups.terminal_color_9,
-		groups.terminal_color_10,
-		groups.terminal_color_11,
-		groups.terminal_color_12,
-		groups.terminal_color_13,
-		groups.terminal_color_14,
-		groups.terminal_color_15,
+		terminal.terminal_color_8.fg,
+		terminal.terminal_color_9.fg,
+		terminal.terminal_color_10.fg,
+		terminal.terminal_color_11.fg,
+		terminal.terminal_color_12.fg,
+		terminal.terminal_color_13.fg,
+		terminal.terminal_color_14.fg,
+		terminal.terminal_color_15.fg,
 		-- brights
-		groups.terminal_color_0,
-		groups.terminal_color_1,
-		groups.terminal_color_2,
-		groups.terminal_color_3,
-		groups.terminal_color_4,
-		groups.terminal_color_5,
-		groups.terminal_color_6,
-		groups.terminal_color_7
+		terminal.terminal_color_0.fg,
+		terminal.terminal_color_1.fg,
+		terminal.terminal_color_2.fg,
+		terminal.terminal_color_3.fg,
+		terminal.terminal_color_4.fg,
+		terminal.terminal_color_5.fg,
+		terminal.terminal_color_6.fg,
+		terminal.terminal_color_7.fg
 	)
 end
 

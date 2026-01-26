@@ -55,7 +55,9 @@ function M.export(opts)
 	local content = exporter.build(roles, groups)
 	local path = exporter.path(opts.export_path)
 
-	require("vintage-rose.files").write_file(path, content)
+	local files = require("vintage-rose.files")
+	files.ensure_dir(vim.fn.fnamemodify(path, ":h"))
+	files.write_file(path, content)
 end
 
 function M.get_palette(opts)
