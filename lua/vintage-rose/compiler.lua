@@ -80,7 +80,7 @@ local function get_opts(opts)
 	return type(opts) == "boolean" and { disable = not opts } or type(opts) == "table" and opts or {}
 end
 
-local function load_groups(opts, roles)
+function M.load_groups(opts, roles)
 	local editor = require("vintage-rose.group.editor").get(roles, opts)
 	local syntax = require("vintage-rose.group.syntax").get(roles, opts)
 
@@ -128,7 +128,7 @@ function M.compile(opts)
 	local files = require("vintage-rose.files")
 
 	local roles = require("vintage-rose.palettes").load(config.options)
-	local groups = load_groups(config.options, roles)
+	local groups = M.load_groups(config.options, roles)
 
 	local output_path, output_file = config.get_compiled_info(opts)
 	files.ensure_dir(output_path)

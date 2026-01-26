@@ -28,6 +28,36 @@ function M.compile(opts)
 	end
 end
 
+function M.export(opts)
+	opts = opts or {}
+	if not opts.export then
+		vim.notify("No exporter specified", vim.log.levels.WARN, {
+			title = "VintageRose",
+			timeout = 2000,
+		})
+	end
+
+	local ok, exporter = pcall(require, "vintage-rose.exporters." .. opts.export)
+	if not ok then
+		vim.notify("Couldn't find exporter: " .. module, vim.log.levels.ERROR, {
+			title = "VintageRose",
+			timeout = 2000,
+		})
+		return
+	end
+
+	local cfg_opts = require("vintage-rose.config").options
+	cfg_opts = vim.tbl_deep_extend("force", cfg_opts, opts)
+
+	local roles = require("vintage-rose.palettes").load(cfg_opts)
+	local groups = require("vintage-rose.compiler").load_groups(cfg_opts, roles)
+
+	local content = exporter.build(roles, groups)
+	local path = exporter.path(opts.export_path)
+
+	require("vintage-rose.files").write_file(path, content)
+end
+
 function M.get_palette(opts)
 	if not did_setup then
 		M.setup(opts)

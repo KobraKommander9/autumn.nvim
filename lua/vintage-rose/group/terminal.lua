@@ -4,29 +4,22 @@ function M.get(roles, _)
 	local p = roles.palette
 
 	return {
-		terminal_color_0 = p.black.base,
-		terminal_color_8 = p.black.dim,
-
-		terminal_color_1 = p.red.base,
-		terminal_color_9 = p.red.dim,
-
-		terminal_color_2 = p.green.base,
-		terminal_color_10 = p.green.dim,
-
-		terminal_color_3 = p.yellow.base,
-		terminal_color_11 = p.yellow.dim,
-
-		terminal_color_4 = p.blue.base,
-		terminal_color_12 = p.blue.dim,
-
-		terminal_color_5 = p.magenta.base,
-		terminal_color_13 = p.magenta.dim,
-
-		terminal_color_6 = p.cyan.base,
-		terminal_color_14 = p.cyan.dim,
-
-		terminal_color_7 = p.white.base,
-		terminal_color_15 = p.white.dim,
+		terminal_color_0 = { fg = roles.ui.bg.main },
+		terminal_color_8 = { fg = p.purple.dim },
+		terminal_color_1 = { fg = p.red.base },
+		terminal_color_9 = { fg = p.primary.base },
+		terminal_color_2 = { fg = p.green.dim },
+		terminal_color_10 = { fg = p.green.base },
+		terminal_color_3 = { fg = p.secondary.base },
+		terminal_color_11 = { fg = p.yellow.base },
+		terminal_color_4 = { fg = p.blue.base },
+		terminal_color_12 = { fg = p.cyan.base },
+		terminal_color_5 = { fg = p.purple.base },
+		terminal_color_13 = { fg = p.magenta.base },
+		terminal_color_6 = { fg = p.cyan.base },
+		terminal_color_14 = { fg = p.blue.base },
+		terminal_color_7 = { fg = roles.ui.fg.dim },
+		terminal_color_15 = { fg = roles.ui.fg.main },
 	}
 end
 
