@@ -71,46 +71,13 @@ return {
   end)
 }]],
 		hash,
-		vim.inspect(roles),
+		tostring(roles),
 		table.concat(lines, "\n")
 	)
 end
 
 local function get_opts(opts)
 	return type(opts) == "boolean" and { disable = not opts } or type(opts) == "table" and opts or {}
-end
-
-local function load_roles(opts)
-	local defaults = require("vintage-rose.palettes")
-
-	local p = defaults.palette
-	local roles
-
-	if opts.palette and opts.palette ~= "default" then
-		local ok, pal = pcall(require, "vintage-rose.palettes." .. opts.palette)
-		if ok then
-			p = pal.palette
-
-			pal.get = pal.get or function(_)
-				return {}
-			end
-
-			roles = vim.tbl_deep_extend("force", defaults.get(p, opts.styles), pal.get(p))
-		else
-			vim.notify(fmt([[VintageRose palette error (%s): %s]], opts.palette, pal), vim.log.levels.ERROR, {
-				title = "VintageRose",
-				timeout = 2000,
-			})
-			roles = defaults.get(p, opts.styles)
-		end
-	else
-		roles = defaults.get(p, opts.styles)
-	end
-
-	roles = vim.tbl_deep_extend("force", roles, opts.overrides or {})
-	roles.palette = p
-
-	return roles
 end
 
 local function load_groups(opts, roles)
@@ -160,7 +127,7 @@ function M.compile(opts)
 	local config = require("vintage-rose.config")
 	local files = require("vintage-rose.files")
 
-	local roles = load_roles(config.options)
+	local roles = require("vintage-rose.palettes").load(config.options)
 	local groups = load_groups(config.options, roles)
 
 	local output_path, output_file = config.get_compiled_info(opts)

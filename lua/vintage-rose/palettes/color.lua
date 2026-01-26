@@ -13,8 +13,4 @@ function M.new(base, dim, bg)
 	})
 end
 
-function M.get_style(opt, def)
-	return opt and opt or (def or "NONE")
-end
-
 return M
