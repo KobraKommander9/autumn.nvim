@@ -16,6 +16,7 @@ local defaults = {
 		treesitter = true,
 	},
 	langs = {
+		go = true,
 		json = true,
 		lua = true,
 		rust = true,
